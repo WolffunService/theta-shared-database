@@ -1,12 +1,12 @@
 package mongodb
 
 import (
+	"github.com/WolffunGame/theta-shared-database/database/mongodb/builder"
+	"github.com/WolffunGame/theta-shared-database/database/mongodb/field"
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"wolffundb/database/mongodb/builder"
-	"wolffundb/database/mongodb/field"
 )
 
 // Collection performs operations on models and given Mongodb collection

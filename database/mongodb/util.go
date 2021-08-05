@@ -4,7 +4,7 @@ import (
 	"github.com/jinzhu/inflection"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"reflect"
-	"wolffundb/database/mongodb/utils"
+	"github.com/WolffunGame/theta-shared-database/database/mongodb/utils"
 )
 
 // Coll return model's collection.

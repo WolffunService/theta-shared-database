@@ -6,7 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"time"
-	"wolffundb/database/mongodb/utils"
+	"github.com/WolffunGame/theta-shared-database/database/mongodb/utils"
 )
 
 var config *Config

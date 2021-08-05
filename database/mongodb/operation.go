@@ -4,7 +4,7 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"wolffundb/database/mongodb/field"
+	"github.com/WolffunGame/theta-shared-database/database/mongodb/field"
 )
 
 func create(ctx context.Context, c *Collection, model Model, opts ...*options.InsertOneOptions) error {

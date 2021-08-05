@@ -1,6 +1,6 @@
 package main
 
-import "wolffundb/database/mongodb"
+import "github.com/WolffunGame/theta-shared-database/database/mongodb"
 
 func main()  {
 	_ ,_ ,_ = mongodb.SetDefaultConfig(nil,nil)

@@ -1,8 +1,8 @@
 package builder
 
 import (
+	"github.com/WolffunGame/theta-shared-database/database/mongodb/utils"
 	"go.mongodb.org/mongo-driver/bson"
-	"wolffundb/database/mongodb/utils"
 )
 
 // appendIfHasVal append key and val to map if value is not empty.

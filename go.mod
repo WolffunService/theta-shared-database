@@ -1,4 +1,4 @@
-module wolffundb
+module github.com/WolffunGame/theta-shared-database
 
 go 1.16
 
