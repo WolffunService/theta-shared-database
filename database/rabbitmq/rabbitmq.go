@@ -38,7 +38,7 @@ func connect(url string, exchange string) (*amqp.Connection, *amqp.Channel) {
 
 func DeclareQueue(ch *amqp.Channel, name string, exchange string) amqp.Queue {
 	q, err := ch.QueueDeclare(
-		fmt.Sprintf("%s_queue", name), // name
+		name, // name
 		false,                         // durable
 		false,                         // delete when unused
 		false,                         // exclusive
