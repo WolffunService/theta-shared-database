@@ -13,11 +13,11 @@ func InitRabbitMq(config RabbitMQConfig) (*amqp.Connection, *amqp.Channel) {
 	password := config.Password
 	vHost := config.Vhost
 	rabbitmqConnString := fmt.Sprintf("amqp://%s:%s@%s:%s/%s", username, password, host, port, vHost)
-	conn, ch := connect(rabbitmqConnString, config.Exchange, config.Durable)
+	conn, ch := connect(rabbitmqConnString, config.Exchange)
 	return conn, ch
 }
 
-func connect(url string, exchange string, durable bool) (*amqp.Connection, *amqp.Channel) {
+func connect(url string, exchange string) (*amqp.Connection, *amqp.Channel) {
 	conn, err := amqp.Dial(url)
 	failOnError(err, "[ERROR] FAILED TO CONNECT TO RABBITMQ")
 
@@ -27,7 +27,7 @@ func connect(url string, exchange string, durable bool) (*amqp.Connection, *amqp
 	_ = ch.ExchangeDeclare(
 		exchange,
 		"topic",
-		durable,  // durable
+		true,  // durable
 		false, // auto-deleted
 		false, // internal
 		false, // no-wait
