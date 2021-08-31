@@ -7,6 +7,7 @@ type RabbitMQConfig struct {
 	Port     string
 	Vhost    string
 	Exchange string
+	Durable  bool
 }
 
 func defaultDB() *RabbitMQConfig {
@@ -15,5 +16,6 @@ func defaultDB() *RabbitMQConfig {
 	dbCfg.Port = "5672"
 	dbCfg.Vhost = "/"
 	dbCfg.Exchange = "thetan"
+	dbCfg.Durable = false
 	return dbCfg
 }
