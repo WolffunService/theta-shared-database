@@ -19,8 +19,10 @@ func create(ctx context.Context, c *Collection, model Model, opts ...*options.In
 		return err
 	}
 
-	// Set new id
-	model.SetID(res.InsertedID)
+	if model.GetID() == nil {
+		// Set new id
+		model.SetID(res.InsertedID)
+	}
 
 	return callToAfterCreateHooks(model)
 }
