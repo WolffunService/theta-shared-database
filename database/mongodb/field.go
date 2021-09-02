@@ -11,7 +11,7 @@ type IDField struct {
 
 // IDField struct contain model's ID field.
 type IDIntField struct {
-	ID int `json:"id" bson:"_id,omitempty" csv:"id"`
+	ID int64 `json:"id" bson:"_id,omitempty" csv:"id"`
 }
 
 // DateFields struct contain `created_at` and `updated_at`
@@ -39,7 +39,7 @@ func (f *IDIntField) GetID() interface{} {
 
 // SetID set id value of model's id field.
 func (f *IDIntField) SetID(id interface{}) {
-	f.ID = id.(int)
+	f.ID = id.(int64)
 }
 
 // GetID method return model's id
