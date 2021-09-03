@@ -1,5 +1,6 @@
 package event
 
+//1 item da sale thanh cong => ghi log la chinh.
 type ItemSoldEvent struct {
 	ItemId          string `json:"ItemId"`
 	TokenId         string `json:"TokenId"`
