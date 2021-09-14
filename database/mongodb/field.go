@@ -17,8 +17,8 @@ type IDIntField struct {
 // DateFields struct contain `created_at` and `updated_at`
 // fields that autofill on insert/update model.
 type DateFields struct {
-	CreatedAt time.Time `json:"created_at,omitempty" bson:"created_at,omitempty"`
-	UpdatedAt time.Time `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
+	CreatedAt time.Time `json:"created" bson:"created"`
+	UpdatedAt time.Time `json:"lastModified" bson:"lastModified"`
 }
 
 // PrepareID method prepare id value to using it as id in filtering,...
