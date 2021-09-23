@@ -1,7 +1,6 @@
 package mredis
 
 import (
-	"context"
 	"github.com/WolffunGame/theta-shared-database/database/mredis/thetanlock"
 	goredislib "github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4/redis"
@@ -23,6 +22,6 @@ func ConnectRedis(config *RedisConnectionConfig) {
 	thetanlock.InitPool(NewPool())
 }
 
-func GetValue(ctx context.Context, key string) (string, error){
-	return client.Get(ctx, key).Result()
+func GetClient() *goredislib.Client{
+	return client
 }
