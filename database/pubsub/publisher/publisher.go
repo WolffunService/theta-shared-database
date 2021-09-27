@@ -25,3 +25,7 @@ func PublishMessage(ctx context.Context, rawMessage []byte) {
 	result := clientTopic.Publish(ctx, &message)
 	log.Print(result.Get(ctx))
 }
+
+func GetTopic() *pubsub.Topic {
+	return clientTopic
+}
