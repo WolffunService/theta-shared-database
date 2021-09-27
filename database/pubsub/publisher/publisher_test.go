@@ -10,7 +10,7 @@ func TestPublishMessage(t *testing.T) {
 		projectID: "thetan-staging",
 		topicID : "BATTLE_LOGS_TOPIC",
 	}
-	InitConfiguration(config)
+	InitConfiguration(&config)
 	message := "I'm handsome"
 	PublishMessage(context.TODO(), []byte(message))
 }
