@@ -22,6 +22,6 @@ func PublishMessage(ctx context.Context, rawMessage []byte) {
 	message := pubsub.Message{
 		Data: rawMessage,
 	}
-	clientTopic.Publish(ctx, &message)
-	log.Print("Publish message successfully")
+	result := clientTopic.Publish(ctx, &message)
+	log.Print(result.Get(ctx))
 }
