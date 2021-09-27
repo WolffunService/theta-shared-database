@@ -10,11 +10,11 @@ var clientTopic *pubsub.Topic
 
 func InitConfiguration(config *Config) {
 	ctx := context.Background()
-	client, err := pubsub.NewClient(ctx, config.projectID)
+	client, err := pubsub.NewClient(ctx, config.ProjectID)
 	if err != nil {
 		log.Fatalf("pubsub.NewClient: %v", err)
 	}
-	clientTopic = client.Topic(config.topicID)
+	clientTopic = client.Topic(config.TopicID)
 	clientTopic.PublishSettings.NumGoroutines = 3
 }
 
