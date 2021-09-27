@@ -8,7 +8,7 @@ import (
 
 var clientTopic *pubsub.Topic
 
-func InitConfiguration(config Config) {
+func InitConfiguration(config *Config) {
 	ctx := context.Background()
 	client, err := pubsub.NewClient(ctx, config.projectID)
 	if err != nil {
