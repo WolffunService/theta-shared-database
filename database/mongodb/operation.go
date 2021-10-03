@@ -2,9 +2,9 @@ package mongodb
 
 import (
 	"context"
+	"github.com/WolffunGame/theta-shared-database/database/mongodb/field"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"github.com/WolffunGame/theta-shared-database/database/mongodb/field"
 )
 
 func create(ctx context.Context, c *Collection, model Model, opts ...*options.InsertOneOptions) error {
@@ -44,6 +44,16 @@ func first(ctx context.Context, c *Collection, filter interface{}, model Model, 
 
 func firstAndUpdate(ctx context.Context, c *Collection, filter interface{},update interface{}, model Model, opts ...*options.FindOneAndUpdateOptions) error {
 	return c.FindOneAndUpdate(ctx, filter,update, opts...).Decode(model)
+}
+
+func findMany(ctx context.Context, c *Collection, filter, results interface{}, opts ...*options.FindOptions) error {
+	cur, err := c.Find(ctx, filter, opts...)
+
+	if err != nil {
+		return err
+	}
+
+	return cur.All(ctx, results)
 }
 
 func update(ctx context.Context, c *Collection, model Model, opts ...*options.UpdateOptions) error {

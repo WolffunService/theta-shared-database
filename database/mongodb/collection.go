@@ -1,10 +1,11 @@
 package mongodb
 
 import (
+	"context"
 	"github.com/WolffunGame/theta-shared-database/database/mongodb/builder"
 	"github.com/WolffunGame/theta-shared-database/database/mongodb/field"
-	"context"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -31,6 +32,13 @@ func (coll *Collection) FindByIDWithCtx(ctx context.Context, id interface{}, mod
 	//	return err
 	//}
 	return first(ctx, coll, bson.M{field.ID: id}, model)
+}
+
+func (coll *Collection) FindByListID(oids []primitive.ObjectID, results interface{}) error {
+	return coll.FindByListIDWithCtx(ctx(), oids, results)
+}
+func (coll *Collection) FindByListIDWithCtx(ctx context.Context, oids []primitive.ObjectID, results interface{}) error {
+	return findMany(ctx, coll, bson.M{field.ID:  bson.M{"$in": oids}}, results)
 }
 
 // First method search and return first document of search result.
