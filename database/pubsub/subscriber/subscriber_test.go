@@ -1,10 +1,10 @@
 package subscriber
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
-	"time"
 )
 
 func TestName(t *testing.T) {
@@ -13,14 +13,10 @@ func TestName(t *testing.T) {
 		TopicID:   "DEV_ENV_BATTLE_LOGS",
 		SubID:     "DEV_ENV_BATTLE_LOGS_SUB",
 	}
-	SimpleSubscriber(cfg, func(s string) error {
+	SimpleSubscriber(context.Background(), cfg, func(s string) error {
 		fmt.Println(s)
 		return nil
 	})
-
-	time.Sleep(5_000)
-
-	CloseConnection(cfg.SubID)
 
 	http.ListenAndServe(":8888", nil)
 }

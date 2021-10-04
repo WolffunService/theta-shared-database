@@ -9,7 +9,16 @@ import (
 
 var subscriberMap = make(map[string]*Subscriber)
 
-func SimpleSubscriber(cfg *Config, fn HandleMsg) error {
+var client *pubsub.Client
+
+
+func SimpleSubscriber(ctx context.Context, cfg *Config, fn HandleMsg) error {
+	var err error
+
+	err = initializeClient(ctx, cfg.ProjectID)
+
+	if err != nil {return err}
+
 	_, exist := subscriberMap[cfg.SubID]
 	if exist {
 		log.Printf("%v have been existed in keys map", cfg.SubID)
@@ -17,14 +26,10 @@ func SimpleSubscriber(cfg *Config, fn HandleMsg) error {
 	}
 	log.Printf("Configuration: %v", *cfg)
 
-	ctx := context.Background()
-	client, err:= pubsub.NewClient(ctx, cfg.ProjectID)
-
-	var subscriber = &Subscriber{Client: client}
+	var subscriber = &Subscriber{}
 
 	// add subscriber to map
 	subscriberMap[cfg.SubID] = subscriber
-
 
 	if err != nil {
 		return fmt.Errorf("pubsub.NewClient: %v", err)
@@ -43,8 +48,9 @@ func SimpleSubscriber(cfg *Config, fn HandleMsg) error {
 	sub := client.Subscription(cfg.SubID)
 
 	subscriber.SubID = sub
-
-	err = sub.Receive(context.Background(), func(ctx context.Context, msg *pubsub.Message) {
+	ctxChild, cancel := context.WithCancel(ctx)
+	subscriber.cancelFunc = cancel
+	err = sub.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
 		err = fn(string(msg.Data))
 		// TODO more flow
 		msg.Ack()
@@ -54,15 +60,23 @@ func SimpleSubscriber(cfg *Config, fn HandleMsg) error {
 	return nil
 }
 
-func CloseConnection(subID string) error {
+func CloseConnection(subID string) {
 	subscriber, exist := subscriberMap[subID]
 	if exist {
 		log.Printf("Prepare close connection on topic %v", subID)
-		err := subscriber.Client.Close()
+		subscriber.cancelFunc()
 		log.Printf("Close connection %v successfully", subID)
-		return err
 	}
-
 	log.Printf("Not found subscriber with subID %v", subID)
-	return nil
+}
+
+func initializeClient(ctx context.Context, projectID string) error {
+	var err error
+	if client == nil {
+		client, err = pubsub.NewClient(ctx, projectID)
+		if err != nil {
+			return fmt.Errorf("pubsub.NewClient %v", err)
+		}
+	}
+	return err
 }
