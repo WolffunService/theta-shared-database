@@ -1,4 +1,3 @@
 package subscriber
 
-type HandleMsg func(string) error
-
+type HandleMsg func([]byte) error

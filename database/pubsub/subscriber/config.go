@@ -1,18 +1,19 @@
 package subscriber
 
 import (
-	"cloud.google.com/go/pubsub"
 	"context"
+
+	"cloud.google.com/go/pubsub"
 )
 
 type Config struct {
-	ProjectID	string
-	TopicID		string
-	SubID		string
+	ProjectID string
+	TopicID   string
+	SubID     string
 }
 
 type Subscriber struct {
-	cancelFunc	context.CancelFunc
-	Topic		*pubsub.Topic
-	SubID		*pubsub.Subscription
+	CancelFunc   context.CancelFunc
+	Topic        *pubsub.Topic
+	Subscription *pubsub.Subscription
 }
