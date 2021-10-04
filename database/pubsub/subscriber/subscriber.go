@@ -13,6 +13,7 @@ func SimpleSubscriber(cfg *Config, fn HandleMsg) error {
 	_, exist := subscriberMap[cfg.SubID]
 	if exist {
 		log.Printf("%v have been existed in keys map", cfg.SubID)
+		return nil
 	}
 	log.Printf("Configuration: %v", *cfg)
 
