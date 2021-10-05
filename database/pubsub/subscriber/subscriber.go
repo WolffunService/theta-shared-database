@@ -1,82 +1,89 @@
 package subscriber
 
 import (
-	"cloud.google.com/go/pubsub"
 	"context"
+	"errors"
 	"fmt"
 	"log"
+
+	"cloud.google.com/go/pubsub"
+	"google.golang.org/api/option"
 )
 
 var subscriberMap = make(map[string]*Subscriber)
 
 var client *pubsub.Client
 
-
-func SimpleSubscriber(ctx context.Context, cfg *Config, fn HandleMsg) error {
+func InitializeClient(ctx context.Context, projectID string, opts ...option.ClientOption) (*pubsub.Client, error) {
 	var err error
+	if client == nil {
+		client, err = pubsub.NewClient(ctx, projectID, opts...)
+		if err != nil {
+			return nil, fmt.Errorf("pubsub.NewClient %v", err)
+		}
+	}
+	return client, nil
+}
 
-	err = initializeClient(ctx, cfg.ProjectID)
-
-	if err != nil {return err}
-
-	_, exist := subscriberMap[cfg.SubID]
-	if exist {
-		log.Printf("%v have been existed in keys map", cfg.SubID)
+func Subscribe(ctx context.Context, subId string, fn HandleMsg) error {
+	if _, exist := subscriberMap[subId]; exist {
+		log.Printf("%v have been existed in keys map", subId)
 		return nil
 	}
-	log.Printf("Configuration: %v", *cfg)
+
+	sub := client.Subscription(subId)
+	if ok, err := sub.Exists(ctx); !ok || err != nil {
+		fmt.Println("Cannot subscribe to subscription", subId, ok, err)
+		return errors.New("something wrong with subscription")
+	}
 
 	var subscriber = &Subscriber{}
-
-	// add subscriber to map
-	subscriberMap[cfg.SubID] = subscriber
-
-	if err != nil {
-		return fmt.Errorf("pubsub.NewClient: %v", err)
-	}
-
-	topic := client.Topic(cfg.TopicID)
-
-	subscriber.Topic = topic
-
-	isExist, err := topic.Exists(ctx)
-
-	if !isExist || err != nil {
-		return fmt.Errorf("pubsub.NewClient: exist = %v | %v", isExist, err)
-	}
-
-	sub := client.Subscription(cfg.SubID)
-
-	subscriber.SubID = sub
+	subscriberMap[subId] = subscriber
 	ctxChild, cancel := context.WithCancel(ctx)
-	subscriber.cancelFunc = cancel
-	err = sub.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
-		err = fn(string(msg.Data))
+
+	subscriber.Subscription = sub
+	subscriber.CancelFunc = cancel
+	go subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
+		_ = fn(msg.Data)
 		// TODO more flow
 		msg.Ack()
 	})
 
-
 	return nil
+}
+
+func BlockedSubscribe(ctx context.Context, subId string, fn HandleMsg) error {
+	if _, exist := subscriberMap[subId]; exist {
+		log.Printf("%v have been existed in keys map", subId)
+		return nil
+	}
+
+	sub := client.Subscription(subId)
+	if ok, err := sub.Exists(ctx); !ok || err != nil {
+		fmt.Println("Cannot subscribe to subscription", subId, ok, err)
+		return errors.New("something wrong with subscription")
+	}
+
+	var subscriber = &Subscriber{}
+	subscriberMap[subId] = subscriber
+	ctxChild, cancel := context.WithCancel(ctx)
+
+	subscriber.Subscription = sub
+	subscriber.CancelFunc = cancel
+	return subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
+		_ = fn(msg.Data)
+		// TODO more flow
+		msg.Ack()
+	})
 }
 
 func CloseConnection(subID string) {
 	subscriber, exist := subscriberMap[subID]
 	if exist {
-		log.Printf("Prepare close connection on topic %v", subID)
-		subscriber.cancelFunc()
-		log.Printf("Close connection %v successfully", subID)
+		subscriber.CancelFunc()
+		delete(subscriberMap, subID)
+		log.Printf("Close connection %v successfully\n", subID)
+	} else {
+		log.Printf("Not found subscriber with subID %v\n", subID)
 	}
-	log.Printf("Not found subscriber with subID %v", subID)
-}
-
-func initializeClient(ctx context.Context, projectID string) error {
-	var err error
-	if client == nil {
-		client, err = pubsub.NewClient(ctx, projectID)
-		if err != nil {
-			return fmt.Errorf("pubsub.NewClient %v", err)
-		}
-	}
-	return err
 }
