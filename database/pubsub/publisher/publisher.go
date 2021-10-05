@@ -1,41 +1,46 @@
 package publisher
 
 import (
-	"cloud.google.com/go/pubsub"
 	"context"
 	"fmt"
 	"log"
+
+	"cloud.google.com/go/pubsub"
+	"google.golang.org/api/option"
 )
 
 var client *pubsub.Client
 var clientMapper = make(map[string]*pubsub.Topic)
 
-func InitConfiguration(config *Config) error {
-	ctx := context.Background()
-	if client == nil {
-		var err error
-		client, err = pubsub.NewClient(ctx, config.ProjectID)
-		if err != nil {
-			log.Fatalf("pubsub.NewClient: %v", err)
-		}
+func InitConfiguration(ctx context.Context, projectID string, opts ...option.ClientOption) (*pubsub.Client, error) {
+	var err error
+	client, err = pubsub.NewClient(ctx, projectID, opts...)
+	if err != nil {
+		return nil, err
 	}
-	topic := client.Topic(config.TopicID)
-	exist, err := topic.Exists(ctx)
-	if exist {
-		clientMapper[config.TopicID] = client.Topic(config.TopicID)
-		clientMapper[config.TopicID].PublishSettings.NumGoroutines = 3
-	} else {
-		return fmt.Errorf("not found topic with cfg = %v", config)
-	}
-	return err
+
+	return client, err
 }
 
-func PublishMessage(ctx context.Context, topic string, rawMessage []byte) error {
-
-	clientTopic, exist := clientMapper[topic]
-	if !exist {
-		return fmt.Errorf("not found client for topic %v", topic)
+func PullTopic(ctx context.Context, topicId string) error {
+	topic := client.Topic(topicId)
+	exist, err := topic.Exists(ctx)
+	if exist {
+		clientMapper[topicId] = client.Topic(topicId)
+		clientMapper[topicId].PublishSettings.NumGoroutines = 3
+	} else {
+		return fmt.Errorf("not found/ err topic with cfg = %s, %+v", topicId, err)
 	}
+
+	return nil
+}
+
+func PublishMessage(ctx context.Context, topicId string, rawMessage []byte) error {
+	clientTopic, exist := clientMapper[topicId]
+	if !exist {
+		return fmt.Errorf("not found client for topic %v", topicId)
+	}
+
 	message := pubsub.Message{
 		Data: rawMessage,
 	}
