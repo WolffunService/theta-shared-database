@@ -22,6 +22,6 @@ func ConnectRedis(config *RedisConnectionConfig) {
 	thetanlock.InitPool(NewPool())
 }
 
-func GetClient() *goredislib.Client{
+func GetClient() *goredislib.Client {
 	return client
 }

@@ -1,31 +1,69 @@
 package publisher
 
 import (
-	"cloud.google.com/go/pubsub"
 	"context"
+	"fmt"
 	"log"
+
+	"cloud.google.com/go/pubsub"
+	"google.golang.org/api/option"
 )
 
-var clientTopic *pubsub.Topic
+var client *pubsub.Client
+var clientMapper = make(map[string]*pubsub.Topic)
 
-func InitConfiguration(config *Config) {
-	ctx := context.Background()
-	client, err := pubsub.NewClient(ctx, config.ProjectID)
+func InitConfiguration(ctx context.Context, projectID string, opts ...option.ClientOption) (*pubsub.Client, error) {
+	var err error
+	client, err = pubsub.NewClient(ctx, projectID, opts...)
 	if err != nil {
-		log.Fatalf("pubsub.NewClient: %v", err)
+		return nil, err
 	}
-	clientTopic = client.Topic(config.TopicID)
-	clientTopic.PublishSettings.NumGoroutines = 3
+
+	return client, err
 }
 
-func PublishMessage(ctx context.Context, rawMessage []byte) {
+func PullTopic(ctx context.Context, topicId string) error {
+	topic := client.Topic(topicId)
+	exist, err := topic.Exists(ctx)
+	if exist {
+		clientMapper[topicId] = client.Topic(topicId)
+		clientMapper[topicId].PublishSettings.NumGoroutines = 3
+	} else {
+		return fmt.Errorf("not found/ err topic with cfg = %s, %+v", topicId, err)
+	}
+
+	return nil
+}
+
+func PublishMessage(ctx context.Context, topicId string, rawMessage []byte) error {
+	clientTopic, exist := clientMapper[topicId]
+	if !exist {
+		return fmt.Errorf("not found client for topic %v", topicId)
+	}
+
 	message := pubsub.Message{
 		Data: rawMessage,
 	}
 	result := clientTopic.Publish(ctx, &message)
-	log.Print(result.Get(ctx))
+	msgId, err := result.Get(ctx)
+	log.Printf("Publish message successfully. MsgID = %v | Error = %v", msgId, err)
+	return err
 }
 
-func GetTopic() *pubsub.Topic {
-	return clientTopic
+func ClosePublishMsgOnTopic(topic string) error {
+	clientTopic, exist := clientMapper[topic]
+	if !exist {
+		return fmt.Errorf("not found client for topic %v", topic)
+	}
+	clientTopic.Stop()
+	log.Printf("Stop client on topic %v", topic)
+	return nil
+}
+
+func CloseAllTopic(ctx context.Context) error {
+	for k, v := range clientMapper {
+		v.Stop()
+		log.Printf("Stop publish msg on topic %v", k)
+	}
+	return client.Close()
 }

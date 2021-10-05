@@ -24,7 +24,7 @@ func TestName(t *testing.T) {
 	defer client.Close()
 
 	// Subscribe
-	Subscribe(context.Background(), cfg, func(s []byte) error {
+	Subscribe(context.Background(), cfg.SubID, func(s []byte) error {
 		fmt.Println(s)
 		return nil
 	})
