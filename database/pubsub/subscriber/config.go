@@ -14,6 +14,5 @@ type Config struct {
 
 type Subscriber struct {
 	CancelFunc   context.CancelFunc
-	Topic        *pubsub.Topic
 	Subscription *pubsub.Subscription
 }
