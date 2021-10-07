@@ -32,6 +32,9 @@ type User struct {
 	PlayerStatistic       PlayerStatistic `json:"playerStatistic" bson:"playerStatistic"`
 	Suspicious            int             `json:"-" bson:"suspicious"`
 	SuspiciousWrongData   int             `json:"-" bson:"suspiciousWrongData"`
+	Country               string          `json:"country" bson:"country"`
+	AvatarId              int             `json:"avatarId" bson:"avatarId"`
+	FrameId               int             `json:"frameId" bson:"frameId"`
 }
 
 type PlayerStatistic struct {
