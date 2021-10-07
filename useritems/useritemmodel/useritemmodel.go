@@ -7,6 +7,6 @@ func (UserItems) CollectionName() string {
 }
 
 type UserItems struct {
-	mongodb.IDIntField `bson:",inline"`
+	mongodb.IDField `bson:",inline"`
 	Avatars []int  `bson:"avatars" json:"avatars"`
 }
