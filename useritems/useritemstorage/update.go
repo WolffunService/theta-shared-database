@@ -16,7 +16,7 @@ func UpdateUserItems(ctx context.Context, userItems *useritemmodel.UserItems) er
 }
 
 func AddAvatar(ctx context.Context, userId string, avatarId int) error {
-	objectUserId, _ := util.ObjectIDFromHex(userId)
+	objectUserId := util.ObjectIDFromHex(userId)
 	filter := bson.M{field.ID: objectUserId}
 	// update
 	update := bson.D{}
@@ -26,7 +26,7 @@ func AddAvatar(ctx context.Context, userId string, avatarId int) error {
 }
 
 func AddListAvatar(ctx context.Context, userId string, avatarIds []int) error {
-	objectUserId, _ := util.ObjectIDFromHex(userId)
+	objectUserId := util.ObjectIDFromHex(userId)
 	filter := bson.M{field.ID: objectUserId}
 	// update
 	update := bson.D{}
