@@ -35,6 +35,7 @@ type User struct {
 	Country               string          `json:"country" bson:"country"`
 	AvatarId              int             `json:"avatarId" bson:"avatarId"`
 	FrameId               int             `json:"frameId" bson:"frameId"`
+	TicketBanFindMatch TicketBanFindMatch `json:"ticketBanFindMatch" bson:"ticketBanFindMatch"`
 }
 
 type PlayerStatistic struct {
@@ -46,6 +47,11 @@ type PlayerStatistic struct {
 	Mega      int32 `json:"mega" bson:"mega"`
 	Mvp       int32 `json:"mvp" bson:"mvp"`
 	Hero      int32 `json:"hero" bson:"hero"`
+}
+
+type TicketBanFindMatch struct {
+	NumBans  int32 `json:"numBans" bson:"numBans"`
+	Duration int64 `json:"duration" bson:"duration"`
 }
 
 func (user *User) GetUserId() string {
