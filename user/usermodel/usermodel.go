@@ -11,25 +11,24 @@ func (User) CollectionName() string {
 }
 
 type User struct {
-	mongodb.DefaultModel  `bson:",inline"`
-	mongodb.DateFields    `bson:",inline"`
-	Version               int             `json:"version" bson:"version"`
-	Email                 string          `json:"email" bson:"email"`
-	UserName              string          `json:"username" bson:"username"`
-	NumChangeName         int             `json:"numChangeName" bson:"numChangeName"`
-	Status                UserStatus      `json:"status" bson:"status"`
-	Address               string          `json:"address" bson:"address"`
-	Avatar                string          `json:"avatar" bson:"avatar"`
-	Nonce                 int             `json:"nonce" bson:"nonce"`
-	IsClaimedFreeHero     bool            `json:"canClaimFreeHero" bson:"canClaimFreeHero"`
-	UserProfile           UserProfile     `json:"userProfile" bson:"userProfile"`
-	PlayerStatistic       PlayerStatistic `json:"playerStatistic" bson:"playerStatistic"`
-	Suspicious            int             `json:"-" bson:"suspicious"`
-	SuspiciousWrongData   int             `json:"-" bson:"suspiciousWrongData"`
-	Country               string          `json:"country" bson:"country"`
-	AvatarId              int             `json:"avatarId" bson:"avatarId"`
-	FrameId               int             `json:"frameId" bson:"frameId"`
-	TicketBanFindMatch TicketBanFindMatch `json:"-" bson:"ticketBanFindMatch"`
+	mongodb.DefaultModel `bson:",inline"`
+	mongodb.DateFields   `bson:",inline"`
+	Version              int                `json:"version" bson:"version"`
+	Email                string             `json:"email" bson:"email"`
+	UserName             string             `json:"username" bson:"username"`
+	NumChangeName        int                `json:"numChangeName" bson:"numChangeName"`
+	Status               UserStatus         `json:"status" bson:"status"`
+	Address              string             `json:"address" bson:"address"`
+	Nonce                int                `json:"nonce" bson:"nonce"`
+	IsClaimedFreeHero    bool               `json:"canClaimFreeHero" bson:"canClaimFreeHero"`
+	UserProfile          UserProfile        `json:"userProfile" bson:"userProfile"`
+	PlayerStatistic      PlayerStatistic    `json:"playerStatistic" bson:"playerStatistic"`
+	Suspicious           int                `json:"-" bson:"suspicious"`
+	SuspiciousWrongData  int                `json:"-" bson:"suspiciousWrongData"`
+	Country              string             `json:"country" bson:"country"`
+	AvatarId             int                `json:"avatarId" bson:"avatarId"`
+	FrameId              int                `json:"frameId" bson:"frameId"`
+	TicketBanFindMatch   TicketBanFindMatch `json:"-" bson:"ticketBanFindMatch"`
 }
 
 type PlayerStatistic struct {
@@ -44,11 +43,11 @@ type PlayerStatistic struct {
 }
 
 type TicketBanFindMatch struct {
-	NumBans  int32 `json:"numBans" bson:"numBans"`
+	NumBans  int   `json:"numBans" bson:"numBans"`
 	Duration int64 `json:"duration" bson:"duration"`
 }
 
-func(t TicketBanFindMatch) IsBanned() bool {
+func (t TicketBanFindMatch) IsBanned() bool {
 	return t.Duration >= time.Now().Unix()
 }
 
