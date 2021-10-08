@@ -51,6 +51,10 @@ func (t TicketBanFindMatch) IsBanned() bool {
 	return t.Duration >= time.Now().Unix()
 }
 
+func (u User) IsBanned() bool {
+	return u.Status == BANNED
+}
+
 func (user *User) GetUserId() string {
 	return user.ID.(primitive.ObjectID).Hex()
 }
