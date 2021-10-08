@@ -3,6 +3,7 @@ package usermodel
 import (
 	"github.com/WolffunGame/theta-shared-database/database/mongodb"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
 )
 
 func (User) CollectionName() string {
@@ -52,6 +53,10 @@ type PlayerStatistic struct {
 type TicketBanFindMatch struct {
 	NumBans  int32 `json:"numBans" bson:"numBans"`
 	Duration int64 `json:"duration" bson:"duration"`
+}
+
+func(t TicketBanFindMatch) IsBanned() bool {
+	return t.Duration >= time.Now().Unix()
 }
 
 func (user *User) GetUserId() string {
