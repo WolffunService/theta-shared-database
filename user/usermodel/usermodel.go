@@ -55,8 +55,16 @@ func (u User) IsBanned() bool {
 	return u.Status == BANNED
 }
 
-func (user *User) GetUserId() string {
-	return user.ID.(primitive.ObjectID).Hex()
+func (u *User) GetUserId() string {
+	return u.ID.(primitive.ObjectID).Hex()
+}
+
+func (u *User) GetUserName() string {
+	return u.UserName
+}
+
+func (u *User) GetAddress() string {
+	return u.Address
 }
 
 type UserStatus int
