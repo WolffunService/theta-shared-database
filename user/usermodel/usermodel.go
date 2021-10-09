@@ -20,7 +20,7 @@ type User struct {
 	Status               UserStatus         `json:"status" bson:"status"`
 	Address              string             `json:"address" bson:"address"`
 	Nonce                int                `json:"nonce" bson:"nonce"`
-	IsClaimedFreeHero    bool               `json:"canClaimFreeHero" bson:"canClaimFreeHero"`
+	CanClaimFreeHero     bool               `json:"canClaimFreeHero" bson:"canClaimFreeHero"`
 	UserProfile          UserProfile        `json:"userProfile" bson:"userProfile"`
 	PlayerStatistic      PlayerStatistic    `json:"playerStatistic" bson:"playerStatistic"`
 	Suspicious           int                `json:"-" bson:"suspicious"`
