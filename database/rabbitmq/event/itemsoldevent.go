@@ -1,6 +1,7 @@
 package event
 
 //1 item da sale thanh cong => ghi log la chinh.
+//=> update lai nft item filter
 type ItemSoldEvent struct {
 	ItemId          string `json:"ItemId"`
 	TokenId         string `json:"TokenId"`
@@ -11,4 +12,6 @@ type ItemSoldEvent struct {
 	NewUserId       string `json:"NewUserId"`
 	NewOwnerAddress string `json:"NewOwnerAddress"`
 	Timestamp       int64  `json:"Timestamp"`
+	Fee             int64  `json:"Fee"`
+	DividedBy       int64  `json:"DividedBy"`
 }
