@@ -44,11 +44,11 @@ type PlayerStatistic struct {
 
 type TicketBanFindMatch struct {
 	NumBans  int   `json:"numBans" bson:"numBans"`
-	Duration int64 `json:"duration" bson:"duration"`
+	ExpiredTime int64 `json:"expiredTime" bson:"expiredTime"`
 }
 
 func (t TicketBanFindMatch) IsBanned() bool {
-	return t.Duration >= time.Now().Unix()
+	return t.ExpiredTime >= time.Now().Unix()
 }
 
 func (u User) IsBanned() bool {
