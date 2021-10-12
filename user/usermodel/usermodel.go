@@ -51,8 +51,8 @@ func (t TicketBanFindMatch) IsBanned() bool {
 	return t.ExpiredTime >= time.Now().Unix()
 }
 
-func (t TicketBanFindMatch) GetTimeBan(numBan int) time.Time {
-	switch numBan {
+func (t TicketBanFindMatch) GetTimeNextBan() time.Time {
+	switch t.NumBans {
 	case 1:
 		return time.Now().Add(time.Minute * time.Duration(5))
 	case 2:
