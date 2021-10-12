@@ -51,20 +51,20 @@ func (t TicketBanFindMatch) IsBanned() bool {
 	return t.ExpiredTime >= time.Now().Unix()
 }
 
-func (t TicketBanFindMatch) GetTimeNextBan() time.Time {
+func (t TicketBanFindMatch) GetTimeNextBan() int64 {
 	switch t.NumBans + 1 {
 	case 1:
-		return time.Now().Add(time.Minute * time.Duration(5))
+		return time.Now().Add(time.Minute * time.Duration(5)).Unix()
 	case 2:
-		return time.Now().Add(time.Minute * time.Duration(30))
+		return time.Now().Add(time.Minute * time.Duration(30)).Unix()
 	case 3:
-		return time.Now().Add(time.Hour * time.Duration(6))
+		return time.Now().Add(time.Hour * time.Duration(6)).Unix()
 	case 4:
-		return time.Now().Add(time.Hour * time.Duration(24))
+		return time.Now().Add(time.Hour * time.Duration(24)).Unix()
 	case 5:
-		return time.Now().AddDate(0, 0, 1)
+		return time.Now().AddDate(0, 0, 1).Unix()
 	default:
-		return time.Now().AddDate(0, 0, 3)
+		return time.Now().AddDate(0, 0, 3).Unix()
 	}
 }
 
