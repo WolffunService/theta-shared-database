@@ -3,6 +3,7 @@ package event
 //1 item da sale thanh cong => ghi log la chinh.
 //=> update lai nft item filter
 type ItemSoldEvent struct {
+	BaseBlockchainEvent `json:",inline"`
 	ItemId          string `json:"ItemId"`
 	TokenId         string `json:"TokenId"`
 	PaymentTokenId  string `json:"PaymentTokenId"`
