@@ -52,7 +52,7 @@ func (t TicketBanFindMatch) IsBanned() bool {
 }
 
 func (t TicketBanFindMatch) GetTimeNextBan() time.Time {
-	switch t.NumBans {
+	switch t.NumBans + 1 {
 	case 1:
 		return time.Now().Add(time.Minute * time.Duration(5))
 	case 2:
