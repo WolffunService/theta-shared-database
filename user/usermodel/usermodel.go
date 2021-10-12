@@ -21,6 +21,7 @@ type User struct {
 	Address              string             `json:"address" bson:"address"`
 	Nonce                int                `json:"nonce" bson:"nonce"`
 	CanClaimFreeHero     bool               `json:"canClaimFreeHero" bson:"canClaimFreeHero"`
+	CanClaimBetaReward   bool               `json:"canClaimBetaReward" bson:"canClaimBetaReward"`
 	UserProfile          UserProfile        `json:"userProfile" bson:"userProfile"`
 	PlayerStatistic      PlayerStatistic    `json:"playerStatistic" bson:"playerStatistic"`
 	Suspicious           int                `json:"-" bson:"suspicious"`
@@ -43,7 +44,7 @@ type PlayerStatistic struct {
 }
 
 type TicketBanFindMatch struct {
-	NumBans  int   `json:"numBans" bson:"numBans"`
+	NumBans     int   `json:"numBans" bson:"numBans"`
 	ExpiredTime int64 `json:"expiredTime" bson:"expiredTime"`
 }
 
