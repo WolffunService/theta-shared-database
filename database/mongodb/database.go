@@ -19,6 +19,8 @@ type DBConfig struct {
 	Password string
 	Host  string
 	Port   string
+	IsReplica bool
+	ReplicaSet string
 }
 func defaultDB() *DBConfig {
 	dbCfg := &DBConfig{}
@@ -54,11 +56,16 @@ func buildUri(dbConfig *DBConfig) string {
 	password := dbConfig.Password
 	host := dbConfig.Host
 	port := dbConfig.Port
+
+	link := fmt.Sprintf("%s:%s", host, port)
+	if dbConfig.IsReplica {
+		link = dbConfig.ReplicaSet
+	}
 	var uri string
 	if username == "" && password == "" {
-		uri = fmt.Sprintf("mongodb://%s:%s/?w=majority", host, port)
+		uri = fmt.Sprintf("mongodb://%s/admin?w=majority", link)
 	} else {
-		uri = fmt.Sprintf("mongodb://%s:%s@%s:%s/?w=majority", username, password, host, port)
+		uri = fmt.Sprintf("mongodb://%s:%s@%s/admin?w=majority", username, password, link)
 	}
 	return uri
 }
