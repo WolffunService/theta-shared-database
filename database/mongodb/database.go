@@ -57,15 +57,16 @@ func buildUri(dbConfig *DBConfig) string {
 	host := dbConfig.Host
 	port := dbConfig.Port
 
-	link := fmt.Sprintf("%s:%s", host, port)
+	link := fmt.Sprintf("%s:%s/?w=majority", host, port)
 	if dbConfig.IsReplica {
-		link = dbConfig.ReplicaSet
+		link = fmt.Sprintf("%s/admin?ssl=false", dbConfig.ReplicaSet)
 	}
 	var uri string
 	if username == "" && password == "" {
-		uri = fmt.Sprintf("mongodb://%s/admin?w=majority", link)
+		uri = fmt.Sprintf("mongodb://%s", link)
 	} else {
-		uri = fmt.Sprintf("mongodb://%s:%s@%s/admin?w=majority", username, password, link)
+		uri = fmt.Sprintf("mongodb://%s:%s@%s", username, password, link)
 	}
+	log.Println("MongoDb buildUri = ", uri)
 	return uri
 }
