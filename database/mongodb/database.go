@@ -59,7 +59,7 @@ func buildUri(dbConfig *DBConfig) string {
 
 	link := fmt.Sprintf("%s:%s/?w=majority", host, port)
 	if dbConfig.IsReplica {
-		link = fmt.Sprintf("%s/admin?ssl=false", dbConfig.ReplicaSet)
+		link = fmt.Sprintf("%s/theta?ssl=false", dbConfig.ReplicaSet)
 	}
 	var uri string
 	if username == "" && password == "" {
