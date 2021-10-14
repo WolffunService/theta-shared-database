@@ -44,13 +44,16 @@ func SetObject(ctx context.Context, key string, value interface{}, expirationSec
 // EX used: existsFlag, err := util.GetObject(ctx, "key", &userModel)
 func GetObject(ctx context.Context, key string, refObj interface{}) (bool, error) {
 	bytes, err := client.Get(ctx, key).Bytes()
+
 	if err != nil {
+		if err == goredislib.Nil {
+			// Key not exists
+			return false, nil
+		}
+
 		return false, err
 	}
-	if err == goredislib.Nil {
-		// Key not exists
-		return false, nil
-	}
+
 	err = json.Unmarshal(bytes, &refObj)
 	if err != nil {
 		return false, err
