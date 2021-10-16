@@ -62,6 +62,15 @@ func LockRetryDurationCustom(mutexId string, retryCount int, eachTryDuration tim
 	return simpleLock(mutex)
 }
 
+// LockRetryDurationTimeout, func: we lock the mutex <timeout> seconds, n tries, each try is eachTryDuration apart
+func LockRetryDurationTimeout(mutexId string, retryCount int, eachTryDuration time.Duration, timeout time.Duration, opts ...redsync.Option) (*redsync.Mutex, error) {
+	retryOption := redsync.WithTries(retryCount)
+	durationOption := redsync.WithRetryDelay(eachTryDuration)
+	timeoutOption := redsync.WithExpiry(timeout)
+	mutex := rs.NewMutex(mutexId, retryOption, durationOption, timeoutOption)
+	return simpleLock(mutex)
+}
+
 // LockRetryRandom, func: we lock the mutex 8 seconds (timeout), n tries and each try is random between min - max (ms) apart
 func LockRetryRandom(mutexId string, retryCount int, minDuration int, maxDuration int) (*redsync.Mutex, error) {
 	retryOption := redsync.WithTries(retryCount)
