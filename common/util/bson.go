@@ -6,6 +6,12 @@ func BsonIncrease(b bson.D,key string, value int) bson.D {
 	if b == nil {b = bson.D{}}
 	return append(b, bson.E{Key:"$inc", Value: bson.M{key:value}})
 }
+
+func BsonIncrease64(b bson.D,key string, value int64) bson.D {
+	if b == nil {b = bson.D{}}
+	return append(b, bson.E{Key:"$inc", Value: bson.M{key:value}})
+}
+
 func BsonSet(b bson.D,key string, value interface{}) bson.D {
 	if b == nil {b = bson.D{}}
 	return append(b, bson.E{Key:"$set", Value: bson.M{key:value}})
