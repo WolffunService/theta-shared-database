@@ -13,6 +13,7 @@ func (User) CollectionName() string {
 type User struct {
 	mongodb.DefaultModel `bson:",inline"`
 	mongodb.DateFields   `bson:",inline"`
+	Role                 UserRole           `json:"role" bson:"role"`
 	Version              int                `json:"version" bson:"version"`
 	Email                string             `json:"email" bson:"email"`
 	UserName             string             `json:"username" bson:"username"`
@@ -73,6 +74,14 @@ type UserStatus int
 const (
 	ACTIVE UserStatus = 1
 	BANNED UserStatus = -1
+)
+
+type UserRole int
+
+const (
+	NONE  UserRole = 0
+	ROOT  UserRole = 1
+	ADMIN UserRole = 2
 )
 
 type UserProfile struct {
