@@ -69,6 +69,10 @@ func (u *User) GetAddress() string {
 	return u.Address
 }
 
+func (u *User) GetRole() int {
+	return int(u.Role)
+}
+
 type UserStatus int
 
 const (
