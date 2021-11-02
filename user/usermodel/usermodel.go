@@ -13,7 +13,7 @@ func (User) CollectionName() string {
 type User struct {
 	mongodb.DefaultModel `bson:",inline"`
 	mongodb.DateFields   `bson:",inline"`
-	Role                 int           `json:"role" bson:"role"`
+	Role                 int                `json:"role" bson:"role"`
 	Version              int                `json:"version" bson:"version"`
 	Email                string             `json:"email" bson:"email"`
 	UserName             string             `json:"username" bson:"username"`
@@ -34,14 +34,15 @@ type User struct {
 }
 
 type PlayerStatistic struct {
-	Battle    int32 `json:"battle" bson:"battle"`
-	Victory   int32 `json:"victory" bson:"victory"`
-	Streak    int32 `json:"streak" bson:"streak"`
-	CurStreak int32 `json:"-" bson:"curStreak"`
-	Triple    int32 `json:"triple" bson:"triple"`
-	Mega      int32 `json:"mega" bson:"mega"`
-	Mvp       int32 `json:"mvp" bson:"mvp"`
-	Hero      int32 `json:"hero" bson:"hero"`
+	Battle        int32 `json:"battle" bson:"battle"`
+	Victory       int32 `json:"victory" bson:"victory"`
+	Streak        int32 `json:"streak" bson:"streak"`
+	CurStreak     int32 `json:"-" bson:"curStreak"`
+	Triple        int32 `json:"triple" bson:"triple"`
+	Mega          int32 `json:"mega" bson:"mega"`
+	Mvp           int32 `json:"mvp" bson:"mvp"`
+	Hero          int32 `json:"hero" bson:"hero"`
+	BehaviorPoint int32 `json:"behaviorPoint" bson:"behaviorPoint"`
 }
 
 type TicketBanFindMatch struct {
