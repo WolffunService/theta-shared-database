@@ -74,6 +74,10 @@ func (u *User) GetRole() int {
 	return u.Role
 }
 
+func (u *User) GetBehaviorPoint() int32 {
+	return 100 - u.PlayerStatistic.BehaviorPoint
+}
+
 type UserStatus int
 
 const (
