@@ -35,9 +35,11 @@ type User struct {
 }
 
 type Referral struct {
-	ReferralID string `json:"referralID" bson:"referralID"`
-	AcceptAt   int64  `json:"acceptAt" bson:"acceptAt"`
-	Status     bool   `json:"status" bson:"status"`
+	NumInviteFriends      int32  `json:"numInviteFriends" bson:"numInviteFriends"`
+	TotalNumInviteFriends int32  `json:"totalNumInviteFriends" bson:"totalNumInviteFriends"`
+	ReferralID            string `json:"referralID" bson:"referralID"`
+	AcceptAt              int64  `json:"acceptAt" bson:"acceptAt"`
+	Status                bool   `json:"status" bson:"status"`
 }
 
 type PlayerStatistic struct {
