@@ -31,6 +31,13 @@ type User struct {
 	AvatarId             int                `json:"avatarId" bson:"avatarId"`
 	FrameId              int                `json:"frameId" bson:"frameId"`
 	TicketBanFindMatch   TicketBanFindMatch `json:"-" bson:"ticketBanFindMatch"`
+	Referral             Referral           `json:"referral" bson:"referral"`
+}
+
+type Referral struct {
+	ReferralID string `json:"referralID" bson:"referralID"`
+	AcceptAt   int64  `json:"acceptAt" bson:"acceptAt"`
+	Status     bool   `json:"status" bson:"status"`
 }
 
 type PlayerStatistic struct {
