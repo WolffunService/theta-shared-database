@@ -32,6 +32,7 @@ type User struct {
 	FrameId              int                `json:"frameId" bson:"frameId"`
 	TicketBanFindMatch   TicketBanFindMatch `json:"-" bson:"ticketBanFindMatch"`
 	Referral             Referral           `json:"referral" bson:"referral"`
+	IsCreator            bool               `json:"isCreator" bson:"isCreator"`
 }
 
 type Referral struct {
