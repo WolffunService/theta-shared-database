@@ -1,10 +1,11 @@
 package mongodb
 
 import (
+	"github.com/WolffunGame/theta-shared-database/database/mongodb/utils"
 	"github.com/jinzhu/inflection"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"reflect"
-	"github.com/WolffunGame/theta-shared-database/database/mongodb/utils"
 )
 
 // Coll return model's collection.
@@ -14,6 +15,13 @@ func Coll(m Model, opts ...*options.CollectionOptions) *Collection {
 		return collGetter.Collection()
 	}
 	return CollectionByName(CollName(m), opts...)
+}
+
+func CollWithMode(m Model, dbName string, mode readpref.Mode) *Collection {
+	if collGetter, ok := m.(CollectionGetter); ok {
+		return collGetter.Collection()
+	}
+	return CollectionByNameWithMode(CollName(m), dbName, mode)
 }
 
 // CollName check if you provided collection name in your

@@ -3,10 +3,11 @@ package mongodb
 import (
 	"context"
 	"errors"
+	"github.com/WolffunGame/theta-shared-database/database/mongodb/utils"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"time"
-	"github.com/WolffunGame/theta-shared-database/database/mongodb/utils"
 )
 
 var config *Config
@@ -87,6 +88,24 @@ func ResetDefaultConfig() {
 // CollectionByName return new collection from default config
 func CollectionByName(name string, opts ...*options.CollectionOptions) *Collection {
 	return NewCollection(db, name, opts...)
+}
+
+// CollectionByNameWithMode return new collection from default config
+func CollectionByNameWithMode(name string, dbName string, mode readpref.Mode) *Collection {
+	if mode == readpref.SecondaryMode || mode == readpref.SecondaryPreferredMode {
+		readPreference, err := readpref.New(mode)
+		if err != nil {
+			return NewCollection(db, name)
+		} else {
+			dbSecond := client.Database(dbName, &options.DatabaseOptions{
+				ReadPreference: readPreference,
+			})
+			return NewCollection(dbSecond, name)
+		}
+	} else {
+		return NewCollection(db, name)
+	}
+
 }
 
 // DefaultConfigs return you'r default mongodb configs.

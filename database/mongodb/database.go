@@ -41,10 +41,11 @@ func SetDefaultConfig(dbConfig *DBConfig, conf *Config) (context.Context, *mongo
 	config = conf
 	dbName := dbConfig.DbName
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	client, err := NewClient(ctx, options.Client().ApplyURI(buildUri(dbConfig)))
+	clientNew, err := NewClient(ctx, options.Client().ApplyURI(buildUri(dbConfig)))
 	if err != nil {
 		panic(err)
 	}
+	client = clientNew
 	db = client.Database(dbName)
 
 	log.Printf("[INFO] CONNECTED TO MONGO DB %s", dbName)
