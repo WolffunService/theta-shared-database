@@ -13,7 +13,7 @@ func (User) CollectionName() string {
 type User struct {
 	mongodb.DefaultModel `bson:",inline"`
 	mongodb.DateFields   `bson:",inline"`
-	Role                 int           `json:"role" bson:"role"`
+	Role                 int                `json:"role" bson:"role"`
 	Version              int                `json:"version" bson:"version"`
 	Email                string             `json:"email" bson:"email"`
 	UserName             string             `json:"username" bson:"username"`
@@ -31,17 +31,28 @@ type User struct {
 	AvatarId             int                `json:"avatarId" bson:"avatarId"`
 	FrameId              int                `json:"frameId" bson:"frameId"`
 	TicketBanFindMatch   TicketBanFindMatch `json:"-" bson:"ticketBanFindMatch"`
+	Referral             Referral           `json:"referral" bson:"referral"`
+	IsCreator            bool               `json:"isCreator" bson:"isCreator"`
+}
+
+type Referral struct {
+	NumInviteFriends      int32  `json:"numInviteFriends" bson:"numInviteFriends"`
+	TotalNumInviteFriends int32  `json:"totalNumInviteFriends" bson:"totalNumInviteFriends"`
+	ReferralID            string `json:"referralID" bson:"referralID"`
+	AcceptAt              int64  `json:"acceptAt" bson:"acceptAt"`
+	Status                bool   `json:"status" bson:"status"`
 }
 
 type PlayerStatistic struct {
-	Battle    int32 `json:"battle" bson:"battle"`
-	Victory   int32 `json:"victory" bson:"victory"`
-	Streak    int32 `json:"streak" bson:"streak"`
-	CurStreak int32 `json:"-" bson:"curStreak"`
-	Triple    int32 `json:"triple" bson:"triple"`
-	Mega      int32 `json:"mega" bson:"mega"`
-	Mvp       int32 `json:"mvp" bson:"mvp"`
-	Hero      int32 `json:"hero" bson:"hero"`
+	Battle        int32 `json:"battle" bson:"battle"`
+	Victory       int32 `json:"victory" bson:"victory"`
+	Streak        int32 `json:"streak" bson:"streak"`
+	CurStreak     int32 `json:"-" bson:"curStreak"`
+	Triple        int32 `json:"triple" bson:"triple"`
+	Mega          int32 `json:"mega" bson:"mega"`
+	Mvp           int32 `json:"mvp" bson:"mvp"`
+	Hero          int32 `json:"hero" bson:"hero"`
+	BehaviorPoint int32 `json:"behaviorPoint" bson:"behaviorPoint"`
 }
 
 type TicketBanFindMatch struct {
@@ -71,6 +82,10 @@ func (u *User) GetAddress() string {
 
 func (u *User) GetRole() int {
 	return u.Role
+}
+
+func (u *User) GetBehaviorPoint() int32 {
+	return 100 - u.PlayerStatistic.BehaviorPoint
 }
 
 type UserStatus int
