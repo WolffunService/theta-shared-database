@@ -17,11 +17,11 @@ func Coll(m Model, opts ...*options.CollectionOptions) *Collection {
 	return CollectionByName(CollName(m), opts...)
 }
 
-func CollWithMode(m Model, dbName string, mode readpref.Mode) *Collection {
+func CollWithMode(m Model, mode readpref.Mode) *Collection {
 	if collGetter, ok := m.(CollectionGetter); ok {
 		return collGetter.Collection()
 	}
-	return CollectionByNameWithMode(CollName(m), dbName, mode)
+	return CollectionByNameWithMode(CollName(m), mode)
 }
 
 // CollName check if you provided collection name in your

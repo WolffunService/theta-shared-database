@@ -39,7 +39,7 @@ func SetDefaultConfig(dbConfig *DBConfig, conf *Config) (context.Context, *mongo
 	}
 
 	config = conf
-	dbName := dbConfig.DbName
+	dbName = dbConfig.DbName
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	clientNew, err := NewClient(ctx, options.Client().ApplyURI(buildUri(dbConfig)))
 	if err != nil {

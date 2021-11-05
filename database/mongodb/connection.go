@@ -13,6 +13,7 @@ import (
 var config *Config
 var client *mongo.Client
 var db *mongo.Database
+var dbName string
 
 // Config struct contain extra config of mgm package.
 type Config struct {
@@ -91,7 +92,7 @@ func CollectionByName(name string, opts ...*options.CollectionOptions) *Collecti
 }
 
 // CollectionByNameWithMode return new collection from default config
-func CollectionByNameWithMode(name string, dbName string, mode readpref.Mode) *Collection {
+func CollectionByNameWithMode(name string, mode readpref.Mode) *Collection {
 	if mode == readpref.SecondaryMode || mode == readpref.SecondaryPreferredMode {
 		readPreference, err := readpref.New(mode)
 		if err != nil {
