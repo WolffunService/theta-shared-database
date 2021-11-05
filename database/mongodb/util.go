@@ -17,6 +17,10 @@ func Coll(m Model, opts ...*options.CollectionOptions) *Collection {
 	return CollectionByName(CollName(m), opts...)
 }
 
+func CollRead(m Model) *Collection {
+	return CollWithMode(m, readpref.SecondaryPreferredMode)
+}
+
 func CollWithMode(m Model, mode readpref.Mode) *Collection {
 	if collGetter, ok := m.(CollectionGetter); ok {
 		return collGetter.Collection()
