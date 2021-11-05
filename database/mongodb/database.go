@@ -47,6 +47,7 @@ func ConnectMongoWithConfig(dbConfig *MongoConfig, conf *Config) (context.Contex
 			ConnectionUrl: "mongodb://127.0.0.1:27017",
 		}
 	}
+	config = conf
 	dbName = dbConfig.DbName
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	clientNew, err := NewClient(ctx, options.Client().ApplyURI(dbConfig.ConnectionUrl))
