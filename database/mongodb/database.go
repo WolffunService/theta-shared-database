@@ -14,14 +14,21 @@ func GetDB() *mongo.Database {
 }
 
 type DBConfig struct {
-	DbName   string
-	UserName string
-	Password string
-	Host  string
-	Port   string
-	IsReplica bool
+	DbName     string
+	UserName   string
+	Password   string
+	Host       string
+	Port       string
+	IsReplica  bool
 	ReplicaSet string
 }
+
+//MongoConfig new version
+type MongoConfig struct {
+	DbName        string
+	ConnectionUrl string
+}
+
 func defaultDB() *DBConfig {
 	dbCfg := &DBConfig{}
 	dbCfg.Host = "localhost"
@@ -29,6 +36,30 @@ func defaultDB() *DBConfig {
 	dbCfg.DbName = "db_default"
 	return dbCfg
 }
+
+func ConnectMongoWithConfig(dbConfig *MongoConfig, conf *Config) (context.Context, *mongo.Client, context.CancelFunc) {
+	if conf == nil {
+		conf = defaultConf()
+	}
+	if dbConfig == nil {
+		dbConfig = &MongoConfig{
+			DbName:        "thetan",
+			ConnectionUrl: "mongodb://127.0.0.1:27017",
+		}
+	}
+	dbName = dbConfig.DbName
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	clientNew, err := NewClient(ctx, options.Client().ApplyURI(dbConfig.ConnectionUrl))
+	if err != nil {
+		panic(err)
+	}
+	client = clientNew
+	db = client.Database(dbName)
+
+	log.Printf("[INFO] CONNECTED TO MONGO DB %s", dbName)
+	return ctx, client, cancel
+}
+
 
 func SetDefaultConfig(dbConfig *DBConfig, conf *Config) (context.Context, *mongo.Client, context.CancelFunc) {
 	if conf == nil {
