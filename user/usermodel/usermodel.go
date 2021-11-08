@@ -109,3 +109,31 @@ const (
 	GOOD
 	BAD
 )
+
+func (u *User) GetBehaviorStatus() BehaviorStatus {
+	// Behavior Point
+	// 70 - 100: EXCELLENT
+	// 50 - 69: GOOD
+	// < 50: BAD
+
+	bPoint := u.GetBehaviorPoint()
+	if bPoint >= 70 {
+		return EXCELLENT
+	}
+	if bPoint >= 50 {
+		return GOOD
+	}
+	return BAD
+}
+
+func (u *User) GetBanMultiple() int {
+	bStatus := u.GetBehaviorStatus()
+	switch bStatus {
+	case BAD:
+		return 3
+	case GOOD:
+		return 2
+	default:
+		return 1
+	}
+}
