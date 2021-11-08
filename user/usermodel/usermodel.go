@@ -100,3 +100,28 @@ type UserProfile struct {
 	XP         int `bson:"xp" json:"xp"`
 	LevelUpGPP int `bson:"levelUpGPP" json:"levelUpGPP"`
 }
+
+// Trạng thái điểm hành vi: Tốt, Khá, Tệ
+type BehaviorStatus int
+
+const (
+	EXCELLENT BehaviorStatus = iota
+	GOOD
+	BAD
+)
+
+func GetBehaviorStatus(u *User) BehaviorStatus {
+	// Behavior Point
+	// 70 - 100: EXCELLENT
+	// 50 - 69: GOOD
+	// < 50: BAD
+
+	bPoint := GetBehaviorStatus(u)
+	if bPoint >= 70 {
+		return EXCELLENT
+	}
+	if bPoint >= 50 {
+		return GOOD
+	}
+	return BAD
+}
