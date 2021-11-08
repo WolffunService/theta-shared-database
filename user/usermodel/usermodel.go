@@ -109,19 +109,3 @@ const (
 	GOOD
 	BAD
 )
-
-func GetBehaviorStatus(u *User) BehaviorStatus {
-	// Behavior Point
-	// 70 - 100: EXCELLENT
-	// 50 - 69: GOOD
-	// < 50: BAD
-
-	bPoint := GetBehaviorStatus(u)
-	if bPoint >= 70 {
-		return EXCELLENT
-	}
-	if bPoint >= 50 {
-		return GOOD
-	}
-	return BAD
-}
