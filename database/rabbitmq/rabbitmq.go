@@ -58,7 +58,7 @@ func DeclareQueue(ch *amqp.Channel, name string, exchange string, durable bool) 
 	return q
 }
 
-func Publish(ch *amqp.Channel, q amqp.Queue, data []byte)  {
+func Publish(ch *amqp.Channel, q amqp.Queue, data []byte) error  {
 	err := ch.Publish(
 		"",     // exchange
 		q.Name, // routing key
@@ -70,6 +70,7 @@ func Publish(ch *amqp.Channel, q amqp.Queue, data []byte)  {
 		})
 	failOnError(err, "Failed to publish a message")
 	log.Printf(" [x] Sent %s", q.Name)
+	return err
 }
 
 func Consume(ch *amqp.Channel, q amqp.Queue) <-chan amqp.Delivery {
