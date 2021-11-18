@@ -18,12 +18,6 @@ func NewPool() redis.Pool {
 }
 
 func ConnectRedisV2(config *RedisConnectionConfig) {
-	//client = goredislib.NewClient(&goredislib.Options{
-	//	Addr:     config.Addr,
-	//	Username: config.UserName,
-	//	Password: config.Password,
-	//})
-
 	client = goredislib.NewFailoverClient(&goredislib.FailoverOptions{
 		MasterName: config.MasterName,
 		SentinelAddrs: config.SentinelAddrs,
