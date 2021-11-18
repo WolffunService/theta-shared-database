@@ -17,7 +17,7 @@ func NewPool() redis.Pool {
 	return goredis.NewPool(client)
 }
 
-func ConnectRedis(config *RedisConnectionConfig) {
+func ConnectRedisV2(config *RedisConnectionConfig) {
 	//client = goredislib.NewClient(&goredislib.Options{
 	//	Addr:     config.Addr,
 	//	Username: config.UserName,
@@ -31,6 +31,15 @@ func ConnectRedis(config *RedisConnectionConfig) {
 		SentinelPassword: config.SentinelPassword,
 	})
 	client.Ping(context.Background())
+	thetanlock.InitPool(NewPool())
+}
+
+func ConnectRedisV1(config *RedisConnectionConfig) {
+	client = goredislib.NewClient(&goredislib.Options{
+		Addr:     config.Addr,
+		Username: config.UserName,
+		Password: config.Password,
+	})
 	thetanlock.InitPool(NewPool())
 }
 
