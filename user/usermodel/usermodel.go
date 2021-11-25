@@ -27,6 +27,7 @@ type User struct {
 	PlayerStatistic      PlayerStatistic    `json:"playerStatistic" bson:"playerStatistic"`
 	Suspicious           int                `json:"-" bson:"suspicious"`
 	SuspiciousWrongData  int                `json:"-" bson:"suspiciousWrongData"`
+	IpAddress            string             `json:"ipAddress" bson:"ipAddress"`
 	Country              string             `json:"country" bson:"country"`
 	AvatarId             int                `json:"avatarId" bson:"avatarId"`
 	FrameId              int                `json:"frameId" bson:"frameId"`
