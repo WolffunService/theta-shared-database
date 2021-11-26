@@ -18,13 +18,21 @@ func NewPool() redis.Pool {
 }
 
 func ConnectRedisV2(config *RedisConnectionConfig) {
-	client = goredislib.NewFailoverClient(&goredislib.FailoverOptions{
-		MasterName: config.MasterName,
-		SentinelAddrs: config.SentinelAddrs,
-		Username: config.UserName,
-		Password: config.Password,
-		//SentinelPassword: config.SentinelPassword,
-	})
+	ops := &goredislib.FailoverOptions{}
+	if len(config.MasterName)>0{
+		ops.MasterName = config.MasterName
+	}
+	if len(config.Password) > 0{
+		ops.Password = config.Password
+	}
+	if len(config.SentinelAddrs)>0{
+		ops.SentinelAddrs = config.SentinelAddrs
+	}
+	if len(config.SentinelPassword) > 0{
+		ops.SentinelPassword = config.SentinelPassword
+	}
+
+	client = goredislib.NewFailoverClient(ops)
 	client.Ping(context.Background())
 	thetanlock.InitPool(NewPool())
 }
