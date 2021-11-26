@@ -23,7 +23,7 @@ func ConnectRedisV2(config *RedisConnectionConfig) {
 		SentinelAddrs: config.SentinelAddrs,
 		Username: config.UserName,
 		Password: config.Password,
-		//SentinelPassword: config.SentinelPassword,
+		SentinelPassword: config.SentinelPassword,
 	})
 	client.Ping(context.Background())
 	thetanlock.InitPool(NewPool())
