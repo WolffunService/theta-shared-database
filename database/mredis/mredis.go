@@ -21,8 +21,8 @@ func ConnectRedisV2(config *RedisConnectionConfig) {
 	client = goredislib.NewFailoverClient(&goredislib.FailoverOptions{
 		MasterName: config.MasterName,
 		SentinelAddrs: config.SentinelAddrs,
-		Password: config.SentinelPassword,
-		//SentinelPassword: config.SentinelPassword,
+		//Password: config.SentinelPassword,
+		SentinelPassword: config.SentinelPassword,
 	})
 	client.Ping(context.Background())
 	thetanlock.InitPool(NewPool())
