@@ -19,16 +19,16 @@ func NewPool() redis.Pool {
 
 func ConnectRedisV2(config *RedisConnectionConfig) {
 	ops := &goredislib.FailoverOptions{}
-	if len(config.MasterName)>0{
+	if len(config.MasterName) > 0 {
 		ops.MasterName = config.MasterName
 	}
-	if len(config.Password) > 0{
+	if len(config.Password) > 0 {
 		ops.Password = config.Password
 	}
-	if len(config.SentinelAddrs)>0{
+	if len(config.SentinelAddrs) > 0 {
 		ops.SentinelAddrs = config.SentinelAddrs
 	}
-	if len(config.SentinelPassword) > 0{
+	if len(config.SentinelPassword) > 0 {
 		ops.SentinelPassword = config.SentinelPassword
 	}
 
