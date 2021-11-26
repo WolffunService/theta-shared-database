@@ -73,28 +73,37 @@ func Publish(ch *amqp.Channel, q amqp.Queue, data []byte) error  {
 	return err
 }
 
-func Consume(ch *amqp.Channel, q amqp.Queue) <-chan amqp.Delivery {
+func Consume(ch *amqp.Channel, q amqp.Queue, opt Option) <-chan amqp.Delivery {
 	log.Printf("[INFO] CONSUMING " + q.Name)
 	messages, err := ch.Consume(
 		q.Name, // queue
 		q.Name, // consumer
-		true,   // auto-ack
-		false,  // exclusive
-		false,  // no-local
-		false,  // no-wait
-		nil,    // args
+		opt.AutoACK,   // auto-ack
+		opt.Exclusive,  // exclusive
+		opt.NoLocal,  // no-local
+		opt.NoWait,  // no-wait
+		opt.Args,    // args
 	)
 	failOnError(err, "[ERROR] FAILED TO REGISTER A CONSUMER")
 	return messages
 }
 
-func HandleMessages(qName string, messages <-chan amqp.Delivery, f func(d []byte)) {
+func HandleMessages(qName string, messages <-chan amqp.Delivery, f func(d []byte) error) {
 	forever := make(chan bool)
 
 	go func() {
 		for d := range messages {
 			fmt.Printf("[INFO] RECEIVED A MESSAGE OF %s: %s", qName, d.Body)
-			f(d.Body)
+			err := f(d.Body)
+
+			if err != nil {
+				fmt.Printf("[ERR] ERROR WHEN CONSUME A MESSAGE OF %s: %s", qName, d.Body)
+				errReject := d.Reject(true)
+
+				if errReject != nil {
+					fmt.Printf("[ERR] ERROR REQUEUE MESSAGE OF %s: %s", qName, d.Body)
+				}
+			}
 		}
 	}()
 
@@ -105,4 +114,20 @@ func failOnError(err error, msg string) {
 	if err != nil {
 		log.Fatalf("%s: %s", msg, err)
 	}
+}
+
+type Option struct{
+	AutoACK bool
+	Exclusive bool
+	NoLocal bool
+	NoWait bool
+	Args amqp.Table
+}
+
+var DefaultOption = Option{
+	AutoACK:   false,
+	Exclusive: false,
+	NoLocal:   false,
+	NoWait:    false,
+	Args:      nil,
 }
