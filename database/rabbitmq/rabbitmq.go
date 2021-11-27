@@ -103,6 +103,8 @@ func HandleMessages(qName string, messages <-chan amqp.Delivery, f func(d []byte
 				if errReject != nil {
 					fmt.Printf("[ERR] ERROR REQUEUE MESSAGE OF %s: %s", qName, d.Body)
 				}
+			} else {
+				d.Reject(false)
 			}
 		}
 	}()
