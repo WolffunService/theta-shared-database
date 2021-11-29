@@ -103,6 +103,12 @@ func HandleMessages(qName string, messages <-chan amqp.Delivery, f func(d []byte
 				if errReject != nil {
 					fmt.Printf("[ERR] ERROR REQUEUE MESSAGE OF %s: %s", qName, d.Body)
 				}
+			} else {
+				errAck := d.Ack(false)
+
+				if errAck != nil {
+					fmt.Printf("[ERR] ERROR SENT POSITIVE ACK MESSAGE OF %s: %s", qName, d.Body)
+				}
 			}
 		}
 	}()
