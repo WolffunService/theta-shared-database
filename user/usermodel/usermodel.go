@@ -15,19 +15,20 @@ type User struct {
 	mongodb.DateFields   `bson:",inline"`
 	Role                 int                `json:"role" bson:"role"`
 	Version              int                `json:"version" bson:"version"`
-	Email                string             `json:"email" bson:"email"`
+	Email                string             `json:"-" bson:"email"`
+	PublicEmail          string             `json:"email" bson:"-"`
 	UserName             string             `json:"username" bson:"username"`
 	NumChangeName        int                `json:"numChangeName" bson:"numChangeName"`
 	Status               UserStatus         `json:"status" bson:"status"`
 	Address              string             `json:"address" bson:"address"`
-	Nonce                int                `json:"nonce" bson:"nonce"`
+	Nonce                int                `json:"-" bson:"nonce"`
 	CanClaimFreeHero     bool               `json:"canClaimFreeHero" bson:"canClaimFreeHero"`
 	CanClaimBetaReward   bool               `json:"canClaimBetaReward" bson:"canClaimBetaReward"`
 	UserProfile          UserProfile        `json:"userProfile" bson:"userProfile"`
 	PlayerStatistic      PlayerStatistic    `json:"playerStatistic" bson:"playerStatistic"`
 	Suspicious           int                `json:"-" bson:"suspicious"`
 	SuspiciousWrongData  int                `json:"-" bson:"suspiciousWrongData"`
-	IpAddress            string             `json:"ipAddress" bson:"ipAddress"`
+	IpAddress            string             `json:"-" bson:"ipAddress"`
 	Country              string             `json:"country" bson:"country"`
 	AvatarId             int                `json:"avatarId" bson:"avatarId"`
 	FrameId              int                `json:"frameId" bson:"frameId"`
@@ -68,6 +69,10 @@ func (t TicketBanFindMatch) IsBanned() bool {
 
 func (u User) IsBanned() bool {
 	return u.Status == BANNED
+}
+
+func (u *User) SetPublicEmail() {
+	u.PublicEmail = u.Email
 }
 
 func (u *User) GetUserId() string {
