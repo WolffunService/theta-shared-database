@@ -25,8 +25,9 @@ type DBConfig struct {
 
 //MongoConfig new version
 type MongoConfig struct {
-	DbName        string
-	ConnectionUrl string
+	DbName            string
+	ConnectionUrl     string
+	MaxConnectionPool uint64
 }
 
 func defaultDB() *DBConfig {
@@ -50,7 +51,11 @@ func ConnectMongoWithConfig(dbConfig *MongoConfig, conf *Config) (context.Contex
 	config = conf
 	dbName = dbConfig.DbName
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	clientNew, err := NewClient(ctx, options.Client().ApplyURI(dbConfig.ConnectionUrl))
+	clientOption := options.Client().ApplyURI(dbConfig.ConnectionUrl)
+	if dbConfig.MaxConnectionPool > 0 {
+		clientOption.SetMaxPoolSize(dbConfig.MaxConnectionPool);
+	}
+	clientNew, err := NewClient(ctx, clientOption)
 	if err != nil {
 		panic(err)
 	}
@@ -60,7 +65,6 @@ func ConnectMongoWithConfig(dbConfig *MongoConfig, conf *Config) (context.Contex
 	log.Printf("[INFO] CONNECTED TO MONGO DB %s", dbName)
 	return ctx, client, cancel
 }
-
 
 func SetDefaultConfig(dbConfig *DBConfig, conf *Config) (context.Context, *mongo.Client, context.CancelFunc) {
 	if conf == nil {
