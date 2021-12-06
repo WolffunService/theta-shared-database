@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/inflection"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 	"reflect"
 )
 
@@ -46,3 +47,15 @@ func UpsertTrueOption() *options.UpdateOptions {
 	return &options.UpdateOptions{Upsert: &upsert}
 }
 
+func WriteConcernW0() *options.CollectionOptions {
+	return WriteConcern(0)
+}
+func WriteConcernW1() *options.CollectionOptions {
+	return WriteConcern(1)
+}
+
+func WriteConcern(w int) *options.CollectionOptions {
+	return &options.CollectionOptions{
+		WriteConcern: writeconcern.New(writeconcern.W(w)),
+	}
+}

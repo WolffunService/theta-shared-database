@@ -36,7 +36,7 @@ func AddListAvatar(ctx context.Context, userId string, avatarIds []int) error {
 }
 
 func updateOneUserItems(ctx context.Context, filter, update interface{}, opts ...*options.UpdateOptions) error {
-	col := mongodb.Coll(&useritemmodel.UserItems{})
+	col := mongodb.Coll(&useritemmodel.UserItems{}, mongodb.WriteConcernW1())
 	opts = append(opts, mongodb.UpsertTrueOption())
 	_, err := col.UpdateOne(ctx, filter, update, opts...)
 	return err
