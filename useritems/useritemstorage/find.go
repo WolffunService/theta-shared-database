@@ -14,6 +14,7 @@ func FindUserItemsById(ctx context.Context, userId string) (*useritemmodel.UserI
 	col := mongodb.Coll(userItems)
 	err := col.FindByIDWithCtx(ctx, userObjectId, userItems)
 	if err != nil {
+		userItems.ID = userObjectId
 		return userItems, err
 	}
 	fmt.Printf("Found a single document: %+v\n", userItems)
