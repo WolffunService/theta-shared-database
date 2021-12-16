@@ -8,5 +8,24 @@ func (UserItems) CollectionName() string {
 
 type UserItems struct {
 	mongodb.IDField `bson:",inline"`
-	Avatars []int  `bson:"avatars" json:"avatars"`
+	Avatars         []ItemModel `bson:"avatars" json:"avatars"`
 }
+
+type ItemModel struct {
+	ItemId   int      `bson:"itemId" json:"itemId"`
+	ItemType ItemType `bson:"itemType" json:"itemType"`
+	//Amount   int      `bson:"amount,omitempty" json:"amount,omitempty"`
+	NewItem bool `bson:"newItem" json:"newItem"`
+}
+
+func NewItems(itemType ItemType, itemId int, isNew bool) *ItemModel {
+	return &ItemModel{
+		itemId, itemType, isNew,
+	}
+}
+
+type ItemType int
+
+const (
+	AVATAR ItemType = iota
+)

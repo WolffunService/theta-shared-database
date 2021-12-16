@@ -2,6 +2,7 @@ package useritemstorage
 
 import (
 	"context"
+	"fmt"
 	"github.com/WolffunGame/theta-shared-database/common/util"
 	"github.com/WolffunGame/theta-shared-database/database/mongodb"
 	"github.com/WolffunGame/theta-shared-database/database/mongodb/field"
@@ -17,21 +18,43 @@ func UpdateUserItems(ctx context.Context, userItems *useritemmodel.UserItems) er
 
 func AddAvatar(ctx context.Context, userId string, avatarId int) error {
 	objectUserId := util.ObjectIDFromHex(userId)
-	filter := bson.M{field.ID: objectUserId}
+	filter := util.BsonAdd(nil, field.ID, objectUserId)
+	filter = util.BsonAdd(filter, fmt.Sprintf("avatars.%d", avatarId), bson.M{"$exists": false})
 	// update
 	update := bson.D{}
-	update = util.BsonPush(update, "avatars", avatarId)
+	update = util.BsonSet(update, fmt.Sprintf("avatars.%d", avatarId),
+		useritemmodel.NewItems(useritemmodel.AVATAR, avatarId, true))
 
 	return updateOneUserItems(ctx, filter, update)
 }
 
-func AddListAvatar(ctx context.Context, userId string, avatarIds []int) error {
+func AddListAvatar(ctx context.Context, userId string, avatarIds ...int) error {
+	if len(avatarIds) == 0 {
+		return fmt.Errorf("avatarIds is empty")
+	}
 	objectUserId := util.ObjectIDFromHex(userId)
-	filter := bson.M{field.ID: objectUserId}
+	filter := util.BsonAdd(nil, field.ID, objectUserId)
 	// update
 	update := bson.D{}
-	update = util.BsonPushMultiArr(update, "avatars", avatarIds)
+	for _, avatarId := range avatarIds {
+		filter = util.BsonAdd(filter, fmt.Sprintf("avatars.%d", avatarId), bson.M{"$exists": false})
+		update = util.BsonSet(update, fmt.Sprintf("avatars.%d", avatarId),
+			useritemmodel.NewItems(useritemmodel.AVATAR, avatarId, true))
+	}
 
+	return updateOneUserItems(ctx, filter, update)
+}
+
+func UpdateNewItem(ctx context.Context, userId string, itemId int, itemType useritemmodel.ItemType) error {
+	key := ""
+	switch itemType {
+	case useritemmodel.AVATAR:
+		key = "avatars"
+	}
+
+	objectUserId := util.ObjectIDFromHex(userId)
+	filter := bson.M{field.ID: objectUserId, fmt.Sprintf("%s.%d", key, itemId): bson.M{"$exists": true}}
+	update := util.BsonSet(nil, fmt.Sprintf("%s.%d.newItem", key, itemId), false)
 	return updateOneUserItems(ctx, filter, update)
 }
 

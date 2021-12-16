@@ -1,7 +1,11 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"github.com/WolffunGame/theta-shared-database/database/mongodb"
+	"github.com/WolffunGame/theta-shared-database/useritems/useritemmodel"
+	"github.com/WolffunGame/theta-shared-database/useritems/useritemstorage"
 )
 
 func main() {
@@ -18,4 +22,8 @@ func main() {
 	// var users []usermodel.User
 	// fmt.Println(col.FindByListID(oids, &users))
 	// fmt.Println(len(users))
+	//err := useritemstorage.AddAvatar(context.Background(), "61b9e6ed704751f713494eff", 1)
+	//err := useritemstorage.AddListAvatar(context.Background(), "61b9e6ed704751f713494eff", 2, 3)
+	err := useritemstorage.UpdateNewItem(context.Background(), "61b9e6ed704751f713494eff", 2, useritemmodel.AVATAR)
+	fmt.Println(err)
 }
