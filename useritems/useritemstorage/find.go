@@ -11,7 +11,7 @@ import (
 func FindUserItemsById(ctx context.Context, userId string) (*useritemmodel.UserItems, error) {
 	userItems := &useritemmodel.UserItems{}
 	userObjectId := util.ObjectIDFromHex(userId)
-	col := mongodb.Coll(userItems)
+	col := mongodb.CollRead(userItems)
 	err := col.FindByIDWithCtx(ctx, userObjectId, userItems)
 	if err != nil {
 		userItems.ID = userObjectId
