@@ -50,6 +50,8 @@ func UpdateNewItem(ctx context.Context, userId string, itemId int, itemType user
 	switch itemType {
 	case useritemmodel.AVATAR:
 		key = "avatars"
+	default:
+		return fmt.Errorf("itemType was not config %v", itemType)
 	}
 
 	objectUserId := util.ObjectIDFromHex(userId)
