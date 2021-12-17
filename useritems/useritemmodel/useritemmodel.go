@@ -8,7 +8,7 @@ func (UserItems) CollectionName() string {
 
 type UserItems struct {
 	mongodb.IDField `bson:",inline"`
-	Avatars         []ItemModel `bson:"avatars" json:"avatars"`
+	Avatars         map[int]ItemModel `bson:"avatars" json:"avatars"`
 }
 
 type ItemModel struct {
