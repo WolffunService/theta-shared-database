@@ -37,6 +37,9 @@ type User struct {
 	Referral             Referral           `json:"referral" bson:"referral"`
 	IsCreator            bool               `json:"isCreator" bson:"isCreator"`
 	BanReason            string             `json:"banReason,omitempty" bson:"banReason,omitempty"`
+
+	// TODO: tmp field
+	HasNewAvatar bool `json:"hasNewAvatar" bson:"hasNewAvatar"`
 }
 
 type Referral struct {
