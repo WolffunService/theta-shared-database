@@ -88,7 +88,7 @@ func Consume(ch *amqp.Channel, q amqp.Queue, opt Option) <-chan amqp.Delivery {
 	return messages
 }
 
-func HandleMessages(qName string, messages <-chan amqp.Delivery, f func(d []byte) error) {
+func HandleMessages(qName string,isProduction bool, messages <-chan amqp.Delivery, f func(d []byte) error) {
 	forever := make(chan bool)
 
 	go func() {
@@ -98,17 +98,21 @@ func HandleMessages(qName string, messages <-chan amqp.Delivery, f func(d []byte
 
 			if err != nil {
 				fmt.Printf("[ERR] ERROR WHEN CONSUME A MESSAGE OF %s: %s", qName, d.Body)
-				errReject := d.Reject(true)
+				errReject := d.Reject(isProduction) //không phải production thì không cần requeue
 
 				if errReject != nil {
 					fmt.Printf("[ERR] ERROR REQUEUE MESSAGE OF %s: %s", qName, d.Body)
 				}
 			} else {
-				errAck := d.Ack(false)
+				//Không phải production thì sẽ autoAck
+				if isProduction {
+					errAck := d.Ack(false)
 
-				if errAck != nil {
-					fmt.Printf("[ERR] ERROR SENT POSITIVE ACK MESSAGE OF %s: %s", qName, d.Body)
+					if errAck != nil {
+						fmt.Printf("[ERR] ERROR SENT POSITIVE ACK MESSAGE OF %s: %s", qName, d.Body)
+					}
 				}
+
 			}
 		}
 	}()
