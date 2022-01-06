@@ -38,7 +38,7 @@ func (coll *Collection) FindByListID(oids []primitive.ObjectID, results interfac
 	return coll.FindByListIDWithCtx(ctx(), oids, results)
 }
 func (coll *Collection) FindByListIDWithCtx(ctx context.Context, oids []primitive.ObjectID, results interface{}) error {
-	return findMany(ctx, coll, bson.M{field.ID:  bson.M{"$in": oids}}, results)
+	return findMany(ctx, coll, bson.M{field.ID: bson.M{"$in": oids}}, results)
 }
 
 // First method search and return first document of search result.
@@ -51,26 +51,33 @@ func (coll *Collection) FirstWithCtx(ctx context.Context, filter interface{}, mo
 	return first(ctx, coll, filter, model, opts...)
 }
 
-func (coll *Collection) FindByIDAndUpdate(id interface{},update interface{} , model Model) error {
+func (coll *Collection) FindByIDAndUpdate(id interface{}, update interface{}, model Model) error {
 	return coll.FindByIDAndUpdateWithCtx(ctx(), id, update, model)
 }
-func (coll *Collection) FindByIDAndUpdateWithCtx(ctx context.Context, id interface{},update interface{} , model Model) error {
-	return firstAndUpdate(ctx, coll, bson.M{field.ID: id},update, model)
+func (coll *Collection) FindByIDAndUpdateWithCtx(ctx context.Context, id interface{}, update interface{}, model Model) error {
+	return firstAndUpdate(ctx, coll, bson.M{field.ID: id}, update, model)
 }
+
 //
 func (coll *Collection) FirstAndUpdate(filter interface{}, update interface{}, model Model, opts ...*options.FindOneAndUpdateOptions) error {
 	return coll.FirstAndUpdateWithCtx(ctx(), filter, update, model, opts...)
 }
 
 //
-func (coll *Collection) FirstAndUpdateWithCtx(ctx context.Context, filter interface{},update interface{}, model Model, opts ...*options.FindOneAndUpdateOptions) error {
+func (coll *Collection) FirstAndUpdateWithCtx(ctx context.Context, filter interface{}, update interface{}, model Model, opts ...*options.FindOneAndUpdateOptions) error {
 	return firstAndUpdate(ctx, coll, filter, update, model, opts...)
 }
 
-// Count method insert count documents
-func (coll *Collection) Count(filter interface{},opts ...*options.CountOptions) (int64,error) {
-	return count(ctx(),coll,filter ,opts...)
+// Count method count documents
+func (coll *Collection) Count(filter interface{}, opts ...*options.CountOptions) (int64, error) {
+	return count(ctx(), coll, filter, opts...)
 }
+
+// CountWithCtx method count documents with context
+func (coll *Collection) CountWithCtx(ctx context.Context, filter interface{}, opts ...*options.CountOptions) (int64, error) {
+	return count(ctx, coll, filter, opts...)
+}
+
 // Create method insert new model into database.
 func (coll *Collection) Create(model Model, opts ...*options.InsertOneOptions) error {
 	return coll.CreateWithCtx(ctx(), model, opts...)
@@ -80,7 +87,6 @@ func (coll *Collection) Create(model Model, opts ...*options.InsertOneOptions) e
 func (coll *Collection) CreateWithCtx(ctx context.Context, model Model, opts ...*options.InsertOneOptions) error {
 	return create(ctx, coll, model, opts...)
 }
-
 
 // CreateMany method insert many new model into database.
 func (coll *Collection) CreateMany(documents []interface{}, opts ...*options.InsertManyOptions) error {
@@ -123,14 +129,14 @@ func (coll *Collection) DeleteWithCtx(ctx context.Context, model Model) error {
 // SimpleFindByID method find a doc and decode it to model, otherwise return error.
 // id field can be any value that if passed to `PrepareID` method, it return
 // valid id(e.g string,bson.ObjectId).
-func (coll *Collection) SimpleFindByID(id interface{}, results interface{},opts ...*options.FindOptions) error {
+func (coll *Collection) SimpleFindByID(id interface{}, results interface{}, opts ...*options.FindOptions) error {
 	return coll.SimpleFindByIDWithCtx(ctx(), id, results, opts...)
 }
 
 // SimpleFindByIDWithCtx method find list doc and decode it to model, otherwise return error.
 // id field can be any value that if passed to `PrepareID` method, it return
 // valid id(e.g string,bson.ObjectId).
-func (coll *Collection) SimpleFindByIDWithCtx(ctx context.Context, id interface{}, results interface{},opts ...*options.FindOptions) error {
+func (coll *Collection) SimpleFindByIDWithCtx(ctx context.Context, id interface{}, results interface{}, opts ...*options.FindOptions) error {
 	return coll.SimpleFindWithCtx(ctx, results, bson.M{field.ID: id}, opts...)
 }
 
