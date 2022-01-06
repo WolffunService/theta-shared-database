@@ -38,12 +38,12 @@ func connect(url string, exchange string) (*amqp.Connection, *amqp.Channel) {
 
 func DeclareQueue(ch *amqp.Channel, name string, exchange string, durable bool) amqp.Queue {
 	q, err := ch.QueueDeclare(
-		name, // name
-		durable,                         // durable
-		false,                         // delete when unused
-		false,                         // exclusive
-		false,                         // no-wait
-		nil,                           // arguments
+		name,    // name
+		durable, // durable
+		false,   // delete when unused
+		false,   // exclusive
+		false,   // no-wait
+		nil,     // arguments
 	)
 	failOnError(err, "[ERROR] FAILED TO DECLARE A QUEUE")
 	err = ch.QueueBind(
@@ -58,7 +58,7 @@ func DeclareQueue(ch *amqp.Channel, name string, exchange string, durable bool) 
 	return q
 }
 
-func Publish(ch *amqp.Channel, q amqp.Queue, data []byte) error  {
+func Publish(ch *amqp.Channel, q amqp.Queue, data []byte) error {
 	err := ch.Publish(
 		"",     // exchange
 		q.Name, // routing key
@@ -76,13 +76,13 @@ func Publish(ch *amqp.Channel, q amqp.Queue, data []byte) error  {
 func Consume(ch *amqp.Channel, q amqp.Queue, opt Option) <-chan amqp.Delivery {
 	log.Printf("[INFO] CONSUMING " + q.Name)
 	messages, err := ch.Consume(
-		q.Name, // queue
-		q.Name, // consumer
+		q.Name,        // queue
+		q.Name,        // consumer
 		opt.AutoACK,   // auto-ack
-		opt.Exclusive,  // exclusive
-		opt.NoLocal,  // no-local
-		opt.NoWait,  // no-wait
-		opt.Args,    // args
+		opt.Exclusive, // exclusive
+		opt.NoLocal,   // no-local
+		opt.NoWait,    // no-wait
+		opt.Args,      // args
 	)
 	failOnError(err, "[ERROR] FAILED TO REGISTER A CONSUMER")
 	return messages
@@ -122,12 +122,12 @@ func failOnError(err error, msg string) {
 	}
 }
 
-type Option struct{
-	AutoACK bool
+type Option struct {
+	AutoACK   bool
 	Exclusive bool
-	NoLocal bool
-	NoWait bool
-	Args amqp.Table
+	NoLocal   bool
+	NoWait    bool
+	Args      amqp.Table
 }
 
 var DefaultOption = Option{

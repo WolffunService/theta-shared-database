@@ -106,7 +106,6 @@ func CollectionByNameWithMode(name string, mode readpref.Mode) *Collection {
 	} else {
 		return NewCollection(db, name)
 	}
-
 }
 
 // DefaultConfigs return you'r default mongodb configs.

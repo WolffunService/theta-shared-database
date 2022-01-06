@@ -1,6 +1,7 @@
 package mongodb
 
 import (
+	"fmt"
 	"github.com/WolffunGame/theta-shared-database/database/mongodb/utils"
 	"github.com/jinzhu/inflection"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -11,15 +12,27 @@ import (
 
 // Coll return model's collection.
 func Coll(m Model, opts ...*options.CollectionOptions) *Collection {
-
 	if collGetter, ok := m.(CollectionGetter); ok {
 		return collGetter.Collection()
 	}
 	return CollectionByName(CollName(m), opts...)
 }
 
-func CollRead(m Model) *Collection {
-	return CollWithMode(m, readpref.SecondaryPreferredMode)
+func CollRead(m Model, opts ...*options.CollectionOptions) *Collection {
+	readPref, err := readpref.New(readpref.NearestMode)
+
+	if err != nil {
+		fmt.Println("Error: errInvalidReadPreference")
+		return nil
+	}
+
+	colOption := options.CollectionOptions{
+		ReadPreference: readPref,
+	}
+
+	opts = append(opts, &colOption)
+
+	return Coll(m, opts...)
 }
 
 func CollWithMode(m Model, mode readpref.Mode) *Collection {

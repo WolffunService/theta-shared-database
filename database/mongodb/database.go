@@ -53,7 +53,7 @@ func ConnectMongoWithConfig(dbConfig *MongoConfig, conf *Config) (context.Contex
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	clientOption := options.Client().ApplyURI(dbConfig.ConnectionUrl)
 	if dbConfig.MaxConnectionPool > 0 {
-		clientOption.SetMaxPoolSize(dbConfig.MaxConnectionPool);
+		clientOption.SetMaxPoolSize(dbConfig.MaxConnectionPool)
 	}
 	clientNew, err := NewClient(ctx, clientOption)
 	if err != nil {
