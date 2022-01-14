@@ -37,6 +37,7 @@ type User struct {
 	Referral             Referral           `json:"referral" bson:"referral"`
 	IsCreator            bool               `json:"isCreator" bson:"isCreator"`
 	BanReason            string             `json:"banReason,omitempty" bson:"banReason,omitempty"`
+	LastTimeBattle       time.Time          `json:"lastTimeBattle" bson:"lastTimeBattle"`
 
 	// TODO: tmp field
 	HasNewAvatar bool `json:"hasNewAvatar" bson:"hasNewAvatar"`
