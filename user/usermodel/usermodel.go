@@ -38,6 +38,7 @@ type User struct {
 	IsCreator            bool               `json:"isCreator" bson:"isCreator"`
 	BanReason            string             `json:"banReason,omitempty" bson:"banReason,omitempty"`
 	LastTimeBattle       time.Time          `json:"lastTimeBattle" bson:"lastTimeBattle"`
+	IsCheckBehaviorPoint bool               `json:"isCheckBehaviorPoint" bson:"isCheckBehaviorPoint"`
 
 	// TODO: tmp field
 	HasNewAvatar bool `json:"hasNewAvatar" bson:"hasNewAvatar"`
