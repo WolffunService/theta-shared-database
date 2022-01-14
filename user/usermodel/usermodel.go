@@ -47,6 +47,7 @@ type User struct {
 type Referral struct {
 	NumInviteFriends      int32  `json:"numInviteFriends" bson:"numInviteFriends"`
 	TotalNumInviteFriends int32  `json:"totalNumInviteFriends" bson:"totalNumInviteFriends"`
+	TotalClaimed          int32  `json:"-" bson:"totalClaimed"`
 	ReferralID            string `json:"referralID" bson:"referralID"`
 	AcceptAt              int64  `json:"acceptAt" bson:"acceptAt"`
 	Status                bool   `json:"status" bson:"status"`
