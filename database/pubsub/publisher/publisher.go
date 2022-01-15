@@ -46,7 +46,9 @@ func PublishMessage(ctx context.Context, topicId string, rawMessage []byte) erro
 	}
 	result := clientTopic.Publish(ctx, &message)
 	msgId, err := result.Get(ctx)
-	log.Printf("Publish message successfully. MsgID = %v | Error = %v", msgId, err)
+	if err != nil {
+		log.Printf("Publish message successfully. MsgID = %v | Error = %v", msgId, err)
+	}
 	return err
 }
 
