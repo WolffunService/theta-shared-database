@@ -36,6 +36,7 @@ type User struct {
 	TicketBanFindMatch   TicketBanFindMatch `json:"-" bson:"ticketBanFindMatch"`
 	Referral             Referral           `json:"referral" bson:"referral"`
 	IsCreator            bool               `json:"isCreator" bson:"isCreator"`
+	IsCreatorProgram     bool               `json:"isCreatorProgram" bson:"isCreatorProgram"`
 	BanReason            string             `json:"banReason,omitempty" bson:"banReason,omitempty"`
 	LastTimeBattle       time.Time          `json:"lastTimeBattle" bson:"lastTimeBattle"`
 	IsCheckBehaviorPoint bool               `json:"isCheckBehaviorPoint" bson:"isCheckBehaviorPoint"`
