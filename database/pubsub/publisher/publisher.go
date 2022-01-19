@@ -16,6 +16,7 @@ func InitConfiguration(ctx context.Context, projectID string, opts ...option.Cli
 	var err error
 	client, err = pubsub.NewClient(ctx, projectID, opts...)
 	if err != nil {
+		log.Printf("[InitConfiguration] [ERROR] pubsub.NewClient, err: %+v", err.Error())
 		return nil, err
 	}
 
@@ -38,6 +39,7 @@ func PullTopic(ctx context.Context, topicId string) error {
 func PublishMessage(ctx context.Context, topicId string, rawMessage []byte) error {
 	clientTopic, exist := clientMapper[topicId]
 	if !exist {
+		log.Printf("[PublishMessage] [ERROR] not found client for topic, clientMapper: %+v", clientMapper)
 		return fmt.Errorf("not found client for topic %v", topicId)
 	}
 
