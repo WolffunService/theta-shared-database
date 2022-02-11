@@ -127,12 +127,12 @@ const (
 
 func (u *User) GetBehaviorStatus() BehaviorStatus {
 	// Behavior Point
-	// 70 - 100: EXCELLENT
-	// 50 - 69: GOOD
+	// 80 - 100: EXCELLENT
+	// 50 - 79: GOOD
 	// < 50: BAD
 
 	bPoint := u.GetBehaviorPoint()
-	if bPoint >= 70 {
+	if bPoint >= 80 {
 		return EXCELLENT
 	}
 	if bPoint >= 50 {
