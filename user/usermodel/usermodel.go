@@ -40,6 +40,7 @@ type User struct {
 	BanReason            string             `json:"banReason,omitempty" bson:"banReason,omitempty"`
 	LastTimeBattle       time.Time          `json:"lastTimeBattle" bson:"lastTimeBattle"`
 	IsCheckBehaviorPoint bool               `json:"isCheckBehaviorPoint" bson:"isCheckBehaviorPoint"`
+	IsBot                bool               `json:"isBot,omitempty" bson:"isBot,omitempty"`
 
 	// TODO: tmp field
 	HasNewAvatar bool `json:"hasNewAvatar" bson:"hasNewAvatar"`
