@@ -21,10 +21,10 @@ func Recover() {
 	}
 }
 
-func PushCustom(topicId string, eventName string, data ...interface{}) {
+func PushCustomAnalytic(topicId string, eventName string, data ...interface{}) {
 	go func() {
 		defer Recover()
-		event, err := CreateSimpleEvent(eventName, data...)
+		event, err := CreateSimpleAnalyticEvent(eventName, data...)
 		if err != nil {
 			log.Println("[error][analytic] cannot marshal event special event reward")
 			return
@@ -34,7 +34,7 @@ func PushCustom(topicId string, eventName string, data ...interface{}) {
 	}()
 }
 
-func CreateSimpleEvent(eventName string, data ...interface{}) (*simpleEventModel, error) {
+func CreateSimpleAnalyticEvent(eventName string, data ...interface{}) (*simpleEventModel, error) {
 	eventParams := []*auditproto.KeyPair{}
 	metadata := map[string]string{}
 
