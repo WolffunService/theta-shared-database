@@ -59,7 +59,7 @@ func CreateSimpleAnalyticEvent(eventName string, data ...interface{}) (*simpleEv
 			if k != "metadata" {
 				eventParams = append(eventParams, &auditprotobuf.KeyPair2{
 					Key:   k,
-					Value: v.(string),
+					Value: fmt.Sprintf("%v", v),
 				})
 			} else {
 				x := v.(map[string]interface{})
