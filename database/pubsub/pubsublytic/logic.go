@@ -3,6 +3,7 @@ package pubsublytic
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"time"
 
@@ -63,7 +64,7 @@ func CreateSimpleAnalyticEvent(eventName string, data ...interface{}) (*simpleEv
 			} else {
 				x := v.(map[string]interface{})
 				for k2, v2 := range x {
-					metadata[k2] = v2.(string)
+					metadata[k2] = fmt.Sprintf("%v", v2)
 				}
 			}
 		}
