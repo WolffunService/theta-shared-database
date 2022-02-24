@@ -12,7 +12,7 @@ import (
 )
 
 type simpleEventModel struct {
-	Model *auditprotobuf.SimpleEvent
+	Model *auditprotobuf.SimpleEvent2
 }
 
 func Recover() {
@@ -35,7 +35,7 @@ func PushCustomAnalytic(topicId string, eventName string, data ...interface{}) {
 }
 
 func CreateSimpleAnalyticEvent(eventName string, data ...interface{}) (*simpleEventModel, error) {
-	eventParams := []*auditprotobuf.KeyPair{}
+	eventParams := []*auditprotobuf.KeyPair2{}
 	metadata := map[string]string{}
 
 	for i := 0; i < len(data); i++ {
@@ -56,7 +56,7 @@ func CreateSimpleAnalyticEvent(eventName string, data ...interface{}) (*simpleEv
 		// loop through all field to tách metadata với analytic fields
 		for k, v := range eventParamsMap {
 			if k != "metadata" {
-				eventParams = append(eventParams, &auditprotobuf.KeyPair{
+				eventParams = append(eventParams, &auditprotobuf.KeyPair2{
 					Key:   k,
 					Value: v.(string),
 				})
@@ -70,8 +70,8 @@ func CreateSimpleAnalyticEvent(eventName string, data ...interface{}) (*simpleEv
 	}
 
 	return &simpleEventModel{
-		Model: &auditprotobuf.SimpleEvent{
-			Event: &auditprotobuf.SimpleEventContent{
+		Model: &auditprotobuf.SimpleEvent2{
+			Event: &auditprotobuf.SimpleEventContent2{
 				Timestamp:   time.Now().Unix(),
 				EventName:   eventName,
 				EventParams: eventParams,
