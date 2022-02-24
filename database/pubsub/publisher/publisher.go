@@ -7,9 +7,14 @@ import (
 
 	"cloud.google.com/go/pubsub"
 	"github.com/WolffunGame/theta-shared-database/database/pubsub/mpubsub"
+	"google.golang.org/api/option"
 )
 
 var clientMapper = make(map[string]*pubsub.Topic)
+
+func InitializeClient(ctx context.Context, projectID string, opts ...option.ClientOption) (*pubsub.Client, error) {
+	return mpubsub.InitializeClient(ctx, projectID, opts...)
+}
 
 func Validate(ctx context.Context, subId string, topicId string) error {
 	topic := mpubsub.Client.Topic(topicId)

@@ -8,9 +8,14 @@ import (
 
 	"cloud.google.com/go/pubsub"
 	"github.com/WolffunGame/theta-shared-database/database/pubsub/mpubsub"
+	"google.golang.org/api/option"
 )
 
 var subscriberMap = make(map[string]*Subscriber)
+
+func InitializeClient(ctx context.Context, projectID string, opts ...option.ClientOption) (*pubsub.Client, error) {
+	return mpubsub.InitializeClient(ctx, projectID, opts...)
+}
 
 func Subscribe(ctx context.Context, subId string, fn HandleMsg, opts ...SubscriberOption) error {
 	if _, exist := subscriberMap[subId]; exist {
