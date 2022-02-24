@@ -6,13 +6,13 @@ import (
 	"log"
 	"time"
 
-	"github.com/WolffunGame/theta-shared-database/database/pubsub/auditproto"
+	"github.com/WolffunGame/theta-shared-database/database/pubsub/auditprotobuf"
 	"github.com/WolffunGame/theta-shared-database/database/pubsub/publisher"
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
 type simpleEventModel struct {
-	Model *auditproto.SimpleEvent
+	Model *auditprotobuf.SimpleEvent
 }
 
 func Recover() {
@@ -35,7 +35,7 @@ func PushCustomAnalytic(topicId string, eventName string, data ...interface{}) {
 }
 
 func CreateSimpleAnalyticEvent(eventName string, data ...interface{}) (*simpleEventModel, error) {
-	eventParams := []*auditproto.KeyPair{}
+	eventParams := []*auditprotobuf.KeyPair{}
 	metadata := map[string]string{}
 
 	for i := 0; i < len(data); i++ {
@@ -56,7 +56,7 @@ func CreateSimpleAnalyticEvent(eventName string, data ...interface{}) (*simpleEv
 		// loop through all field to tách metadata với analytic fields
 		for k, v := range eventParamsMap {
 			if k != "metadata" {
-				eventParams = append(eventParams, &auditproto.KeyPair{
+				eventParams = append(eventParams, &auditprotobuf.KeyPair{
 					Key:   k,
 					Value: v.(string),
 				})
@@ -70,8 +70,8 @@ func CreateSimpleAnalyticEvent(eventName string, data ...interface{}) (*simpleEv
 	}
 
 	return &simpleEventModel{
-		Model: &auditproto.SimpleEvent{
-			Event: &auditproto.SimpleEventContent{
+		Model: &auditprotobuf.SimpleEvent{
+			Event: &auditprotobuf.SimpleEventContent{
 				Timestamp:   time.Now().Unix(),
 				EventName:   eventName,
 				EventParams: eventParams,

@@ -4,7 +4,7 @@
 // 	protoc        v3.6.1
 // source: submodules/theta-shared-model/proto/audit.proto
 
-package auditproto
+package auditprotobuf
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
