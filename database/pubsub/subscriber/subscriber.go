@@ -13,7 +13,7 @@ import (
 
 var subscriberMap = make(map[string]*Subscriber)
 
-func InitializeClient(ctx context.Context, projectID string, opts ...option.ClientOption) (*pubsub.Client, error) {
+func InitConfiguration(ctx context.Context, projectID string, opts ...option.ClientOption) (*pubsub.Client, error) {
 	return mpubsub.InitializeClient(ctx, projectID, opts...)
 }
 
