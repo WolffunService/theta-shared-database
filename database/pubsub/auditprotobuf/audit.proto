@@ -5,18 +5,18 @@ package commonproto;
 
 option go_package ="./database/pubsub/auditprotobuf";
 
-message SimpleEvent {
-  SimpleEventContent event = 1;
+message SimpleEvent2 {
+  SimpleEventContent2 event = 1;
   map<string, string> metadata = 2;
 }
 
-message SimpleEventContent {
+message SimpleEventContent2 {
   string eventName = 1;
   int64 timestamp = 2;
-  repeated KeyPair eventParams = 3;
+  repeated KeyPair2 eventParams = 3;
 }
 
-message KeyPair {
+message KeyPair2 {
   string key = 1;
   string value = 2;
 }
