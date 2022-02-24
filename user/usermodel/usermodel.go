@@ -111,6 +111,16 @@ const (
 	BANNED UserStatus = -1
 )
 
+func (status UserStatus) String() string {
+	switch status {
+	case ACTIVE:
+		return "ACTIVE"
+	case BANNED:
+		return "BANNED"
+	}
+	return "Unknown"
+}
+
 type UserProfile struct {
 	Level      int `bson:"level" json:"level"`
 	XP         int `bson:"xp" json:"xp"`
@@ -152,4 +162,26 @@ func (u *User) GetBanMultiple() int {
 	default:
 		return 1
 	}
+}
+
+func (UserMinimal) CollectionName() string {
+	return "Users"
+}
+
+type UserMinimal struct {
+	mongodb.DefaultModel `bson:",inline"`
+	UserName             string     `json:"username" bson:"username"`
+	PublicEmail          string     `json:"email,omitempty" bson:"-"`
+	Status               UserStatus `json:"status" bson:"status"`
+	Country              string     `json:"country" bson:"country"`
+	AvatarId             int        `json:"avatarId" bson:"avatarId"`
+	FrameId              int        `json:"frameId" bson:"frameId"`
+}
+
+func (u UserMinimal) IsBanned() bool {
+	return u.Status == BANNED
+}
+
+func (u *UserMinimal) Id() string {
+	return u.ID.(primitive.ObjectID).Hex()
 }
