@@ -23,6 +23,31 @@ func InitConfiguration(ctx context.Context, projectID string, opts ...option.Cli
 	return client, err
 }
 
+func Validate(ctx context.Context, subId string, topicId string) error {
+	topic := client.Topic(topicId)
+	if exist, err := topic.Exists(ctx); err != nil {
+		return err
+	} else if !exist {
+		_, err := client.CreateTopic(ctx, topicId)
+		if err != nil {
+			return err
+		}
+	}
+
+	sub := client.Subscription(subId)
+	if exist, err := sub.Exists(ctx); err != nil {
+		return err
+	} else if !exist {
+		if _, err := client.CreateSubscription(ctx, subId, pubsub.SubscriptionConfig{
+			Topic: topic,
+		}); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func PullTopic(ctx context.Context, topicId string) error {
 	topic := client.Topic(topicId)
 	exist, err := topic.Exists(ctx)
