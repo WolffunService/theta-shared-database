@@ -11,3 +11,11 @@ func ObjectIDFromHex(s string) primitive.ObjectID {
 	}
 	return objID
 }
+
+func GetObjectIDFromHex(s string) (primitive.ObjectID, error) {
+	objID, err := primitive.ObjectIDFromHex(s)
+	if err != nil {
+		return primitive.ObjectID{}, err
+	}
+	return objID, nil
+}
