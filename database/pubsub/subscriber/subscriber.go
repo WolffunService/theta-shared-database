@@ -85,8 +85,12 @@ func BlockedSubscribe(ctx context.Context, subId string, fn HandleMsg, opts ...S
 	return subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
 		err := fn(msg.Data)
 
-		if err != nil && !conf.AckSuccessOnly {
-			fmt.Println("[pubsub] failed message", subId, err)
+		if err != nil {
+			if !conf.AckSuccessOnly {
+				fmt.Println("[pubsub] failed message", subId, err)
+				msg.Ack()
+			}
+		} else {
 			msg.Ack()
 		}
 	})
