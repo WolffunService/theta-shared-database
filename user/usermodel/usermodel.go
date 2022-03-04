@@ -59,12 +59,19 @@ type PlayerStatistic struct {
 	Battle        int32 `json:"battle" bson:"battle"`
 	Victory       int32 `json:"victory" bson:"victory"`
 	Streak        int32 `json:"streak" bson:"streak"`
-	CurStreak     int32 `json:"-" bson:"curStreak"`
+	CurStreak     int32 `json:"curStreak" bson:"curStreak"`
 	Triple        int32 `json:"triple" bson:"triple"`
 	Mega          int32 `json:"mega" bson:"mega"`
 	Mvp           int32 `json:"mvp" bson:"mvp"`
 	Hero          int32 `json:"hero" bson:"hero"`
 	BehaviorPoint int32 `json:"behaviorPoint" bson:"behaviorPoint"`
+
+	VictorySeason   int32 `json:"-" bson:"victorySeason"`
+	StreakSeason    int32 `json:"-" bson:"streakSeason"`
+	CurStreakSeason int32 `json:"-" bson:"curStreakSeason"`
+	TripleSeason    int32 `json:"-" bson:"tripleSeason"`
+	MegaSeason      int32 `json:"-" bson:"megaSeason"`
+	MvpSeason       int32 `json:"-" bson:"mvpSeason"`
 }
 
 type TicketBanFindMatch struct {
