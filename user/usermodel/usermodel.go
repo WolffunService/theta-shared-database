@@ -178,7 +178,6 @@ func (UserMinimal) CollectionName() string {
 type UserMinimal struct {
 	mongodb.DefaultModel `bson:",inline"`
 	UserName             string     `json:"username" bson:"username"`
-	PublicEmail          string     `json:"email,omitempty" bson:"-"`
 	Status               UserStatus `json:"status" bson:"status"`
 	Country              string     `json:"country" bson:"country"`
 	AvatarId             int        `json:"avatarId" bson:"avatarId"`
