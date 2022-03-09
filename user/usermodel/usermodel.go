@@ -111,6 +111,20 @@ func (u *User) GetBehaviorPoint() int32 {
 	return 100 - u.PlayerStatistic.BehaviorPoint
 }
 
+func (u *User) Minimal() *UserMinimal {
+	return &UserMinimal{
+		DefaultModel: u.DefaultModel,
+		UserName:     u.UserName,
+		Status:       u.Status,
+		Country:      u.Country,
+		AvatarId:     u.AvatarId,
+		FrameId:      u.FrameId,
+
+		UserProfile:     u.UserProfile,
+		PlayerStatistic: u.PlayerStatistic,
+	}
+}
+
 type UserStatus int
 
 const (
