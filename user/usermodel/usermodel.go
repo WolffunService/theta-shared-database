@@ -183,6 +183,9 @@ type UserMinimal struct {
 	Country              string     `json:"country" bson:"country"`
 	AvatarId             int        `json:"avatarId" bson:"avatarId"`
 	FrameId              int        `json:"frameId" bson:"frameId"`
+
+	UserProfile     UserProfile     `json:"userProfile" bson:"userProfile"`
+	PlayerStatistic PlayerStatistic `json:"playerStatistic" bson:"playerStatistic"`
 }
 
 func (u UserMinimal) IsBanned() bool {
