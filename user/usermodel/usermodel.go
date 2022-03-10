@@ -74,6 +74,15 @@ type PlayerStatistic struct {
 	MvpSeason       int32 `json:"-" bson:"mvpSeason"`
 }
 
+func (p *PlayerStatistic) ResetSeason() {
+	p.VictorySeason = 0
+	p.StreakSeason = 0
+	p.CurStreakSeason = 0
+	p.TripleSeason = 0
+	p.MegaSeason = 0
+	p.MvpSeason = 0
+}
+
 type TicketBanFindMatch struct {
 	NumBans     int   `json:"numBans" bson:"numBans"`
 	ExpiredTime int64 `json:"expiredTime" bson:"expiredTime"`
