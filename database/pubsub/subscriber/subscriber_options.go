@@ -8,6 +8,6 @@ type SubscriberOption func(*dynamicConfig)
 
 func AckFailedMessage() SubscriberOption {
 	return func(dc *dynamicConfig) {
-		dc.AckSuccessOnly = false
+		dc.AckSuccessOnly = true
 	}
 }
