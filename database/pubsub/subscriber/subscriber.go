@@ -96,6 +96,47 @@ func BlockedSubscribe(ctx context.Context, subId string, fn HandleMsg, opts ...S
 	})
 }
 
+func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...SubscriberOption) error {
+	if _, exist := subscriberMap[subId]; exist {
+		log.Printf("%v have been existed in keys map", subId)
+		return nil
+	}
+
+	sub := mpubsub.Client.Subscription(subId)
+	if ok, err := sub.Exists(ctx); !ok || err != nil {
+		fmt.Println("Cannot subscribe to subscription", subId, ok, err)
+		return errors.New("something wrong with subscription")
+	}
+
+	var subscriber = &Subscriber{}
+	subscriberMap[subId] = subscriber
+	ctxChild, cancel := context.WithCancel(ctx)
+
+	subscriber.Subscription = sub
+	subscriber.CancelFunc = cancel
+
+	// apply options
+	conf := &dynamicConfig{}
+	for _, v := range opts {
+		v(conf)
+	}
+
+	go subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
+		err := fn(msg)
+
+		if err != nil {
+			if !conf.AckSuccessOnly {
+				fmt.Println("[pubsub] failed message", subId, err)
+				msg.Ack()
+			}
+		} else {
+			msg.Ack()
+		}
+	})
+
+	return nil
+}
+
 func CloseConnection(subID string) {
 	subscriber, exist := subscriberMap[subID]
 	if exist {
