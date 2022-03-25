@@ -49,6 +49,8 @@ func Subscribe(ctx context.Context, subId string, fn HandleMsg, opts ...Subscrib
 			if !conf.AckSuccessOnly {
 				fmt.Println("[pubsub] failed message", subId, err)
 				msg.Ack()
+			} else {
+				msg.Nack()
 			}
 		} else {
 			msg.Ack()
@@ -89,6 +91,8 @@ func BlockedSubscribe(ctx context.Context, subId string, fn HandleMsg, opts ...S
 			if !conf.AckSuccessOnly {
 				fmt.Println("[pubsub] failed message", subId, err)
 				msg.Ack()
+			} else {
+				msg.Nack()
 			}
 		} else {
 			msg.Ack()
@@ -128,6 +132,8 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 			if !conf.AckSuccessOnly {
 				fmt.Println("[pubsub] failed message", subId, err)
 				msg.Ack()
+			} else {
+				msg.Nack()
 			}
 		} else {
 			msg.Ack()
