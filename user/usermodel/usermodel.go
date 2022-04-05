@@ -21,6 +21,7 @@ type User struct {
 	NumChangeName        int                `json:"numChangeName" bson:"numChangeName"`
 	Status               UserStatus         `json:"status" bson:"status"`
 	Address              string             `json:"address" bson:"address"`
+	AddressConnectTime   time.Time          `json:"addressConnectTime" bson:"addressConnectTime"`
 	Nonce                int                `json:"-" bson:"nonce"`
 	CanClaimFreeHero     bool               `json:"canClaimFreeHero" bson:"canClaimFreeHero"`
 	CanClaimBetaReward   bool               `json:"canClaimBetaReward" bson:"canClaimBetaReward"`
