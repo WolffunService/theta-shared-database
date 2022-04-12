@@ -82,6 +82,40 @@ func CreateSimpleAnalyticEvent(eventName string, data ...interface{}) (*simpleEv
 	}, nil
 }
 
+func CreateSimpleAnalyticEventV2(eventName string, data ...interface{}) (*Analytic, error) {
+	eventParams := []*auditprotobuf.KeyPair2{}
+
+	for i := 0; i < len(data); i++ {
+		eventParamsMap := map[string]interface{}{}
+
+		// marshal fk struct to json
+		bytes, err := json.Marshal(data[i])
+		if err != nil {
+			return nil, err
+		}
+
+		// unmarshal json to map[string]string
+		err = json.Unmarshal(bytes, &eventParamsMap)
+		if err != nil {
+			return nil, err
+		}
+
+		// loop through all field to collect analytic fields
+		for k, v := range eventParamsMap {
+			eventParams = append(eventParams, &auditprotobuf.KeyPair2{
+				Key:   k,
+				Value: fmt.Sprintf("%v", v),
+			})
+		}
+	}
+
+	return &Analytic{
+		Timestamp:    time.Now().Unix(),
+		EventName:    eventName,
+		AnalyticData: eventParams,
+	}, nil
+}
+
 func (s *simpleEventModel) Push(ctx context.Context, topicId string) {
 	if msg, err := protojson.Marshal(s.Model); err == nil {
 		publisher.PublishMessage(ctx, topicId, msg)
