@@ -128,6 +128,6 @@ func (s *Auditlytic) Push(ctx context.Context, topicId string) {
 	if msg, err := json.Marshal(*s); err == nil {
 		publisher.PublishMessage(ctx, topicId, msg)
 	} else {
-		log.Println("[error][analytic] cannot write event for", topicId)
+		log.Println("[error][pubsub] cannot publish event for", topicId)
 	}
 }
