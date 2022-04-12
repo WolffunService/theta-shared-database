@@ -82,7 +82,7 @@ func CreateSimpleAnalyticEvent(eventName string, data ...interface{}) (*simpleEv
 	}, nil
 }
 
-func CreateSimpleAnalyticEventV2(eventName string, data ...interface{}) (*Analytic, error) {
+func CreateSimpleAnalyticEventV2(eventName string, data ...interface{}) (*analytic, error) {
 	eventParams := []*auditprotobuf.KeyPair2{}
 
 	for i := 0; i < len(data); i++ {
@@ -109,7 +109,7 @@ func CreateSimpleAnalyticEventV2(eventName string, data ...interface{}) (*Analyt
 		}
 	}
 
-	return &Analytic{
+	return &analytic{
 		Timestamp:    time.Now().Unix(),
 		EventName:    eventName,
 		AnalyticData: eventParams,
