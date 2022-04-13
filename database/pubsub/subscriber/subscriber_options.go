@@ -6,13 +6,7 @@ type dynamicConfig struct {
 
 type SubscriberOption func(*dynamicConfig)
 
-func AckFailedMessage() SubscriberOption {
-	return func(dc *dynamicConfig) {
-		dc.AckSuccessOnly = false
-	}
-}
-
-func NotAckFailedMessage() SubscriberOption {
+func AckSuccessOnly() SubscriberOption {
 	return func(dc *dynamicConfig) {
 		dc.AckSuccessOnly = true
 	}
