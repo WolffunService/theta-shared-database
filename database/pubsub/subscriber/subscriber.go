@@ -17,6 +17,7 @@ func InitConfiguration(ctx context.Context, projectID string, opts ...option.Cli
 	return mpubsub.InitializeClient(ctx, projectID, opts...)
 }
 
+// Subscribe to the subscription
 func Subscribe(ctx context.Context, subId string, fn HandleMsg, opts ...SubscriberOption) error {
 	if _, exist := subscriberMap[subId]; exist {
 		log.Printf("%v have been existed in keys map", subId)
@@ -42,24 +43,12 @@ func Subscribe(ctx context.Context, subId string, fn HandleMsg, opts ...Subscrib
 		v(conf)
 	}
 
-	go subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
-		err := fn(msg.Data)
-
-		if err != nil {
-			if !conf.AckSuccessOnly {
-				fmt.Println("[pubsub] failed message", subId, err)
-				msg.Ack()
-			} else {
-				msg.Nack()
-			}
-		} else {
-			msg.Ack()
-		}
-	})
+	go simpleSubcribe(ctxChild, subscriber, *conf, fn, subId)
 
 	return nil
 }
 
+// BlockedSubscribe will block the main thread (or goroutine), retry option will be ignored
 func BlockedSubscribe(ctx context.Context, subId string, fn HandleMsg, opts ...SubscriberOption) error {
 	if _, exist := subscriberMap[subId]; exist {
 		log.Printf("%v have been existed in keys map", subId)
@@ -84,20 +73,31 @@ func BlockedSubscribe(ctx context.Context, subId string, fn HandleMsg, opts ...S
 	for _, v := range opts {
 		v(conf)
 	}
-	return subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
-		err := fn(msg.Data)
 
-		if err != nil {
-			if !conf.AckSuccessOnly {
-				fmt.Println("[pubsub] failed message", subId, err)
-				msg.Ack()
+	return simpleSubcribe(ctxChild, subscriber, *conf, fn, subId)
+}
+
+// simpleSubscribe just subscribe to an subscription
+func simpleSubcribe(ctx context.Context, subscriber *Subscriber, cfg dynamicConfig, fn HandleMsg, subId string) error {
+	var err error = nil
+	for ok := true; ok; ok = cfg.RetrySubscribe {
+		err = subscriber.Subscription.Receive(ctx, func(ctx context.Context, msg *pubsub.Message) {
+			err := fn(msg.Data)
+
+			if err != nil {
+				if !cfg.AckSuccessOnly {
+					fmt.Println("[pubsub] failed message", subId, err)
+					msg.Ack()
+				} else {
+					msg.Nack()
+				}
 			} else {
-				msg.Nack()
+				msg.Ack()
 			}
-		} else {
-			msg.Ack()
-		}
-	})
+		})
+	}
+
+	return err
 }
 
 func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...SubscriberOption) error {
