@@ -1,13 +1,13 @@
 package pubsublytic
 
-type Auditlytic struct {
-	Audit    *Audit    `json:"audit,omitempty"`
+type Auditlytic[T any] struct {
+	Audit    *Audit[T] `json:"audit,omitempty"`
 	Analytic *analytic `json:"analytic,omitempty"`
 }
 
-type Audit struct {
-	AuditName string      `json:"auditName"`
-	AuditData interface{} `json:",inline"`
+type Audit[T any] struct {
+	AuditName string `json:"auditName"`
+	AuditData T      `json:",inline"`
 }
 
 type analytic struct {
