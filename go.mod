@@ -1,6 +1,6 @@
 module github.com/WolffunGame/theta-shared-database
 
-go 1.16
+go 1.18
 
 require (
 	cloud.google.com/go v0.95.0 // indirect
