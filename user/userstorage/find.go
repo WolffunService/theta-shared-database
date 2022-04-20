@@ -8,6 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"math/rand"
+	"time"
 )
 
 type UserStatResponse struct {
@@ -42,11 +43,12 @@ func FindUserStat(skip int64, limit int64) ([]UserStatResponse, error) {
 
 	var userstats []UserStatResponse
 
+	now := time.Now()
 	for _, user := range users {
 		userstat := UserStatResponse{
 			UserId:          user.GetUserId(),
 			UserDetail:      user,
-			AccountAge:      rand.Intn(50),
+			AccountAge:      int(user.CreatedAt.Sub(now).Hours() / 24.0),
 			HeroNFT:         rand.Intn(10),
 			PlayerBattle:    rand.Intn(210),
 			BattleFrequency: rand.Intn(15),
