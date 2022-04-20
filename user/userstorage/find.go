@@ -11,17 +11,18 @@ import (
 )
 
 type UserStatResponse struct {
-	UserId           string  `json:"userId"`
-	AccountAge       int     `json:"accountAge"`
-	HeroNFT          int     `json:"heroNFT"`
-	PlayerBattle     int     `json:"playerBattle"`
-	BattleFrequency  int     `json:"battleFrequency"`
-	FirstOpenDate    bool    `json:"firstOpenDate"`
-	GeoTier          int     `json:"geoTier"`
-	CreatorViewPoint int     `json:"creatorViewPoint"`
-	ConnectMKP       bool    `json:"connectMKP"`
-	MKP              float64 `json:"mkp"`
-	IAP              float64 `json:"iap"`
+	UserId           string         `json:"userId"`
+	UserDetail       usermodel.User `json:"userDetail"`
+	AccountAge       int            `json:"accountAge"`
+	HeroNFT          int            `json:"heroNFT"`
+	PlayerBattle     int            `json:"playerBattle"`
+	BattleFrequency  int            `json:"battleFrequency"`
+	FirstOpenDate    bool           `json:"firstOpenDate"`
+	GeoTier          int            `json:"geoTier"`
+	CreatorViewPoint int            `json:"creatorViewPoint"`
+	ConnectMKP       bool           `json:"connectMKP"`
+	MKP              float64        `json:"mkp"`
+	IAP              float64        `json:"iap"`
 }
 
 func FindUserStat(skip int64, limit int64) ([]UserStatResponse, error) {
@@ -44,6 +45,7 @@ func FindUserStat(skip int64, limit int64) ([]UserStatResponse, error) {
 	for _, user := range users {
 		userstat := UserStatResponse{
 			UserId:          user.GetUserId(),
+			UserDetail:      user,
 			AccountAge:      rand.Intn(50),
 			HeroNFT:         rand.Intn(10),
 			PlayerBattle:    rand.Intn(210),
