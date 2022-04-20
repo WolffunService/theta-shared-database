@@ -12,18 +12,18 @@ import (
 )
 
 type UserStatResponse struct {
-	UserId           string         `json:"userId"`
-	UserDetail       usermodel.User `json:"userDetail"`
-	AccountAge       int            `json:"accountAge"`
-	HeroNFT          int            `json:"heroNFT"`
-	PlayerBattle     int            `json:"playerBattle"`
-	BattleFrequency  int            `json:"battleFrequency"`
-	FirstOpenDate    bool           `json:"firstOpenDate"`
-	GeoTier          int            `json:"geoTier"`
-	CreatorViewPoint int            `json:"creatorViewPoint"`
-	ConnectMKP       bool           `json:"connectMKP"`
-	MKP              float64        `json:"mkp"`
-	IAP              float64        `json:"iap"`
+	UserId           string            `json:"userId"`
+	UserDetail       usermodel.NewUser `json:"userDetail"`
+	AccountAge       int               `json:"accountAge"`
+	HeroNFT          int               `json:"heroNFT"`
+	PlayerBattle     int               `json:"playerBattle"`
+	BattleFrequency  int               `json:"battleFrequency"`
+	FirstOpenDate    bool              `json:"firstOpenDate"`
+	GeoTier          int               `json:"geoTier"`
+	CreatorViewPoint int               `json:"creatorViewPoint"`
+	ConnectMKP       bool              `json:"connectMKP"`
+	MKP              float64           `json:"mkp"`
+	IAP              float64           `json:"iap"`
 }
 
 func FindUserStat(skip int64, limit int64) ([]UserStatResponse, error) {
@@ -32,11 +32,11 @@ func FindUserStat(skip int64, limit int64) ([]UserStatResponse, error) {
 	findOption.SetLimit(limit)
 
 	filter := bson.M{
-		"isBot": false,
+		"isBot":  nil,
+		"status": usermodel.ACTIVE,
 	}
 
 	users, err := findUserStat(context.Background(), filter, findOption)
-
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func FindUserStat(skip int64, limit int64) ([]UserStatResponse, error) {
 		userstat := UserStatResponse{
 			UserId:          user.GetUserId(),
 			UserDetail:      user,
-			AccountAge:      int(user.CreatedAt.Sub(now).Hours() / 24.0),
+			AccountAge:      int(now.Sub(user.CreatedAt).Hours() / 24.0),
 			HeroNFT:         rand.Intn(10),
 			PlayerBattle:    rand.Intn(210),
 			BattleFrequency: rand.Intn(15),
@@ -65,10 +65,10 @@ func FindUserStat(skip int64, limit int64) ([]UserStatResponse, error) {
 	return userstats, nil
 }
 
-func findUserStat(ctx context.Context, filter interface{}, findOptions ...*options.FindOptions) ([]usermodel.User, error) {
-	var result []usermodel.User
+func findUserStat(ctx context.Context, filter interface{}, findOptions ...*options.FindOptions) ([]usermodel.NewUser, error) {
+	var result []usermodel.NewUser
 
-	collection := mongodb.CollRead(&usermodel.User{})
+	collection := mongodb.CollRead(&usermodel.NewUser{})
 	if err := collection.SimpleFindWithCtx(ctx, &result, filter, findOptions...); err != nil {
 		log.Println("FindListUser Error ", err)
 		return nil, err
