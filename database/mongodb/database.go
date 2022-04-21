@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"log"
 	"time"
 )
@@ -50,16 +51,24 @@ func ConnectMongoWithConfig(dbConfig *MongoConfig, conf *Config) (context.Contex
 	}
 	config = conf
 	dbName = dbConfig.DbName
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	clientOption := options.Client().ApplyURI(dbConfig.ConnectionUrl)
 	if dbConfig.MaxConnectionPool > 0 {
 		clientOption.SetMaxPoolSize(dbConfig.MaxConnectionPool)
 	}
+
 	clientNew, err := NewClient(ctx, clientOption)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	client = clientNew
+
+	err = client.Ping(ctx, readpref.Primary())
+	if err != nil {
+		log.Fatalf("[FATAL] CAN'T CONNECTING TO MONGODB: %s", err.Error())
+	}
+
 	db = client.Database(dbName)
 
 	log.Printf("[INFO] CONNECTED TO MONGO DB %s", dbName)
