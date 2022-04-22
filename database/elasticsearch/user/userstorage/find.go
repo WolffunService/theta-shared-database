@@ -2,19 +2,17 @@ package userstorage
 
 import (
 	"context"
+	"github.com/WolffunGame/theta-shared-database/database/elasticsearch/user/usermodel"
 	"github.com/WolffunGame/theta-shared-database/database/mongodb"
-	"github.com/WolffunGame/theta-shared-database/user/usermodel"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"math/rand"
-	"time"
 )
 
 type UserStatResponse struct {
 	UserId           string            `json:"userId"`
 	UserDetail       usermodel.NewUser `json:"userDetail"`
-	AccountAge       int               `json:"accountAge"`
 	HeroNFT          int               `json:"heroNFT"`
 	PlayerBattle     int               `json:"playerBattle"`
 	BattleFrequency  int               `json:"battleFrequency"`
@@ -43,12 +41,10 @@ func FindUserStat(skip int64, limit int64) ([]UserStatResponse, error) {
 
 	var userstats []UserStatResponse
 
-	now := time.Now()
 	for _, user := range users {
 		userstat := UserStatResponse{
 			UserId:          user.GetUserId(),
 			UserDetail:      user,
-			AccountAge:      int(now.Sub(user.CreatedAt).Hours() / 24.0),
 			HeroNFT:         rand.Intn(10),
 			PlayerBattle:    rand.Intn(210),
 			BattleFrequency: rand.Intn(15),
