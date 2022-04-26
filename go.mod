@@ -8,6 +8,7 @@ require (
 	github.com/go-redis/redis/v8 v8.11.3
 	github.com/go-redsync/redsync/v4 v4.4.1
 	github.com/gocql/gocql v1.0.0
+	github.com/google/uuid v1.3.0
 	github.com/jinzhu/inflection v1.0.0
 	github.com/kamva/mgm/v3 v3.3.1
 	github.com/rabbitmq/amqp091-go v0.0.0-20210823000215-c428a6150891
