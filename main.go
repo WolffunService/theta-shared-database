@@ -16,14 +16,10 @@ type UserModel struct {
 }
 
 func main() {
-	for i := 1; i <= 10000; i++ {
-		if i%2 == 0 {
-			continue
-		}
-
-		u := model.UserStatMapping{
+	for i := 1; i <= 3000; i++ {
+		u := model.UniversalUserStatMapping{
 			User: UserModel{
-				ID:   fmt.Sprintf("fake-mongo-object-id-%d", i),
+				ID:   fmt.Sprint("fake-mongo-object-id-1021"),
 				Mail: fmt.Sprintf("fake_mail_%d@gmail.com", i),
 			},
 			StatName:  "battle_count",
@@ -33,9 +29,14 @@ func main() {
 
 		res, err := u.GetIndexRequest().Do(context.Background(), elasticsearch.GetClient())
 
+		fmt.Println(res)
+
 		if err != nil {
 			log.Fatalf("Error getting response: %s", err)
 		}
+
+		time.Sleep(10 * time.Millisecond)
+
 		res.Body.Close()
 	}
 }
