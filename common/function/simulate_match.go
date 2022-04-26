@@ -87,6 +87,7 @@ func randate(min int64, max int64) time.Time {
 func GenerateUserData(numUser int) []UserData {
 	var listUser []UserData
 	for i := 0; i < numUser; i++ {
+		rand.Seed(time.Now().UnixNano())
 		ingameMode := randomInGameMode()
 		skill1 := randomSkill()
 		skill2 := randomSkill()
