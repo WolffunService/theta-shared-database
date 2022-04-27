@@ -22,7 +22,7 @@ func main() {
 				ID:   fmt.Sprint("fake-mongo-object-id-1021"),
 				Mail: fmt.Sprintf("fake_mail_%d@gmail.com", i),
 			},
-			StatName:  "battle_count",
+			StatName:  "battle_count  ",
 			StatValue: 1,
 			Timestamp: ranDate(),
 		}
