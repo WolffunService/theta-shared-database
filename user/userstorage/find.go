@@ -11,14 +11,6 @@ import (
 	"time"
 )
 
-type PlayerStat struct {
-	PlayerId              string            `json:"userId"`
-	PlayerDetail          usermodel.NewUser `json:"userDetail"`
-	PlayerStatAccount     usermodel.PlayerStatAccount
-	PlayerStatMarketplace usermodel.PlayerStatMarketplace
-	PlayerStatBalance     usermodel.PlayerStatBalance
-}
-
 func FindUserRankingWithOIds(ctx context.Context, oids []primitive.ObjectID) (map[string]usermodel.UserRanking, error) {
 	var users []usermodel.UserRanking
 	coll := mongodb.CollRead(&usermodel.UserRanking{})
@@ -51,7 +43,7 @@ func FindUserCurrencyWithOIds(ctx context.Context, oids []primitive.ObjectID) (m
 	return currencyMap, nil
 }
 
-func FindUserStat(skip int64, limit int64) ([]*PlayerStat, error) {
+func FindUserStat(skip int64, limit int64) ([]*usermodel.PlayerStat, error) {
 	findOption := options.Find()
 	findOption.SetSkip(skip)
 	findOption.SetLimit(limit)
@@ -81,7 +73,7 @@ func FindUserStat(skip int64, limit int64) ([]*PlayerStat, error) {
 		return nil, err
 	}
 
-	var playerStats []*PlayerStat
+	var playerStats []*usermodel.PlayerStat
 	now := time.Now().UTC()
 
 	for _, user := range users {
@@ -101,7 +93,7 @@ func FindUserStat(skip int64, limit int64) ([]*PlayerStat, error) {
 			playerStatBalance.PTBalance = currency.GAME_PT
 		}
 
-		playerStat := &PlayerStat{
+		playerStat := &usermodel.PlayerStat{
 			PlayerId:              user.GetUserId(),
 			PlayerDetail:          user,
 			PlayerStatAccount:     playerStatAccount,
