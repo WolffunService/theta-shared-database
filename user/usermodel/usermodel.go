@@ -120,6 +120,23 @@ type PlayerStatistic struct {
 	MvpSeason       int32 `json:"-" bson:"mvpSeason"`
 }
 
+type PlayerStatAccount struct {
+	FirstOpenDate     time.Time `json:"firstOpenDate"`
+	ConnectWalletDate time.Time `json:"connectWalletDate"`
+	AccountDate       time.Time `json:"accountDate"`
+	AccountAge        int32     `json:"accountAge"`
+}
+
+type PlayerStatBalance struct {
+	THCBalance int64
+	THGBalance int64
+	PPBalance  int64
+	PTBalance  int64
+}
+
+type PlayerStatMarketplace struct {
+}
+
 func (p *PlayerStatistic) ResetSeason() {
 	p.VictorySeason = 0
 	p.StreakSeason = 0

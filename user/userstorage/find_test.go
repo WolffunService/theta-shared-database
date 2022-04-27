@@ -9,7 +9,7 @@ import (
 func TestFindUserStat(t *testing.T) {
 	dbConfig := &mongodb.MongoConfig{
 		DbName:            "thetan",
-		ConnectionUrl:     "mongodb://thetan:3c327f016341878ab21b@localhost:27017/?authSource=thetan&readPreference=primary&directConnection=true&ssl=false",
+		ConnectionUrl:     "mongodb://thetan:e54a273ab740ae44e3e9@127.0.0.1:27017/thetan?authSource=thetan&replicaSet=thetan-data-rs&readPreference=primary&directConnection=true&ssl=false",
 		MaxConnectionPool: 1000,
 	}
 
@@ -20,6 +20,6 @@ func TestFindUserStat(t *testing.T) {
 	res, _ := FindUserStat(1000, 1000)
 
 	for _, user := range res {
-		log.Println(user)
+		log.Printf("%+v \n", user)
 	}
 }
