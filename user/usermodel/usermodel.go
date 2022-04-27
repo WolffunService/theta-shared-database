@@ -66,6 +66,7 @@ type PlayerStatistic struct {
 	Mvp           int32 `json:"mvp" bson:"mvp"`
 	Hero          int32 `json:"hero" bson:"hero"`
 	BehaviorPoint int32 `json:"behaviorPoint" bson:"behaviorPoint"`
+	Lose          int32 `json:"lose" bson:"lose"`
 
 	VictorySeason   int32 `json:"-" bson:"victorySeason"`
 	StreakSeason    int32 `json:"-" bson:"streakSeason"`
@@ -73,6 +74,7 @@ type PlayerStatistic struct {
 	TripleSeason    int32 `json:"-" bson:"tripleSeason"`
 	MegaSeason      int32 `json:"-" bson:"megaSeason"`
 	MvpSeason       int32 `json:"-" bson:"mvpSeason"`
+	LoseSeason      int32 `json:"-" bson:"loseSeason"`
 }
 
 func (p *PlayerStatistic) ResetSeason() {
@@ -82,6 +84,7 @@ func (p *PlayerStatistic) ResetSeason() {
 	p.TripleSeason = 0
 	p.MegaSeason = 0
 	p.MvpSeason = 0
+	p.LoseSeason = 0
 }
 
 type TicketBanFindMatch struct {
