@@ -3,6 +3,7 @@ package userstorage
 import (
 	"context"
 	"github.com/WolffunGame/theta-shared-database/database/mongodb"
+	"github.com/WolffunGame/theta-shared-database/database/mongodb/field"
 	"github.com/WolffunGame/theta-shared-database/user/usermodel"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -45,6 +46,22 @@ func FindUserCurrencyWithOIds(ctx context.Context, oids []primitive.ObjectID) (m
 		currencyMap[currency.ID.(primitive.ObjectID).Hex()] = currency
 	}
 	return currencyMap, nil
+}
+
+// FindUserBalance tìm balance cho user dựa vào userid
+func FindUserBalance(ctx context.Context, userId primitive.ObjectID) (*usermodel.CurrencyModel, error) {
+	var currency usermodel.CurrencyModel
+	coll := mongodb.CollRead(&usermodel.CurrencyModel{})
+
+	filter := bson.M{field.ID: userId}
+
+	cursor, err := coll.Find(ctx, filter)
+
+	if err = cursor.Decode(&currency); err != nil {
+		return nil, err
+	}
+
+	return &currency, nil
 }
 
 // FindUserRentalValueByUserId tìm thông tin rental của user dựa vào ID
@@ -126,6 +143,19 @@ func FindUserStat(skip int64, limit int64) ([]*usermodel.PlayerStat, error) {
 	return playerStats, nil
 }
 
+// FindUsers tìm thông tin user dựa vào filter
+func FindUsers(ctx context.Context, filter interface{}, findOptions ...*options.FindOptions) ([]usermodel.NewUser, error) {
+	var result []usermodel.NewUser
+
+	collection := mongodb.CollRead(&usermodel.NewUser{})
+	if err := collection.SimpleFindWithCtx(ctx, &result, filter, findOptions...); err != nil {
+		log.Println("FindListUser Error ", err)
+		return nil, err
+	}
+
+	return result, nil
+}
+
 // FindHeroesNFTByUserId tìm toàn bộ user nft dựa vào userid
 func FindHeroesNFTByUserId(ctx context.Context, userId string) ([]usermodel.Hero, error) {
 	collection := mongodb.CollRead(&usermodel.Hero{})
@@ -143,7 +173,7 @@ func FindHeroesNFTByUserId(ctx context.Context, userId string) ([]usermodel.Hero
 	return result, nil
 }
 
-// FindHeroesNFTUnavailableByUserId tìm toàn bộ user nft nhưng không available dựa theo userid
+// FindHeroesNFTUnavailableByUserId tìm toàn bộ user nft nhưng  unavailable dựa theo userid
 func FindHeroesNFTUnavailableByUserId(ctx context.Context, userId string) ([]usermodel.Hero, error) {
 	collection := mongodb.CollRead(&usermodel.Hero{})
 	var result []usermodel.Hero
@@ -154,19 +184,6 @@ func FindHeroesNFTUnavailableByUserId(ctx context.Context, userId string) ([]use
 	}
 
 	if err := collection.SimpleFindWithCtx(ctx, &result, filter); err != nil {
-		return nil, err
-	}
-
-	return result, nil
-}
-
-// FindUsers tìm thông tin user dựa vào filter
-func FindUsers(ctx context.Context, filter interface{}, findOptions ...*options.FindOptions) ([]usermodel.NewUser, error) {
-	var result []usermodel.NewUser
-
-	collection := mongodb.CollRead(&usermodel.NewUser{})
-	if err := collection.SimpleFindWithCtx(ctx, &result, filter, findOptions...); err != nil {
-		log.Println("FindListUser Error ", err)
 		return nil, err
 	}
 
@@ -206,4 +223,13 @@ func BuyHeroSuccessEvent(ctx context.Context, userId string) ([]auditmodel.HeroE
 	}
 
 	return result, nil
+}
+
+func SellHeroSuccessEvent(ctx context.Context, userId string) error {
+
+	return nil
+}
+
+func FindCreatorViewPoint(ctx context.Context, userId string) {
+
 }
