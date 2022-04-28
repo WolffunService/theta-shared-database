@@ -8,6 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
+	"thetansm/enums/heroenum"
 	"thetansm/models/auditmodel"
 	"time"
 )
@@ -172,13 +173,14 @@ func FindUsers(ctx context.Context, filter interface{}, findOptions ...*options.
 	return result, nil
 }
 
-// FindBuyBoxEvent tìm toàn bộ thông tin transaction mua box của user
-func FindBuyBoxEvent(ctx context.Context, userId string) ([]auditmodel.BoxEvent, error) {
-	collection := mongodb.CollRead(&auditmodel.BoxEvent{})
+// BuyBoxSuccessEvent tìm toàn bộ thông tin transaction mua box của user
+func BuyBoxSuccessEvent(ctx context.Context, userId string) ([]auditmodel.BoxEvent, error) {
+	collection := mongodb.CollectionByName("BoxAudits")
 
 	var result []auditmodel.BoxEvent
 	filter := bson.M{
-		"userId": userId,
+		"userId":           userId,
+		"boxPurchaseEvent": bson.M{"$ne": nil},
 	}
 
 	if err := collection.SimpleFindWithCtx(ctx, &result, filter); err != nil {
@@ -188,13 +190,15 @@ func FindBuyBoxEvent(ctx context.Context, userId string) ([]auditmodel.BoxEvent,
 	return result, nil
 }
 
-// FindBuyHeroEvent tìm toàn bộ thông tin transaction mua hero của user
-func FindBuyHeroEvent(ctx context.Context, userId string) ([]auditmodel.HeroEvent, error) {
-	collection := mongodb.CollRead(&auditmodel.HeroEvent{})
+// BuyHeroSuccessEvent tìm toàn bộ thông tin transaction mua hero của user
+func BuyHeroSuccessEvent(ctx context.Context, userId string) ([]auditmodel.HeroEvent, error) {
+	collection := mongodb.CollectionByName("HeroAudits")
 
 	var result []auditmodel.HeroEvent
 	filter := bson.M{
-		"userId": userId,
+		"userId":    userId,
+		"tradeInfo": bson.M{"$ne": nil},
+		"status":    heroenum.HESt_Succeeded,
 	}
 
 	if err := collection.SimpleFindWithCtx(ctx, &result, filter); err != nil {

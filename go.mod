@@ -15,8 +15,11 @@ require (
 	github.com/stretchr/testify v1.7.0
 	go.mongodb.org/mongo-driver v1.8.3
 	google.golang.org/api v0.57.0
-	google.golang.org/protobuf v1.27.1
+	google.golang.org/protobuf v1.28.0
+	thetansm v0.0.0-00010101000000-000000000000
 )
+
+replace thetansm => ./submodules/theta-shared-model/
 
 require (
 	cloud.google.com/go v0.95.0 // indirect
