@@ -37,7 +37,7 @@ type BattleStatMapping struct {
 	Skill1     string    `json:"skill_1"`
 	Skill2     string    `json:"skill_2"`
 	Result     string    `json:"result"`
-	Trophy     string    `json:"trophy"`
+	Trophy     int       `json:"trophy"`
 	Region     string    `json:"region"`
 }
 
