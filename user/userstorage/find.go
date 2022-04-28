@@ -11,6 +11,7 @@ import (
 	"time"
 )
 
+// FindUserRankingWithOIds tìm thông tin user ranking dựa vào objectId
 func FindUserRankingWithOIds(ctx context.Context, oids []primitive.ObjectID) (map[string]usermodel.UserRanking, error) {
 	var users []usermodel.UserRanking
 	coll := mongodb.CollRead(&usermodel.UserRanking{})
@@ -27,6 +28,7 @@ func FindUserRankingWithOIds(ctx context.Context, oids []primitive.ObjectID) (ma
 	return userMap, nil
 }
 
+// FindUserCurrencyWithOIds tìm thông tin user currency dựa vào objectId
 func FindUserCurrencyWithOIds(ctx context.Context, oids []primitive.ObjectID) (map[string]usermodel.CurrencyModel, error) {
 	var currencys []usermodel.CurrencyModel
 	coll := mongodb.CollRead(&usermodel.CurrencyModel{})
@@ -43,6 +45,23 @@ func FindUserCurrencyWithOIds(ctx context.Context, oids []primitive.ObjectID) (m
 	return currencyMap, nil
 }
 
+// FindUserRentalValueByUserId tìm thông tin rental của user dựa vào ID
+func FindUserRentalValueByUserId(ctx context.Context, userId string) ([]usermodel.HeroRentInfo, error) {
+	collection := mongodb.CollRead(&usermodel.HeroRentInfo{})
+	var result []usermodel.HeroRentInfo
+
+	filter := bson.M{
+		"ownerId": userId,
+	}
+
+	if err := collection.SimpleFindWithCtx(ctx, &result, filter); err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// FindUserStat tìm thông tin player stat
 func FindUserStat(skip int64, limit int64) ([]*usermodel.PlayerStat, error) {
 	findOption := options.Find()
 	findOption.SetSkip(skip)
@@ -53,7 +72,7 @@ func FindUserStat(skip int64, limit int64) ([]*usermodel.PlayerStat, error) {
 		"status": usermodel.ACTIVE,
 	}
 
-	users, err := findUserStat(context.Background(), filter, findOption)
+	users, err := findUsers(context.Background(), filter, findOption)
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +124,42 @@ func FindUserStat(skip int64, limit int64) ([]*usermodel.PlayerStat, error) {
 	return playerStats, nil
 }
 
-func findUserStat(ctx context.Context, filter interface{}, findOptions ...*options.FindOptions) ([]usermodel.NewUser, error) {
+// FindHeroesNFTByUserId tìm toàn bộ user nft dựa vào userid
+func FindHeroesNFTByUserId(ctx context.Context, userId string) ([]usermodel.Hero, error) {
+	collection := mongodb.CollRead(&usermodel.Hero{})
+	var result []usermodel.Hero
+	//var heroesNFT []usermodel.Hero
+	filter := bson.M{
+		"userId": userId,
+		"status": bson.M{"$ne": 0},
+	}
+
+	if err := collection.SimpleFindWithCtx(ctx, &result, filter); err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// FindHeroesNFTUnavailableByUserId tìm toàn bộ user nft nhưng không available dựa theo userid
+func FindHeroesNFTUnavailableByUserId(ctx context.Context, userId string) ([]usermodel.Hero, error) {
+	collection := mongodb.CollRead(&usermodel.Hero{})
+	var result []usermodel.Hero
+	filter := bson.M{
+		"userId": userId,
+		"status": bson.M{
+			"$in": []int32{4, 10, 11}},
+	}
+
+	if err := collection.SimpleFindWithCtx(ctx, &result, filter); err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// tìm thông tin user dựa vào filter
+func findUsers(ctx context.Context, filter interface{}, findOptions ...*options.FindOptions) ([]usermodel.NewUser, error) {
 	var result []usermodel.NewUser
 
 	collection := mongodb.CollRead(&usermodel.NewUser{})
