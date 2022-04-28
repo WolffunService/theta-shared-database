@@ -1,0 +1,4 @@
+[submodule "submodule/theta-shared-model"]
+	path = submodule/theta-shared-model
+	url = git@github.com:WolffunGame/theta-shared-model.git
+    branch = main

@@ -4,7 +4,6 @@ go 1.18
 
 require (
 	cloud.google.com/go/pubsub v1.17.0
-	github.com/WolffunGame/theta-shared-common v1.7.11
 	github.com/go-redis/redis/v8 v8.11.3
 	github.com/go-redsync/redsync/v4 v4.4.1
 	github.com/gocql/gocql v1.0.0

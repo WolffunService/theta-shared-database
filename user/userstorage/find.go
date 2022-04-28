@@ -72,7 +72,7 @@ func FindUserStat(skip int64, limit int64) ([]*usermodel.PlayerStat, error) {
 		"status": usermodel.ACTIVE,
 	}
 
-	users, err := findUsers(context.Background(), filter, findOption)
+	users, err := FindUsers(context.Background(), filter, findOption)
 	if err != nil {
 		return nil, err
 	}
@@ -158,8 +158,8 @@ func FindHeroesNFTUnavailableByUserId(ctx context.Context, userId string) ([]use
 	return result, nil
 }
 
-// tìm thông tin user dựa vào filter
-func findUsers(ctx context.Context, filter interface{}, findOptions ...*options.FindOptions) ([]usermodel.NewUser, error) {
+// FindUsers tìm thông tin user dựa vào filter
+func FindUsers(ctx context.Context, filter interface{}, findOptions ...*options.FindOptions) ([]usermodel.NewUser, error) {
 	var result []usermodel.NewUser
 
 	collection := mongodb.CollRead(&usermodel.NewUser{})
@@ -169,4 +169,8 @@ func findUsers(ctx context.Context, filter interface{}, findOptions ...*options.
 	}
 
 	return result, nil
+}
+
+func FindBuyBoxValues(ctx context.Context, userId string) {
+	
 }
