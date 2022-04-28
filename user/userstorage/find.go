@@ -8,6 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
+	"thetansm/models/auditmodel"
 	"time"
 )
 
@@ -171,6 +172,34 @@ func FindUsers(ctx context.Context, filter interface{}, findOptions ...*options.
 	return result, nil
 }
 
-func FindBuyBoxValues(ctx context.Context, userId string) {
-	
+// FindBuyBoxEvent tìm toàn bộ thông tin transaction mua box của user
+func FindBuyBoxEvent(ctx context.Context, userId string) ([]auditmodel.BoxEvent, error) {
+	collection := mongodb.CollRead(&auditmodel.BoxEvent{})
+
+	var result []auditmodel.BoxEvent
+	filter := bson.M{
+		"userId": userId,
+	}
+
+	if err := collection.SimpleFindWithCtx(ctx, &result, filter); err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// FindBuyHeroEvent tìm toàn bộ thông tin transaction mua hero của user
+func FindBuyHeroEvent(ctx context.Context, userId string) ([]auditmodel.HeroEvent, error) {
+	collection := mongodb.CollRead(&auditmodel.HeroEvent{})
+
+	var result []auditmodel.HeroEvent
+	filter := bson.M{
+		"userId": userId,
+	}
+
+	if err := collection.SimpleFindWithCtx(ctx, &result, filter); err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
