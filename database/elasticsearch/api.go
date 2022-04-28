@@ -7,19 +7,21 @@ import (
 
 var c *elasticsearch.Client
 
-func InitES() {
-	cfg := elasticsearch.Config{
-		//TODO Get from env
+func InitES(cfg *elasticsearch.Config) {
+	if cfg == nil {
+		cfg = &elasticsearch.Config{
+			//TODO Get from env
 
-		Addresses: []string{
-			"http://localhost:9200",
-		},
-		Username: "elastic",
-		Password: "talaconma",
+			Addresses: []string{
+				"http://localhost:9200",
+			},
+			Username: "elastic",
+			Password: "talaconma",
+		}
 	}
 
 	var err error
-	c, err = elasticsearch.NewClient(cfg)
+	c, err = elasticsearch.NewClient(*cfg)
 
 	if err != nil {
 		log.Fatalf("Error creating the client: %s", err)
@@ -40,7 +42,7 @@ func Info() {
 
 func GetClient() *elasticsearch.Client {
 	if c == nil {
-		InitES()
+		InitES(nil)
 
 		return c
 	}
