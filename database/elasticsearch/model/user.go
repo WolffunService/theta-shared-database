@@ -39,6 +39,7 @@ type BattleStatMapping struct {
 	Result     string    `json:"result"`
 	Trophy     int       `json:"trophy"`
 	Region     string    `json:"region"`
+	Timestamp  time.Time `json:"@timestamp"`
 }
 
 type WalletStatMapping struct {
