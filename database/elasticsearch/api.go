@@ -1,8 +1,11 @@
 package elasticsearch
 
 import (
+	"encoding/json"
 	"github.com/elastic/go-elasticsearch/v8"
+	"github.com/elastic/go-elasticsearch/v8/esapi"
 	"log"
+	"strings"
 )
 
 var c *elasticsearch.Client
@@ -48,4 +51,17 @@ func GetClient() *elasticsearch.Client {
 	}
 
 	return c
+}
+
+type IndexMapping interface {
+	Index() string
+}
+
+func GetIndexRequest(indexMapping IndexMapping) esapi.IndexRequest {
+	res, _ := json.Marshal(indexMapping)
+	m := string(res)
+	return esapi.IndexRequest{
+		Index: indexMapping.Index(),
+		Body:  strings.NewReader(m),
+	}
 }

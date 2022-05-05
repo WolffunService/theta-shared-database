@@ -71,14 +71,6 @@ func (u UniversalUserStatMapping) GetIndexRequest() esapi.IndexRequest {
 	}
 }
 
-func (u BattleStatMapping) String() string {
-	res, _ := json.Marshal(u)
-	return string(res)
-}
-
-func (u BattleStatMapping) GetIndexRequest() esapi.IndexRequest {
-	return esapi.IndexRequest{
-		Index: "playerstats-battle",
-		Body:  strings.NewReader(u.String()),
-	}
+func (u BattleStatMapping) Index() string {
+	return "playerstats-battle"
 }
