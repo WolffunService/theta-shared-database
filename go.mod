@@ -5,6 +5,8 @@ go 1.18
 require (
 	cloud.google.com/go/pubsub v1.17.0
 	github.com/WolffunGame/theta-shared-common v1.7.13
+	github.com/dgraph-io/ristretto v0.1.0
+	github.com/elastic/go-elasticsearch/v8 v8.1.0
 	github.com/go-redis/redis/v8 v8.11.3
 	github.com/go-redsync/redsync/v4 v4.4.1
 	github.com/gocql/gocql v1.0.0
@@ -23,9 +25,10 @@ require (
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/elastic/elastic-transport-go/v8 v8.1.0 // indirect
-	github.com/elastic/go-elasticsearch/v8 v8.1.0 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
+	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
