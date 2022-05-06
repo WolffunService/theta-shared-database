@@ -45,13 +45,13 @@ func (BattleStatMapping) Index() string {
 
 type IAPStatMapping struct {
 	User       UserModel `json:"user"`
-	PackID     string    `json:"pack_id"`
-	Source     string    `json:"source"`
-	Price      int64     `json:"price"`
+	PackID     string    `json:"pack_id"` //enum
+	Source     string    `json:"source"`  //enum
+	Price      int64     `json:"price"`   //
 	PriceType  string    `json:"price_type"`
 	PowerPoint int       `json:"power_point"`
-	HeroID     string    `json:"hero_id"`
-	SkinID     string    `json:"skin_id"`
+	HeroID     string    `json:"hero_id"` //object id, ko trùng
+	SkinID     string    `json:"skin_id"` //enum, có trùng
 	Timestamp  time.Time `json:"@timestamp"`
 }
 
@@ -76,9 +76,10 @@ type MarketPlaceStatMapping struct {
 	HeroLevel  string `json:"hero_level"`
 	Trophy     string `json:"trophy"`
 
-	ItemRarity string `json:"item_rarity"`
-	ItemTypeID int    `json:"item_type_id"`
-	ItemType   string `json:"item_type"`
+	ItemRarity string    `json:"item_rarity"`
+	ItemTypeID int       `json:"item_type_id"` //có trùng
+	ItemType   string    `json:"item_type"`    //avatar_frame, cosmetic vv, có trùng
+	Timestamp  time.Time `json:"@timestamp"`
 }
 
 func (MarketPlaceStatMapping) Index() string {
