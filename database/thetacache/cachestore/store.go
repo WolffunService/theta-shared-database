@@ -1,4 +1,4 @@
-package thetacache
+package cachestore
 
 import "time"
 

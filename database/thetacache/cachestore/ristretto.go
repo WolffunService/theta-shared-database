@@ -3,7 +3,6 @@ package cachestore
 import (
 	"fmt"
 	"github.com/WolffunGame/theta-shared-common/common/thetaerror"
-	"github.com/WolffunGame/theta-shared-database/database/thetacache"
 	"strings"
 	"time"
 )
@@ -26,13 +25,13 @@ type RistrettoClientInterface interface {
 // RistrettoStore is a store for Ristretto (memory) library
 type RistrettoStore struct {
 	client  RistrettoClientInterface
-	options *thetacache.Options
+	options *Options
 }
 
 // NewRistretto creates a new store to Ristretto (memory) library instance
-func NewRistretto(client RistrettoClientInterface, options *thetacache.Options) *RistrettoStore {
+func NewRistretto(client RistrettoClientInterface, options *Options) *RistrettoStore {
 	if options == nil {
-		options = &thetacache.Options{}
+		options = &Options{}
 	}
 
 	return &RistrettoStore{
@@ -65,7 +64,7 @@ func (s *RistrettoStore) GetWithTTL(key interface{}) (interface{}, time.Duration
 }
 
 // Set defines data in Ristretto memory cache for given key identifier
-func (s *RistrettoStore) Set(key interface{}, value interface{}, options *thetacache.Options) error {
+func (s *RistrettoStore) Set(key interface{}, value interface{}, options *Options) error {
 	var err error
 
 	if options == nil {
@@ -110,7 +109,7 @@ func (s *RistrettoStore) setTags(key interface{}, tags []string) {
 			cacheKeys = append(cacheKeys, key.(string))
 		}
 
-		s.Set(tagKey, []byte(strings.Join(cacheKeys, ",")), &thetacache.Options{
+		s.Set(tagKey, []byte(strings.Join(cacheKeys, ",")), &Options{
 			Expiration: 720 * time.Hour,
 		})
 	}
@@ -123,7 +122,7 @@ func (s *RistrettoStore) Delete(key interface{}) error {
 }
 
 // Invalidate invalidates some cache data for given options
-func (s *RistrettoStore) Invalidate(options thetacache.InvalidateOptions) error {
+func (s *RistrettoStore) Invalidate(options InvalidateOptions) error {
 	if tags := options.TagsValue(); len(tags) > 0 {
 		for _, tag := range tags {
 			var tagKey = fmt.Sprintf(RistrettoTagPattern, tag)
