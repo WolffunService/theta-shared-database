@@ -63,7 +63,7 @@ func (c *Cache) GetWithTTL(key interface{}) (interface{}, time.Duration, error) 
 }
 
 // Set populates the cache item using the given key
-func (c *Cache) Set(key, object interface{}, options *Options) error {
+func (c *Cache) Set(key, object interface{}, options *cachestore.Options) error {
 	cacheKey := c.getCacheKey(key)
 	return c.store.Set(cacheKey, object, options)
 }
@@ -72,7 +72,7 @@ func (c *Cache) Set(key, object interface{}, options *Options) error {
 func (c *Cache) SetSimple(key, object interface{}, tags ...string) error {
 	cacheKey := c.getCacheKey(key)
 
-	return c.store.Set(cacheKey, object, &Options{
+	return c.store.Set(cacheKey, object, &cachestore.Options{
 		Cost:       1,
 		Expiration: 24 * time.Hour,
 		Tags:       tags,
@@ -86,7 +86,7 @@ func (c *Cache) Delete(key interface{}) error {
 }
 
 // Invalidate invalidates cache item from given options
-func (c *Cache) Invalidate(options InvalidateOptions) error {
+func (c *Cache) Invalidate(options cachestore.InvalidateOptions) error {
 	return c.store.Invalidate(options)
 }
 
@@ -127,9 +127,9 @@ func checksum(object interface{}) string {
 type StoreInterface interface {
 	Get(key interface{}) (interface{}, error)
 	GetWithTTL(key interface{}) (interface{}, time.Duration, error)
-	Set(key interface{}, value interface{}, options *Options) error
+	Set(key interface{}, value interface{}, options *cachestore.Options) error
 	Delete(key interface{}) error
-	Invalidate(options InvalidateOptions) error
+	Invalidate(options cachestore.InvalidateOptions) error
 	Clear() error
 	GetType() string
 }
