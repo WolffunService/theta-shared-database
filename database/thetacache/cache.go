@@ -40,9 +40,14 @@ type Cache struct {
 	initErr error
 }
 
+func Get(key interface{}) (interface{}, error) {
+	cacheKey := getCacheKey(key)
+	return cacheService.store.Get(cacheKey)
+}
+
 // Get returns the object stored in cache if it exists
 func (c *Cache) Get(key interface{}) (interface{}, error) {
-	cacheKey := c.getCacheKey(key)
+	cacheKey := getCacheKey(key)
 	return c.store.Get(cacheKey)
 }
 
@@ -57,21 +62,41 @@ func (c *Cache) Get(key interface{}) (interface{}, error) {
 //}
 
 // GetWithTTL returns the object stored in cache and its corresponding TTL
+func GetWithTTL(key interface{}) (interface{}, time.Duration, error) {
+	cacheKey := getCacheKey(key)
+	return cacheService.store.GetWithTTL(cacheKey)
+}
+
+// GetWithTTL returns the object stored in cache and its corresponding TTL
 func (c *Cache) GetWithTTL(key interface{}) (interface{}, time.Duration, error) {
-	cacheKey := c.getCacheKey(key)
+	cacheKey := getCacheKey(key)
 	return c.store.GetWithTTL(cacheKey)
 }
 
 // Set populates the cache item using the given key
+func Set(key, object interface{}, options *cachestore.Options) error {
+	cacheKey := getCacheKey(key)
+	return cacheService.store.Set(cacheKey, object, options)
+}
+
+// Set populates the cache item using the given key
 func (c *Cache) Set(key, object interface{}, options *cachestore.Options) error {
-	cacheKey := c.getCacheKey(key)
+	cacheKey := getCacheKey(key)
 	return c.store.Set(cacheKey, object, options)
+}
+
+func SetSimple(key, object interface{}, tags ...string) error {
+	cacheKey := getCacheKey(key)
+	return cacheService.store.Set(cacheKey, object, &cachestore.Options{
+		Cost:       1,
+		Expiration: 24 * time.Hour,
+		Tags:       tags,
+	})
 }
 
 // SetSimple Set populates the cache item using the given key
 func (c *Cache) SetSimple(key, object interface{}, tags ...string) error {
-	cacheKey := c.getCacheKey(key)
-
+	cacheKey := getCacheKey(key)
 	return c.store.Set(cacheKey, object, &cachestore.Options{
 		Cost:       1,
 		Expiration: 24 * time.Hour,
@@ -80,14 +105,30 @@ func (c *Cache) SetSimple(key, object interface{}, tags ...string) error {
 }
 
 // Delete removes the cache item using the given key
+func Delete(key interface{}) error {
+	cacheKey := getCacheKey(key)
+	return cacheService.store.Delete(cacheKey)
+}
+
+// Delete removes the cache item using the given key
 func (c *Cache) Delete(key interface{}) error {
-	cacheKey := c.getCacheKey(key)
+	cacheKey := getCacheKey(key)
 	return c.store.Delete(cacheKey)
+}
+
+// Invalidate invalidates cache item from given options
+func Invalidate(options cachestore.InvalidateOptions) error {
+	return cacheService.store.Invalidate(options)
 }
 
 // Invalidate invalidates cache item from given options
 func (c *Cache) Invalidate(options cachestore.InvalidateOptions) error {
 	return c.store.Invalidate(options)
+}
+
+// Clear resets all cache data
+func Clear() error {
+	return cacheService.store.Clear()
 }
 
 // Clear resets all cache data
@@ -103,7 +144,7 @@ func (c *Cache) GetType() string {
 // getCacheKey returns the cache key for the given key object by returning
 // the key if type is string or by computing a checksum of key structure
 // if its type is other than string
-func (c *Cache) getCacheKey(key interface{}) string {
+func getCacheKey(key interface{}) string {
 	switch key.(type) {
 	case string:
 		return key.(string)
