@@ -43,6 +43,7 @@ type User struct {
 	IsCheckBehaviorPoint bool               `json:"isCheckBehaviorPoint" bson:"isCheckBehaviorPoint"`
 	IsBot                bool               `json:"-" bson:"isBot,omitempty"`
 	FirstOpenTime        time.Time          `json:"firstOpenTime" bson:"firstOpenTime"`
+	LastOnline           int64              `json:"lastOnline" bson:"lastOnline"`
 
 	// TODO: tmp field
 	HasNewAvatar bool `json:"hasNewAvatar" bson:"hasNewAvatar"`
