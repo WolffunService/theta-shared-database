@@ -12,6 +12,7 @@ require (
 	github.com/gocql/gocql v1.0.0
 	github.com/jinzhu/inflection v1.0.0
 	github.com/kamva/mgm/v3 v3.3.1
+	github.com/mailru/easyjson v0.7.7
 	github.com/rabbitmq/amqp091-go v0.0.0-20210823000215-c428a6150891
 	github.com/scylladb/gocqlx/v2 v2.7.0
 	github.com/stretchr/testify v1.7.0
@@ -37,11 +38,15 @@ require (
 	github.com/hailocab/go-hostpool v0.0.0-20160125115350-e80d13ce29ed // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.0 // indirect
+	github.com/josharian/intern v1.0.0 // indirect
 	github.com/klauspost/compress v1.14.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rs/zerolog v1.26.1 // indirect
 	github.com/scylladb/go-reflectx v1.0.1 // indirect
+	github.com/tidwall/gjson v1.14.1 // indirect
+	github.com/tidwall/match v1.1.1 // indirect
+	github.com/tidwall/pretty v1.2.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.0 // indirect
 	github.com/xdg-go/stringprep v1.0.2 // indirect

@@ -64,4 +64,7 @@ func GetIndexRequest(indexMapping IndexMapping) esapi.IndexRequest {
 		Index: indexMapping.Index(),
 		Body:  strings.NewReader(m),
 	}
+
 }
+
+type Map map[string]interface{}
