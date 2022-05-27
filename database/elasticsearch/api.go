@@ -27,7 +27,8 @@ func InitES(cfg *elasticsearch.Config) {
 	c, err = elasticsearch.NewClient(*cfg)
 
 	if err != nil {
-		log.Fatalf("Error creating the client: %s", err)
+		log.Printf("Error creating the client: %s", err)
+		return
 	}
 
 	Info()
@@ -36,7 +37,8 @@ func InitES(cfg *elasticsearch.Config) {
 func Info() {
 	res, err := c.Info()
 	if err != nil {
-		log.Fatalf("Error getting response: %s", err)
+		log.Printf("Error getting response: %s", err)
+		return
 	}
 
 	defer func() {

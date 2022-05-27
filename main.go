@@ -37,7 +37,8 @@ func main() {
 		},
 	}
 	if err := json.NewEncoder(&buf).Encode(query); err != nil {
-		log.Fatalf("Error encoding query: %s", err)
+		log.Printf("Error getting response: %s", err)
+		return
 	}
 
 	// Perform the search request.
@@ -48,7 +49,8 @@ func main() {
 		es.GetClient().Search.WithPretty(),
 	)
 	if err != nil {
-		log.Fatalf("Error getting response: %s", err)
+		log.Printf("Error getting response: %s", err)
+		return
 	}
 
 	defer func() {
@@ -60,7 +62,8 @@ func main() {
 	//Cach 1 su dung go json
 	var r es.Map
 	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
-		log.Fatalf("Error parsing the response body: %s", err)
+		log.Printf("Error parsing the response body: %s", err)
+		return
 	}
 	fmt.Print("Tong so lan chet la: ")
 	fmt.Println(r["aggregations"].(map[string]interface{})["sum_death"].(map[string]interface{})["value"])
