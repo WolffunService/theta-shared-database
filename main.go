@@ -50,7 +50,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error getting response: %s", err)
 	}
-	defer res.Body.Close()
+
+	defer func() {
+		if res != nil && res.Body != nil {
+			res.Body.Close()
+		}
+	}()
 
 	//Cach 1 su dung go json
 	var r es.Map

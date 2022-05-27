@@ -39,7 +39,11 @@ func Info() {
 		log.Fatalf("Error getting response: %s", err)
 	}
 
-	defer res.Body.Close()
+	defer func() {
+		if res != nil && res.Body != nil {
+			res.Body.Close()
+		}
+	}()
 	log.Println(res)
 }
 
