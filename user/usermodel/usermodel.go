@@ -12,7 +12,7 @@ func (User) CollectionName() string {
 
 type User struct {
 	mongodb.DefaultModel `bson:",inline"`
-	mongodb.DateFields   `bson:",inline"`
+	mongodb.DateFields   `json:",inline" bson:",inline"`
 	Role                 int                `json:"role" bson:"role"`
 	Version              int                `json:"version" bson:"version"`
 	Email                string             `json:"-" bson:"email"`
