@@ -40,6 +40,9 @@ func (coll *Collection) FindByListID(oids []primitive.ObjectID, results interfac
 func (coll *Collection) FindByListIDWithCtx(ctx context.Context, oids []primitive.ObjectID, results interface{}) error {
 	return findMany(ctx, coll, bson.M{field.ID: bson.M{"$in": oids}}, results)
 }
+func (coll *Collection) FindByListIDWithCtxAndOptions(ctx context.Context, oids []primitive.ObjectID, results interface{}, opts ...*options.FindOptions) error {
+	return findMany(ctx, coll, bson.M{field.ID: bson.M{"$in": oids}}, results, opts...)
+}
 
 // First method search and return first document of search result.
 func (coll *Collection) First(filter interface{}, model Model, opts ...*options.FindOneOptions) error {
