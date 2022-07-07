@@ -133,9 +133,11 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 				fmt.Println("[pubsub] failed message", subId, err)
 				msg.Ack()
 			} else {
+				fmt.Println("[pubsub] msg.Nack()", subId)
 				msg.Nack()
 			}
 		} else {
+			fmt.Println("[pubsub] msg.Ack()", subId)
 			msg.Ack()
 		}
 	})
