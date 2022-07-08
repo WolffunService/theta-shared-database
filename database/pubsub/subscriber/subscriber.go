@@ -5,8 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"time"
 
 	"cloud.google.com/go/pubsub"
+	"github.com/WolffunGame/theta-shared-database/database/mredis"
+	"github.com/WolffunGame/theta-shared-database/database/mredis/thetanlock"
 	"github.com/WolffunGame/theta-shared-database/database/pubsub/mpubsub"
 	"google.golang.org/api/option"
 )
@@ -126,16 +129,29 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 	}
 
 	go subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
+		key := fmt.Sprintf("%s%s", subId, msg.ID)
+
+		if exists, err := mredis.Exists(ctxChild, key); err != nil {
+			msg.Nack()
+			fmt.Println("[pubsub] failed redis", err)
+			return
+		} else if exists {
+			msg.Ack()
+			return
+		}
+
 		err := fn(msg)
 
 		if err != nil {
 			if !conf.AckSuccessOnly {
 				fmt.Println("[pubsub] failed message", subId, err)
+				thetanlock.LockTimeoutDur(key, 24*3*time.Hour)
 				msg.Ack()
 			} else {
 				msg.Nack()
 			}
 		} else {
+			thetanlock.LockTimeoutDur(key, 24*3*time.Hour)
 			msg.Ack()
 		}
 	})

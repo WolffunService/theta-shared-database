@@ -50,6 +50,11 @@ func GetClient() *goredislib.Client {
 	return client
 }
 
+func Exists(ctx context.Context, key string) (bool, error) {
+	res, err := client.Exists(ctx, key).Result()
+	return res == 1, err
+}
+
 // Set struct to redis
 // EX used: err = util.SetObject(ctx, "key", userModel, 86400)
 func SetObject(ctx context.Context, key string, value interface{}, expirationSecond int) error {
