@@ -49,7 +49,7 @@ func LockTimeout(mutexId string, timeout int) (*redsync.Mutex, error) {
 
 // LockTimeout, func: we lock the mutex n (SECONDs), 32 tries, each try is random between 50 - 250ms apart
 func LockTimeoutDur(mutexId string, timeout time.Duration) (*redsync.Mutex, error) {
-	timeoutOption := redsync.WithExpiry(time.Duration(timeout) * time.Second)
+	timeoutOption := redsync.WithExpiry(timeout)
 	mutex := rs.NewMutex(mutexId, timeoutOption)
 	return simpleLock(mutex)
 }
