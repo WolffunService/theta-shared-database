@@ -126,21 +126,24 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 	}
 
 	go subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
-		fmt.Println("Start process")
+		fmt.Println("--- Start process", msg.ID)
 		err := fn(msg)
 
 		if err != nil {
 			if !conf.AckSuccessOnly {
 				fmt.Println("[pubsub] failed message", subId, err)
 				msg.Ack()
+				fmt.Println("--- ACK", msg.ID)
 			} else {
+				fmt.Println("--- NACK", msg.ID)
 				msg.Nack()
 			}
 		} else {
+			fmt.Println("--- ACK", msg.ID)
 			msg.Ack()
 		}
 
-		fmt.Println("End process")
+		fmt.Println("--- End process", msg.ID)
 	})
 
 	return nil
