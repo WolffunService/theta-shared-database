@@ -87,7 +87,7 @@ func simpleSubcribe(ctx context.Context, subscriber *Subscriber, cfg dynamicConf
 		err = subscriber.Subscription.Receive(ctx, func(ctx context.Context, msg *pubsub.Message) {
 			key := fmt.Sprintf("%s%s", subId, msg.ID)
 
-			if exists, err := mredis.Exists(ctxChild, key); err != nil {
+			if exists, err := mredis.Exists(ctx, key); err != nil {
 				msg.Nack()
 				fmt.Println("[pubsub] failed redis", err)
 				return
