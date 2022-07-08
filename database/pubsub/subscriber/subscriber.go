@@ -126,6 +126,7 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 	}
 
 	go subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
+		fmt.Println("Start process")
 		err := fn(msg)
 
 		if err != nil {
@@ -138,6 +139,8 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 		} else {
 			msg.Ack()
 		}
+
+		fmt.Println("End process")
 	})
 
 	return nil
