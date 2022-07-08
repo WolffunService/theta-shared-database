@@ -85,16 +85,29 @@ func simpleSubcribe(ctx context.Context, subscriber *Subscriber, cfg dynamicConf
 	var err error = nil
 	for ok := true; ok; ok = cfg.RetrySubscribe {
 		err = subscriber.Subscription.Receive(ctx, func(ctx context.Context, msg *pubsub.Message) {
+			key := fmt.Sprintf("%s%s", subId, msg.ID)
+
+			if exists, err := mredis.Exists(ctxChild, key); err != nil {
+				msg.Nack()
+				fmt.Println("[pubsub] failed redis", err)
+				return
+			} else if exists {
+				msg.Ack()
+				return
+			}
+
 			err := fn(msg.Data)
 
 			if err != nil {
 				if !cfg.AckSuccessOnly {
 					fmt.Println("[pubsub] failed message", subId, err)
+					thetanlock.LockTimeoutDur(key, 24*3*time.Hour)
 					msg.Ack()
 				} else {
 					msg.Nack()
 				}
 			} else {
+				thetanlock.LockTimeoutDur(key, 24*3*time.Hour)
 				msg.Ack()
 			}
 		})
