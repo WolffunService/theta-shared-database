@@ -122,10 +122,13 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 	}
 
 	sub := mpubsub.Client.Subscription(subId)
-	if ok, err := sub.Exists(ctx); !ok || err != nil {
-		fmt.Println("Cannot subscribe to subscription", subId, ok, err)
-		return errors.New("something wrong with subscription")
-	}
+
+	//Skip vì đã kiểm tra trước khi gọi hàm này rồi
+
+	//if ok, err := sub.Exists(ctx); !ok || err != nil {
+	//	fmt.Println("Cannot subscribe to subscription", subId, ok, err)
+	//	return errors.New("something wrong with subscription")
+	//}
 
 	var subscriber = &Subscriber{}
 	subscriberMap[subId] = subscriber
@@ -139,6 +142,9 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 	for _, v := range opts {
 		v(conf)
 	}
+
+	//muốn chạy sau main
+	time.Sleep(30 * time.Second)
 
 	go subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
 		key := fmt.Sprintf("%s%s", subId, msg.ID)
