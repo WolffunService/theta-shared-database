@@ -143,9 +143,6 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 		v(conf)
 	}
 
-	//muốn chạy sau main
-	time.Sleep(30 * time.Second)
-
 	go subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
 		key := fmt.Sprintf("%s%s", subId, msg.ID)
 
