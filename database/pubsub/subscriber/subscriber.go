@@ -122,6 +122,7 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 	}
 
 	sub := mpubsub.Client.Subscription(subId)
+	sub.ReceiveSettings.Synchronous = false
 
 	//Skip vì đã kiểm tra trước khi gọi hàm này rồi
 
@@ -143,7 +144,7 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 		v(conf)
 	}
 
-	go subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
+	subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
 		key := fmt.Sprintf("%s%s", subId, msg.ID)
 
 		if exists, err := mredis.Exists(ctxChild, key); err != nil {
