@@ -144,7 +144,7 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 		v(conf)
 	}
 
-	subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
+	go subscriber.Subscription.Receive(ctxChild, func(ctx context.Context, msg *pubsub.Message) {
 		key := fmt.Sprintf("%s%s", subId, msg.ID)
 
 		if exists, err := mredis.Exists(ctxChild, key); err != nil {
@@ -161,14 +161,22 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 		if err != nil {
 			if !conf.AckSuccessOnly {
 				fmt.Println("[pubsub] failed message", subId, err)
-				thetanlock.LockTimeoutDur(key, 24*3*time.Hour)
+
 				msg.Ack()
+				thetanlock.LockTimeoutDur(key, 24*3*time.Hour)
 			} else {
 				msg.Nack()
 			}
 		} else {
-			thetanlock.LockTimeoutDur(key, 24*3*time.Hour)
+			fmt.Println("[pubsub] success", subId)
 			msg.Ack()
+			fmt.Println("[pubsub] ack success", subId)
+			err, _ := thetanlock.LockTimeoutDur(key, 24*3*time.Hour)
+			if err != nil {
+				fmt.Println("[pubsub] failed lock", subId, err)
+			} else {
+				fmt.Println("[pubsub] success lock", subId)
+			}
 		}
 	})
 
