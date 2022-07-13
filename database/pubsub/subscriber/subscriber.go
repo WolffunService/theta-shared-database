@@ -122,7 +122,7 @@ func SubscribeV2(ctx context.Context, subId string, fn HandleMessage, opts ...Su
 	}
 
 	sub := mpubsub.Client.Subscription(subId)
-	sub.ReceiveSettings.Synchronous = false
+	//sub.ReceiveSettings.Synchronous = false
 
 	//Skip vì đã kiểm tra trước khi gọi hàm này rồi
 
