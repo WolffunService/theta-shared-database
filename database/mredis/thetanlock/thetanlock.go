@@ -105,6 +105,29 @@ func Unlock(mutex *redsync.Mutex) (bool, error) {
 	return mutex.Unlock()
 }
 
+// UnlockByValue is helpful when we want to call Unlock but
+// we only have access to the key and the value of the lock.
+// Note: value of the lock should be got from redis.
+// Example code:
+//	func f(key string) (bool, error) {
+//		mutex, err := thetanlock.Lock(anotherKey)
+//		if err != nil {
+//			return false, err
+//		}
+//		defer thetanlock.Unlock(mutex)
+//
+//		value, err := mredis.GetClient().Get(context.TODO(), key).Result()
+//		if err != nil {
+//	  		return false, err
+//		}
+//
+//		return thetanlock.UnlockByValue(key, value)
+//  }
+func UnlockByValue(key string, value string) (bool, error) {
+	option := redsync.WithValue(value)
+	return rs.NewMutex(key, option).Unlock()
+}
+
 // func Ab(tries int) time.Duration {
 // 	return 1 * time.Second
 // }
