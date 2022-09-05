@@ -128,6 +128,13 @@ func UnlockByValue(key string, value string) (bool, error) {
 	return rs.NewMutex(key, option).Unlock()
 }
 
+// ExtendByValue has the use case similar to UnlockByValue
+func ExtendByValue(key string, value string, timeoutSecond int) (bool, error) {
+	valueOption := redsync.WithValue(value)
+	expiryOption := redsync.WithExpiry(time.Duration(timeoutSecond) * time.Second)
+	return rs.NewMutex(key, valueOption, expiryOption).Extend()
+}
+
 // func Ab(tries int) time.Duration {
 // 	return 1 * time.Second
 // }
