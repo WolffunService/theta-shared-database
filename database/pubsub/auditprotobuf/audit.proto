@@ -20,3 +20,16 @@ message KeyPair2 {
   string key = 1;
   string value = 2;
 }
+
+message SimpleEvent3 {
+  SimpleEventContent3 event = 1;
+  map<string, string> metadata = 2;
+}
+
+message SimpleEventContent3 {
+  string eventName = 1;
+  int64 timestamp = 2;
+  string userId = 3;
+  string country = 4;
+  repeated KeyPair2 eventParams = 5;
+}
