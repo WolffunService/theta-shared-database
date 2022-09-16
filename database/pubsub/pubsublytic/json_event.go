@@ -17,7 +17,7 @@ type keyPair struct {
 
 type EventJSONModel struct {
 	EventName   string    `json:"event_name,omitempty"`
-	Timestamp   int64     `json:"timestamp,omitempty"`
+	Timestamp   time.Time `json:"timestamp,omitempty"`
 	UserId      string    `json:"user_id,omitempty"`
 	Country     string    `json:"country,omitempty"`
 	EventParams []keyPair `json:"event_params,omitempty"`
@@ -51,7 +51,7 @@ func CreateJSONEvent(eventName string, country string, userId string, data ...in
 	}
 
 	return &EventJSONModel{
-		Timestamp:   time.Now().Unix(),
+		Timestamp:   time.Now(),
 		EventName:   eventName,
 		UserId:      userId,
 		Country:     country,
