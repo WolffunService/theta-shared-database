@@ -122,3 +122,12 @@ func DefaultConfigs() (*Config, *mongo.Client, *mongo.Database, error) {
 func defaultConf() *Config {
 	return &Config{CtxTimeout: 10 * time.Second}
 }
+
+// SetConfig nhận conf, client, db từ ngoài
+func SetConfig(d *mongo.Database, cl *mongo.Client) {
+	db = d
+	client = cl
+	if config == nil {
+		config = defaultConf()
+	}
+}
