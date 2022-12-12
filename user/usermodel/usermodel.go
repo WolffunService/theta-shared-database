@@ -13,37 +13,38 @@ func (User) CollectionName() string {
 type User struct {
 	mongodb.DefaultModel `bson:",inline"`
 	mongodb.DateFields   `json:",inline" bson:",inline"`
-	Role                 int                `json:"role" bson:"role"`
-	Version              int                `json:"version" bson:"version"`
-	Email                string             `json:"-" bson:"email"`
-	PublicEmail          string             `json:"email" bson:"-"`
-	UserName             string             `json:"username" bson:"username"`
-	NumChangeName        int                `json:"numChangeName" bson:"numChangeName"`
-	Status               UserStatus         `json:"status" bson:"status"`
-	Address              string             `json:"address" bson:"address"`
-	AddressConnectTime   time.Time          `json:"addressConnectTime" bson:"addressConnectTime"`
-	Nonce                int                `json:"-" bson:"nonce"`
-	CanClaimFreeHero     bool               `json:"canClaimFreeHero" bson:"canClaimFreeHero"`
-	CanClaimBetaReward   bool               `json:"canClaimBetaReward" bson:"canClaimBetaReward"`
-	UserProfile          UserProfile        `json:"userProfile" bson:"userProfile"`
-	PlayerStatistic      PlayerStatistic    `json:"playerStatistic" bson:"playerStatistic"`
-	Suspicious           int                `json:"-" bson:"suspicious"`
-	SuspiciousWrongData  int                `json:"-" bson:"suspiciousWrongData"`
-	SuspiciousAbnormal   int                `json:"-" bson:"suspiciousAbnormal"`
-	IpAddress            string             `json:"-" bson:"ipAddress"`
-	Country              string             `json:"country" bson:"country"`
-	AvatarId             int                `json:"avatarId" bson:"avatarId"`
-	FrameId              int                `json:"frameId" bson:"frameId"`
-	TicketBanFindMatch   TicketBanFindMatch `json:"-" bson:"ticketBanFindMatch"`
-	Referral             Referral           `json:"referral" bson:"referral"`
-	IsCreator            bool               `json:"isCreator" bson:"isCreator"`
-	IsCreatorProgram     bool               `json:"isCreatorProgram" bson:"isCreatorProgram"`
-	BanReason            string             `json:"banReason,omitempty" bson:"banReason,omitempty"`
-	LastTimeBattle       time.Time          `json:"lastTimeBattle" bson:"lastTimeBattle"`
-	IsCheckBehaviorPoint bool               `json:"isCheckBehaviorPoint" bson:"isCheckBehaviorPoint"`
-	IsBot                bool               `json:"-" bson:"isBot,omitempty"`
-	FirstOpenTime        time.Time          `json:"firstOpenTime" bson:"firstOpenTime"`
-	LastOnline           int64              `json:"lastOnline" bson:"lastOnline"`
+	Role                 int                  `json:"role" bson:"role"`
+	Version              int                  `json:"version" bson:"version"`
+	Email                string               `json:"-" bson:"email"`
+	PublicEmail          string               `json:"email" bson:"-"`
+	UserName             string               `json:"username" bson:"username"`
+	NumChangeName        int                  `json:"numChangeName" bson:"numChangeName"`
+	Status               UserStatus           `json:"status" bson:"status"`
+	Address              string               `json:"address" bson:"address"`
+	AddressConnectTime   time.Time            `json:"addressConnectTime" bson:"addressConnectTime"`
+	Nonce                int                  `json:"-" bson:"nonce"`
+	CanClaimFreeHero     bool                 `json:"canClaimFreeHero" bson:"canClaimFreeHero"`
+	CanClaimBetaReward   bool                 `json:"canClaimBetaReward" bson:"canClaimBetaReward"`
+	UserProfile          UserProfile          `json:"userProfile" bson:"userProfile"`
+	PlayerStatistic      PlayerStatistic      `json:"playerStatistic" bson:"playerStatistic"`
+	Suspicious           int                  `json:"-" bson:"suspicious"`
+	SuspiciousWrongData  int                  `json:"-" bson:"suspiciousWrongData"`
+	SuspiciousAbnormal   int                  `json:"-" bson:"suspiciousAbnormal"`
+	IpAddress            string               `json:"-" bson:"ipAddress"`
+	Country              string               `json:"country" bson:"country"`
+	AvatarId             int                  `json:"avatarId" bson:"avatarId"`
+	FrameId              int                  `json:"frameId" bson:"frameId"`
+	TicketBanFindMatch   TicketBanFindMatch   `json:"-" bson:"ticketBanFindMatch"`
+	Referral             Referral             `json:"referral" bson:"referral"`
+	IsCreator            bool                 `json:"isCreator" bson:"isCreator"`
+	IsCreatorProgram     bool                 `json:"isCreatorProgram" bson:"isCreatorProgram"`
+	BanReason            string               `json:"banReason,omitempty" bson:"banReason,omitempty"`
+	LastTimeBattle       time.Time            `json:"lastTimeBattle" bson:"lastTimeBattle"`
+	IsCheckBehaviorPoint bool                 `json:"isCheckBehaviorPoint" bson:"isCheckBehaviorPoint"`
+	IsBot                bool                 `json:"-" bson:"isBot,omitempty"`
+	FirstOpenTime        time.Time            `json:"firstOpenTime" bson:"firstOpenTime"`
+	LastOnline           int64                `json:"lastOnline" bson:"lastOnline"`
+	WalletConnected      map[string]time.Time `json:"walletConnected" bson:"walletConnected"`
 
 	// TODO: tmp field
 	HasNewAvatar bool `json:"hasNewAvatar" bson:"hasNewAvatar"`
