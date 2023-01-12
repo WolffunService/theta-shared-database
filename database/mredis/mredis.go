@@ -3,6 +3,7 @@ package mredis
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/WolffunGame/theta-shared-database/database/mredis/thetanlock"
@@ -11,10 +12,20 @@ import (
 	"github.com/go-redsync/redsync/v4/redis/goredis/v8"
 )
 
-var client *goredislib.Client
+var client goredislib.UniversalClient
 
 func NewPool() redis.Pool {
 	return goredis.NewPool(client)
+}
+
+func ConnectRedisUniversal(opts *UniversalConfig) {
+	client = goredislib.NewUniversalClient(opts)
+	ping := client.Ping(context.Background())
+	if err := ping.Err(); err != nil {
+		panic(fmt.Sprintf("connect redis: %v", err))
+	}
+
+	thetanlock.InitPool(NewPool())
 }
 
 func ConnectRedisV2(config *RedisConnectionConfig) {
@@ -46,7 +57,7 @@ func ConnectRedisV1(config *RedisConnectionConfig) {
 	thetanlock.InitPool(NewPool())
 }
 
-func GetClient() *goredislib.Client {
+func GetClient() goredislib.UniversalClient {
 	return client
 }
 
