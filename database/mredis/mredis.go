@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/WolffunGame/theta-shared-database/database/mredis/thetanlock"
-	goredislib "github.com/go-redis/redis/v8"
+	goredislib "github.com/go-redis/redis/v9"
 	"github.com/go-redsync/redsync/v4/redis"
-	"github.com/go-redsync/redsync/v4/redis/goredis/v8"
+	"github.com/go-redsync/redsync/v4/redis/goredis/v9"
 )
 
 var client goredislib.UniversalClient
