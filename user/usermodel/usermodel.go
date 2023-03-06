@@ -1,9 +1,17 @@
 package usermodel
 
 import (
+	"time"
+
 	"github.com/WolffunGame/theta-shared-database/database/mongodb"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"time"
+)
+
+type SourceInstallType int
+
+const (
+	SourceInstallNone SourceInstallType = iota
+	GalaxyStore
 )
 
 func (User) CollectionName() string {
@@ -78,6 +86,10 @@ type PlayerStatistic struct {
 	MegaSeason      int32 `json:"-" bson:"megaSeason"`
 	MvpSeason       int32 `json:"-" bson:"mvpSeason"`
 	LoseSeason      int32 `json:"-" bson:"loseSeason"`
+
+	InstallSource []SourceInstallType `bson:"installSource"`
+
+	GameCountCheckin int32 `bson:"gameCountCheckin"`
 }
 
 func (p *PlayerStatistic) ResetSeason() {
