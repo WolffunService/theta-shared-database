@@ -6,6 +6,13 @@ import (
 	"time"
 )
 
+type SourceInstallType int
+
+const (
+	SourceInstallNone SourceInstallType = iota
+	GalaxyStore
+)
+
 func (User) CollectionName() string {
 	return "Users"
 }
@@ -78,6 +85,10 @@ type PlayerStatistic struct {
 	MegaSeason      int32 `json:"-" bson:"megaSeason"`
 	MvpSeason       int32 `json:"-" bson:"mvpSeason"`
 	LoseSeason      int32 `json:"-" bson:"loseSeason"`
+
+	InstallSource []SourceInstallType `bson:"installSource"`
+
+	GameCountCheckin int32 `bson:"gameCountCheckin"`
 }
 
 func (p *PlayerStatistic) ResetSeason() {
