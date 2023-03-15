@@ -1,6 +1,6 @@
 package mredis
 
-import goredislib "github.com/go-redis/redis/v9"
+import goredislib "github.com/redis/go-redis/v9"
 
 type UniversalConfig = goredislib.UniversalOptions
 
