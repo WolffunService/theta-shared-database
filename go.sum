@@ -53,9 +53,9 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/Knetic/govaluate v3.0.1-0.20171022003610-9aa49832a739+incompatible/go.mod h1:r7JcOSlj0wfOMncg0iLm8Leh48TZaKVeNIfJntJ2wa0=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
-github.com/WolffunGame/theta-shared-common v1.7.13 h1:p6zIs+N50qOe1Soj0K8GssO0+mtO7voKPeFWsrtrj4k=
-github.com/WolffunGame/theta-shared-common v1.7.13/go.mod h1:utwIfq2IugXQEHfvaviydFYO1C1vc+wik1TDs1eAMrc=
-github.com/WolffunGame/theta-shared-database v1.2.22/go.mod h1:YBuWHfZ3XOqzN+kpK7NaXcj/lC04Qho7AQKcv3oN+iE=
+github.com/WolffunService/theta-shared-common v1.7.13 h1:p6zIs+N50qOe1Soj0K8GssO0+mtO7voKPeFWsrtrj4k=
+github.com/WolffunService/theta-shared-common v1.7.13/go.mod h1:utwIfq2IugXQEHfvaviydFYO1C1vc+wik1TDs1eAMrc=
+github.com/WolffunService/theta-shared-database v1.2.22/go.mod h1:YBuWHfZ3XOqzN+kpK7NaXcj/lC04Qho7AQKcv3oN+iE=
 github.com/andybalholm/brotli v1.0.4 h1:V7DdXeJtZscaqfNuAdSRuRFzuiKlHSC/Zh3zl9qY3JY=
 github.com/andybalholm/brotli v1.0.4/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=

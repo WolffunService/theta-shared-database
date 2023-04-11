@@ -1,10 +1,10 @@
-module github.com/WolffunGame/theta-shared-database
+module github.com/WolffunService/theta-shared-database
 
 go 1.18
 
 require (
 	cloud.google.com/go/pubsub v1.17.0
-	github.com/WolffunGame/theta-shared-common v1.7.13
+	github.com/WolffunService/theta-shared-common v1.7.13
 	github.com/dgraph-io/ristretto v0.1.0
 	github.com/elastic/go-elasticsearch/v8 v8.6.0
 	github.com/go-redsync/redsync/v4 v4.8.1
