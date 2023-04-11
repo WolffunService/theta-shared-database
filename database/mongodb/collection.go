@@ -2,8 +2,8 @@ package mongodb
 
 import (
 	"context"
-	"github.com/WolffunGame/theta-shared-database/database/mongodb/builder"
-	"github.com/WolffunGame/theta-shared-database/database/mongodb/field"
+	"github.com/WolffunService/theta-shared-database/database/mongodb/builder"
+	"github.com/WolffunService/theta-shared-database/database/mongodb/field"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -61,12 +61,10 @@ func (coll *Collection) FindByIDAndUpdateWithCtx(ctx context.Context, id interfa
 	return firstAndUpdate(ctx, coll, bson.M{field.ID: id}, update, model)
 }
 
-//
 func (coll *Collection) FirstAndUpdate(filter interface{}, update interface{}, model Model, opts ...*options.FindOneAndUpdateOptions) error {
 	return coll.FirstAndUpdateWithCtx(ctx(), filter, update, model, opts...)
 }
 
-//
 func (coll *Collection) FirstAndUpdateWithCtx(ctx context.Context, filter interface{}, update interface{}, model Model, opts ...*options.FindOneAndUpdateOptions) error {
 	return firstAndUpdate(ctx, coll, filter, update, model, opts...)
 }
@@ -181,7 +179,7 @@ func (coll *Collection) SimpleAggregateFirst(result interface{}, stages ...inter
 // SimpleAggregate does simple aggregation and decode aggregate result to the results.
 // stages value can be Operator|bson.M
 // Note: you can not use this method in a transaction because it does not get context.
-//So you should use the regular aggregation method in transactions.
+// So you should use the regular aggregation method in transactions.
 func (coll *Collection) SimpleAggregate(results interface{}, stages ...interface{}) error {
 	cur, err := coll.SimpleAggregateCursor(stages...)
 	if err != nil {

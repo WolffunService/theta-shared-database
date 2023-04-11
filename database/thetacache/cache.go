@@ -3,8 +3,8 @@ package thetacache
 import (
 	"crypto"
 	"fmt"
-	"github.com/WolffunGame/theta-shared-common/thetalog"
-	"github.com/WolffunGame/theta-shared-database/database/thetacache/cachestore"
+	"github.com/WolffunService/theta-shared-common/thetalog"
+	"github.com/WolffunService/theta-shared-database/database/thetacache/cachestore"
 	"github.com/dgraph-io/ristretto"
 	"reflect"
 	"time"

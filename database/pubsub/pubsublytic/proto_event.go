@@ -7,8 +7,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/WolffunGame/theta-shared-database/database/pubsub/auditprotobuf"
-	"github.com/WolffunGame/theta-shared-database/database/pubsub/publisher"
+	"github.com/WolffunService/theta-shared-database/database/pubsub/auditprotobuf"
+	"github.com/WolffunService/theta-shared-database/database/pubsub/publisher"
 	"google.golang.org/protobuf/encoding/protojson"
 )
 

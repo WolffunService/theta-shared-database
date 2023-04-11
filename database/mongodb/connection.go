@@ -3,7 +3,7 @@ package mongodb
 import (
 	"context"
 	"errors"
-	"github.com/WolffunGame/theta-shared-database/database/mongodb/utils"
+	"github.com/WolffunService/theta-shared-database/database/mongodb/utils"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"

@@ -1,7 +1,7 @@
 package builder
 
 import (
-	"github.com/WolffunGame/theta-shared-database/database/mongodb/utils"
+	"github.com/WolffunService/theta-shared-database/database/mongodb/utils"
 	"go.mongodb.org/mongo-driver/bson"
 )
 

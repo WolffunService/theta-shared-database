@@ -2,7 +2,7 @@ package mongodb
 
 import (
 	"fmt"
-	"github.com/WolffunGame/theta-shared-database/database/mongodb/utils"
+	"github.com/WolffunService/theta-shared-database/database/mongodb/utils"
 	"github.com/jinzhu/inflection"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -54,7 +54,7 @@ func CollName(m Model) string {
 }
 
 // UpsertTrueOption returns new instance of the
-//UpdateOptions with upsert=true property.
+// UpdateOptions with upsert=true property.
 func UpsertTrueOption() *options.UpdateOptions {
 	upsert := true
 	return &options.UpdateOptions{Upsert: &upsert}

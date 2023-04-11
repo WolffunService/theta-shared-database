@@ -3,10 +3,11 @@ package playerstats
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/WolffunGame/theta-shared-common/common/enum/playerstatenum"
-	"github.com/WolffunGame/theta-shared-database/common/util/request"
-	"github.com/WolffunGame/theta-shared-database/database/firebase/playerstatsmodel"
 	"net/http"
+
+	"github.com/WolffunService/theta-shared-common/common/enum/playerstatenum"
+	"github.com/WolffunService/theta-shared-database/common/util/request"
+	"github.com/WolffunService/theta-shared-database/database/firebase/playerstatsmodel"
 )
 
 var thetanFireBaseAddress string = ""

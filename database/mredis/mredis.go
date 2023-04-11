@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/WolffunGame/theta-shared-database/database/mredis/thetanlock"
+	"github.com/WolffunService/theta-shared-database/database/mredis/thetanlock"
 	"github.com/go-redsync/redsync/v4/redis"
 	"github.com/go-redsync/redsync/v4/redis/goredis/v9"
 	goredislib "github.com/redis/go-redis/v9"

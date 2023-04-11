@@ -3,7 +3,7 @@ package usermodel
 import (
 	"time"
 
-	"github.com/WolffunGame/theta-shared-database/database/mongodb"
+	"github.com/WolffunService/theta-shared-database/database/mongodb"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

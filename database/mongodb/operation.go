@@ -2,7 +2,7 @@ package mongodb
 
 import (
 	"context"
-	"github.com/WolffunGame/theta-shared-database/database/mongodb/field"
+	"github.com/WolffunService/theta-shared-database/database/mongodb/field"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -42,8 +42,8 @@ func first(ctx context.Context, c *Collection, filter interface{}, model Model, 
 	return c.FindOne(ctx, filter, opts...).Decode(model)
 }
 
-func firstAndUpdate(ctx context.Context, c *Collection, filter interface{},update interface{}, model Model, opts ...*options.FindOneAndUpdateOptions) error {
-	return c.FindOneAndUpdate(ctx, filter,update, opts...).Decode(model)
+func firstAndUpdate(ctx context.Context, c *Collection, filter interface{}, update interface{}, model Model, opts ...*options.FindOneAndUpdateOptions) error {
+	return c.FindOneAndUpdate(ctx, filter, update, opts...).Decode(model)
 }
 
 func findMany(ctx context.Context, c *Collection, filter, results interface{}, opts ...*options.FindOptions) error {
@@ -81,7 +81,7 @@ func del(ctx context.Context, c *Collection, model Model) error {
 
 	return callToAfterDeleteHooks(res, model)
 }
-func count(ctx context.Context, c *Collection,filter interface{}, opts ...*options.CountOptions) (int64,error) {
-	count,err :=  c.CountDocuments(ctx,filter,opts...)
-	return count,err
+func count(ctx context.Context, c *Collection, filter interface{}, opts ...*options.CountOptions) (int64, error) {
+	count, err := c.CountDocuments(ctx, filter, opts...)
+	return count, err
 }

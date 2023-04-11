@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/WolffunGame/theta-shared-database/database/pubsub/mpubsub"
+	"github.com/WolffunService/theta-shared-database/database/pubsub/mpubsub"
 	"google.golang.org/api/option"
 )
 

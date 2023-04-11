@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	es "github.com/WolffunGame/theta-shared-database/database/elasticsearch"
+	es "github.com/WolffunService/theta-shared-database/database/elasticsearch"
 	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/tidwall/gjson"
 	"log"

@@ -2,7 +2,7 @@ package cachestore
 
 import (
 	"fmt"
-	"github.com/WolffunGame/theta-shared-common/common/thetaerror"
+	"github.com/WolffunService/theta-shared-common/common/thetaerror"
 	"strings"
 	"time"
 )

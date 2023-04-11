@@ -3,9 +3,9 @@ package useritemstorage
 import (
 	"context"
 	"fmt"
-	"github.com/WolffunGame/theta-shared-database/common/util"
-	"github.com/WolffunGame/theta-shared-database/database/mongodb"
-	"github.com/WolffunGame/theta-shared-database/useritems/useritemmodel"
+	"github.com/WolffunService/theta-shared-database/common/util"
+	"github.com/WolffunService/theta-shared-database/database/mongodb"
+	"github.com/WolffunService/theta-shared-database/useritems/useritemmodel"
 )
 
 func FindUserItemsById(ctx context.Context, userId string) (*useritemmodel.UserItems, error) {
