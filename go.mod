@@ -7,12 +7,12 @@ require (
 	github.com/WolffunService/theta-shared-common v1.10.4
 	github.com/dgraph-io/ristretto v0.1.0
 	github.com/elastic/go-elasticsearch/v8 v8.6.0
+	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-redsync/redsync/v4 v4.8.1
 	github.com/gocql/gocql v1.0.0
 	github.com/jinzhu/inflection v1.0.0
 	github.com/kamva/mgm/v3 v3.3.1
 	github.com/rabbitmq/amqp091-go v1.7.0
-	github.com/redis/go-redis/v9 v9.0.2
 	github.com/scylladb/gocqlx/v2 v2.7.0
 	github.com/stretchr/testify v1.8.1
 	github.com/tidwall/gjson v1.14.4
