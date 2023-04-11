@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	cloud.google.com/go/pubsub v1.17.0
-	github.com/WolffunService/theta-shared-common v1.10.3
+	github.com/WolffunService/theta-shared-common v1.10.4
 	github.com/dgraph-io/ristretto v0.1.0
 	github.com/elastic/go-elasticsearch/v8 v8.6.0
 	github.com/go-redsync/redsync/v4 v4.8.1

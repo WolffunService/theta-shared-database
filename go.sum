@@ -52,8 +52,8 @@ dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
-github.com/WolffunService/theta-shared-common v1.10.3 h1:EPwnRXXV0T+rd6JoY4uhE4LH8j0Q80p4RQoLCZ60cT8=
-github.com/WolffunService/theta-shared-common v1.10.3/go.mod h1:iKitphK+0/EuhBdpq/WSr43+3QmzgGtqzOHRQSRUdYo=
+github.com/WolffunService/theta-shared-common v1.10.4 h1:bPkwcXrXg86HZNRJBVCc+pixP2gnIyDiDH86Bv1qTGE=
+github.com/WolffunService/theta-shared-common v1.10.4/go.mod h1:OmAiCipTL0BmUfeEJztPUNCKktMZRhGNwK0Dg62nZFo=
 github.com/andybalholm/brotli v1.0.4 h1:V7DdXeJtZscaqfNuAdSRuRFzuiKlHSC/Zh3zl9qY3JY=
 github.com/andybalholm/brotli v1.0.4/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
