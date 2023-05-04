@@ -3,11 +3,12 @@ package mongodb
 import (
 	"context"
 	"fmt"
+	"log"
+	"time"
+
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"log"
-	"time"
 )
 
 func GetDB() *mongo.Database {
@@ -24,7 +25,7 @@ type DBConfig struct {
 	ReplicaSet string
 }
 
-//MongoConfig new version
+// MongoConfig new version
 type MongoConfig struct {
 	DbName            string
 	ConnectionUrl     string

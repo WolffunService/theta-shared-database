@@ -1,8 +1,9 @@
 package secretkeymodel
 
 import (
-	"github.com/WolffunService/theta-shared-database/database/mongodb"
 	"time"
+
+	"github.com/WolffunService/theta-shared-database/database/mongodb"
 )
 
 func (SecretKey) CollectionName() string {

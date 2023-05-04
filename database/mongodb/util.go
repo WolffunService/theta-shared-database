@@ -2,12 +2,13 @@ package mongodb
 
 import (
 	"fmt"
+	"reflect"
+
 	"github.com/WolffunService/theta-shared-database/database/mongodb/utils"
 	"github.com/jinzhu/inflection"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"go.mongodb.org/mongo-driver/mongo/writeconcern"
-	"reflect"
 )
 
 // Coll return model's collection.

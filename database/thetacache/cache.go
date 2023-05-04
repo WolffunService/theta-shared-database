@@ -3,11 +3,11 @@ package thetacache
 import (
 	"crypto"
 	"fmt"
-	"github.com/WolffunService/theta-shared-common/thetalog"
-	"github.com/WolffunService/theta-shared-database/database/thetacache/cachestore"
-	"github.com/dgraph-io/ristretto"
 	"reflect"
 	"time"
+
+	"github.com/WolffunService/theta-shared-database/database/thetacache/cachestore"
+	"github.com/dgraph-io/ristretto"
 )
 
 func NewCacheService() *Cache {
@@ -25,7 +25,7 @@ func NewCacheService() *Cache {
 	cacheService.initErr = err
 
 	if cacheService.initErr != nil {
-		thetalog.Err(cacheService.initErr).Msg("cannot init theta cache")
+		fmt.Println("cannot init theta cache:", err)
 	}
 
 	return &cacheService

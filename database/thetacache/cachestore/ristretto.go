@@ -2,7 +2,6 @@ package cachestore
 
 import (
 	"fmt"
-	"github.com/WolffunService/theta-shared-common/common/thetaerror"
 	"strings"
 	"time"
 )
@@ -46,12 +45,7 @@ func (s *RistrettoStore) Get(key interface{}) (interface{}, error) {
 
 	value, exists := s.client.Get(key)
 	if !exists {
-		err = &thetaerror.Error{
-			Code:    thetaerror.ErrorInternal,
-			Message: "value not found in Ristretto store",
-			Op:      "cache.get",
-			Err:     nil,
-		}
+		err = fmt.Errorf("value not found in Ristretto store")
 	}
 
 	return value, err
