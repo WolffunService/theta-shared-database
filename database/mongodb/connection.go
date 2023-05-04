@@ -3,11 +3,12 @@ package mongodb
 import (
 	"context"
 	"errors"
+	"time"
+
 	"github.com/WolffunService/theta-shared-database/database/mongodb/utils"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"time"
 )
 
 var config *Config

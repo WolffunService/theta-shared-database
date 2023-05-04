@@ -5,10 +5,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+
 	es "github.com/WolffunService/theta-shared-database/database/elasticsearch"
 	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/tidwall/gjson"
-	"log"
 )
 
 func main() {

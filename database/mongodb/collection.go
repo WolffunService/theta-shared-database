@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"context"
+
 	"github.com/WolffunService/theta-shared-database/database/mongodb/builder"
 	"github.com/WolffunService/theta-shared-database/database/mongodb/field"
 	"go.mongodb.org/mongo-driver/bson"
@@ -10,13 +11,13 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// Collection performs operations on models and given Mongodb collection
+// Collection performs operations on models and given a MongoDB collection
 type Collection struct {
 	*mongo.Collection
 }
 
 // FindByID method find a doc and decode it to model, otherwise return error.
-// id field can be any value that if passed to `PrepareID` method, it return
+// id field can be any value that if passed to `PrepareID` method, it returns
 // valid id(e.g string,bson.ObjectId).
 func (coll *Collection) FindByID(id interface{}, model Model) error {
 	return coll.FindByIDWithCtx(ctx(), id, model)
