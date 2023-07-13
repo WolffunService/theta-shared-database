@@ -52,7 +52,7 @@ type User struct {
 	IsBot                bool                 `json:"-" bson:"isBot,omitempty"`
 	FirstOpenTime        time.Time            `json:"firstOpenTime" bson:"firstOpenTime"`
 	LastOnline           int64                `json:"lastOnline" bson:"lastOnline"`
-	WalletConnected      map[string]time.Time `json:"walletConnected" bson:"walletConnected"`
+	WalletConnected      map[string]time.Time `json:"walletConnected,omitempty" bson:"walletConnected,omitempty"`
 
 	// TODO: tmp field
 	HasNewAvatar bool `json:"hasNewAvatar" bson:"hasNewAvatar"`
@@ -87,7 +87,7 @@ type PlayerStatistic struct {
 	MvpSeason       int32 `json:"-" bson:"mvpSeason"`
 	LoseSeason      int32 `json:"-" bson:"loseSeason"`
 
-	InstallSource []SourceInstallType `bson:"installSource"`
+	InstallSource []SourceInstallType `bson:"installSource,omitempty"`
 
 	GameCountCheckin int32 `bson:"gameCountCheckin"`
 }
